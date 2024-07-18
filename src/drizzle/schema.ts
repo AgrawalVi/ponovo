@@ -28,7 +28,7 @@ export const users = pgTable('users', {
   firstName: text('first_name'),
   lastName: text('last_name'),
 
-  clerkId: text('clerk_id').notNull(),
+  clerkId: text('clerk_id').notNull().unique(),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
