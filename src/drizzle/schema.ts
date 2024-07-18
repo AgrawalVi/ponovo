@@ -25,8 +25,10 @@ export const timeLineUpdateEnum = pgEnum('time_line_update', [
 export const users = pgTable('users', {
   id: serial('id').primaryKey(),
   email: text('email').notNull().unique(),
-  firstName: text('first_name').notNull(),
-  lastName: text('last_name').notNull(),
+  firstName: text('first_name'),
+  lastName: text('last_name'),
+
+  clerkId: text('clerk_id').notNull(),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
