@@ -1,11 +1,8 @@
 'use client'
 
 import { ColumnDef } from '@tanstack/react-table'
-import { dbJobApplication } from '@/types'
 import { format } from 'date-fns'
-import { applicationStatusEnum } from '@/types'
 import { DropdownMenu } from '@/components/ui/dropdown-menu'
-import { MessageCirclePlus, PencilIcon, Trash2Icon } from 'lucide-react'
 import {
   Tooltip,
   TooltipContent,
@@ -13,11 +10,40 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
+import {
+  MessageCirclePlus,
+  PencilIcon,
+  Trash2Icon,
+  ArrowUpDown,
+  ArrowUp,
+  ArrowDown,
+  MoreHorizontal,
+} from 'lucide-react'
+import { dbJobApplication, applicationStatusEnum } from '@/types'
 
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   {
     accessorKey: 'companyName',
-    header: 'Company Name',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(isSorted === 'asc')}
+        >
+          Company Name
+          {isSorted ? (
+            isSorted === 'asc' ? (
+              <ArrowUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ArrowDown className="ml-2 h-4 w-4" />
+            )
+          ) : (
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
   },
   {
     accessorKey: 'jobTitle',
@@ -44,6 +70,7 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
     cell: ({ row }) => {
       const jobApplication = row.original
 
+      // TODO: Need to put edit, garbage, and copy link in a dropdownmeny and keep add timeline event in the same row
       return (
         <div className="space-x-2">
           <TooltipProvider>
