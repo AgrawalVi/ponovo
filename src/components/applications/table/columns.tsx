@@ -56,6 +56,9 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
       const status = row.getValue('applicationStatus') as applicationStatusEnum
       return <div className="text-center">{status}</div>
     },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
+    },
   },
   {
     accessorKey: 'dateApplied',

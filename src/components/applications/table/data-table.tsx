@@ -23,6 +23,9 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useState } from 'react'
+import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter'
+import { dataTableApplicationStatusOptions } from '@/data'
+import { DataTablePagination } from '@/components/ui/data-table-pagination'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -39,21 +42,22 @@ export function ApplicationDataTable<TData, TValue>({
   const table = useReactTable({
     data,
     columns,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
     state: {
       sorting,
       columnFilters,
     },
+    getCoreRowModel: getCoreRowModel(),
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
   })
 
   return (
-    <div>
-      <div className="flex items-center py-4">
+    <div className="space-y-2">
+      <div className="flex items-center space-x-2">
         <Input
           placeholder="Search Companies..."
           value={
@@ -64,6 +68,13 @@ export function ApplicationDataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+        {table.getColumn('applicationStatus') && (
+          <DataTableFacetedFilter
+            column={table.getColumn('applicationStatus')}
+            title="Application Status"
+            options={dataTableApplicationStatusOptions}
+          />
+        )}
       </div>
       <div className="rounded-md border">
         <Table>
@@ -115,29 +126,7 @@ export function ApplicationDataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-between py-4">
-        <Button disabled variant="outline" size="sm">
-          {data.length} Entries
-        </Button>
-        <div className="flex items-center justify-end space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      <DataTablePagination table={table} />
     </div>
   )
 }
