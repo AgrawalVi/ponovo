@@ -59,7 +59,26 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   },
   {
     accessorKey: 'dateApplied',
-    header: 'Date Applied',
+    header: ({ column }) => {
+      const isSorted = column.getIsSorted()
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(isSorted === 'asc')}
+        >
+          Date Applied
+          {isSorted ? (
+            isSorted === 'asc' ? (
+              <ArrowUp className="ml-2 h-4 w-4" />
+            ) : (
+              <ArrowDown className="ml-2 h-4 w-4" />
+            )
+          ) : (
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          )}
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const date = row.getValue('dateApplied') as string
       return format(new Date(date), 'P')
