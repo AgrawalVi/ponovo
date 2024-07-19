@@ -8,6 +8,7 @@ import {
   UserButton,
 } from '@clerk/nextjs'
 import './globals.css'
+import { Toaster } from '@/components/ui/toaster'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,6 +35,7 @@ export default function RootLayout({
             </SignedIn>
           </header>
           <main>{children}</main>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
