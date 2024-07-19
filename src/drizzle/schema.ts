@@ -60,11 +60,19 @@ export const jobApplications = pgTable('job_applications', {
   userId: integer('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
-  applicationStatus: applicationStatusEnum('application_status')
-    .notNull()
-    .default('applied'),
+
+  applicationStatus: applicationStatusEnum('application_status').notNull(),
+  roleType: jobRoleTypeEnum('role_type').notNull(),
 
   dateApplied: timestamp('date_applied').notNull(),
+
+  companyName: text('company_name').notNull(),
+  jobTitle: text('job_title').notNull(),
+
+  jobDescriptionRichText: text('job_description_rich_text'),
+  jobDescriptionPlainText: text('job_description_plain_text'),
+
+  url: text('url'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
@@ -114,25 +122,3 @@ export const jobApplicationTimelineUpdatesRelations = relations(
     }),
   }),
 )
-
-export const jobPosts = pgTable('job_posts', {
-  id: serial('id').primaryKey(),
-  companyName: text('company_name').notNull(),
-  jobTitle: text('job_title').notNull(),
-
-  jobDescriptionRichText: text('job_description_rich_text'),
-  jobDescriptionPlainText: text('job_description_plain_text'),
-
-  url: text('url'),
-
-  jobApplicationId: integer('job_application_id')
-    .notNull()
-    .references(() => jobApplications.id, { onDelete: 'cascade' }),
-})
-
-export const jobPostsRelations = relations(jobPosts, ({ one }) => ({
-  jobApplication: one(jobApplications, {
-    fields: [jobPosts.jobApplicationId],
-    references: [jobApplications.id],
-  }),
-}))

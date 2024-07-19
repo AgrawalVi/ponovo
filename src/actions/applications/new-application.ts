@@ -34,33 +34,19 @@ export async function newApplication(
     return { error: 'User not found' }
   }
 
-  let jobApplication
   try {
-    jobApplication = await db
-      .insert(jobApplications)
-      .values({
+    await db.insert(jobApplications).values({
         userId: existingUser[0].id,
         applicationStatus: status,
         dateApplied: appliedDate,
-      })
-      .returning({ id: jobApplications.id })
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to insert job application' }
-  }
-  try {
-    await db.insert(jobPosts).values({
-      jobApplicationId: jobApplication[0].id,
       companyName: companyName,
       jobTitle: jobTitle,
       url: url,
+      roleType: roleType,
     })
   } catch (e) {
-    await db
-      .delete(jobApplications)
-      .where(eq(jobApplications.id, jobApplication[0].id))
     console.error(e)
-    return { error: 'Database failed to insert job post!' }
+    return { error: 'Database failed to insert job application' }
   }
 
   return { success: 'Application logged successfully' }
