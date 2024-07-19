@@ -6,6 +6,6 @@ export default clerkMiddleware((auth, req) => {
   if (isProtectedRoute(req)) auth().protect()
 })
 
-const config = {
+export const config = {
   matcher: ['/((?!.*\\..*|_next).*)', '/', '/(api|trpc)(.*)'],
 }
