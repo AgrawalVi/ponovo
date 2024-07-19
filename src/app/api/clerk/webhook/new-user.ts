@@ -5,7 +5,7 @@ import { users } from '@/drizzle/schema'
 export const newUser = async (user: UserJSON) => {
   // need to create the user in the database
   const userEmail = user.email_addresses.filter(
-    (email) => email.id === user.primary_email_address_id
+    (email) => email.id === user.primary_email_address_id,
   )
 
   try {
