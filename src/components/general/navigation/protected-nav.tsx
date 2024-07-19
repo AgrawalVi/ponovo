@@ -17,7 +17,7 @@ export default function UnprotectedNav() {
         <SignedIn>
           <UserButton />
         </SignedIn>
-        <ModeToggle />
+        <ModeToggle className="rounded-full" />
       </div>
     </header>
   )
