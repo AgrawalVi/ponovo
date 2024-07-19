@@ -4,8 +4,9 @@ import { z } from 'zod'
 import { newApplicationSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
-import { users, jobPosts, jobApplications } from '@/drizzle/schema'
+import { users, jobApplications } from '@/drizzle/schema'
 import { eq } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
 
 export async function newApplication(
   values: z.infer<typeof newApplicationSchema>,
@@ -36,9 +37,9 @@ export async function newApplication(
 
   try {
     await db.insert(jobApplications).values({
-        userId: existingUser[0].id,
-        applicationStatus: status,
-        dateApplied: appliedDate,
+      userId: existingUser[0].id,
+      applicationStatus: status,
+      dateApplied: appliedDate,
       companyName: companyName,
       jobTitle: jobTitle,
       url: url,
@@ -49,5 +50,6 @@ export async function newApplication(
     return { error: 'Database failed to insert job application' }
   }
 
+  revalidatePath('/dashboard')
   return { success: 'Application logged successfully' }
 }
