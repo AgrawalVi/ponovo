@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dialog'
 import { useState } from 'react'
 import NewApplicationForm from './new-application-form'
+import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 
 export default function NewApplicationButton() {
   const [mainOpen, setMainOpen] = useState(false)
@@ -46,35 +47,11 @@ export default function NewApplicationButton() {
         </DialogContent>
       </Dialog>
 
-      <Dialog open={confirmExitOpen} onOpenChange={setConfirmExitOpen}>
-        <DialogContent className="w-[300px]">
-          <DialogHeader>
-            <DialogTitle>Are you sure you want to exit?</DialogTitle>
-          </DialogHeader>
-          <DialogDescription>
-            This will exit the form and you will lose any unsaved changes.
-          </DialogDescription>
-          <div className="flex items-center justify-center gap-x-2">
-            <Button
-              className="w-full"
-              variant="outline"
-              onClick={() => setConfirmExitOpen(false)}
-            >
-              Go Back
-            </Button>
-            <Button
-              className="w-full"
-              variant="destructive"
-              onClick={() => {
-                setConfirmExitOpen(false)
-                setMainOpen(false)
-              }}
-            >
-              Yes, Exit
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      <ConfirmCloseDialog
+        open={confirmExitOpen}
+        setOpen={setConfirmExitOpen}
+        setMainOpen={setMainOpen}
+      />
     </>
   )
 }
