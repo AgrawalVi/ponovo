@@ -1,21 +1,19 @@
 import Footer from '@/components/general/navigation/footer'
 import ProtectedNav from '@/components/general/navigation/protected-nav'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { TRPCReactProvider } from '@/trpc/react'
 
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const queryClient = new QueryClient()
-
   return (
-    <QueryClientProvider client={queryClient}>
+    <TRPCReactProvider>
       <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
         <ProtectedNav />
         {children}
         <Footer />
       </div>
-    </QueryClientProvider>
+    </TRPCReactProvider>
   )
 }
