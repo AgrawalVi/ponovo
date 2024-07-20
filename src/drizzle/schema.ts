@@ -107,12 +107,12 @@ export const jobApplicationTimelineUpdates = pgTable(
       .notNull()
       .defaultNow(),
 
+    comments: text('comments'),
+
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
       .notNull()
       .$onUpdate(() => new Date()),
-
-    comments: text('comments'),
   },
 )
 
