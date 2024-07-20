@@ -1,6 +1,5 @@
 import { applicationTableColumns } from '@/components/applications/table/columns'
 import { ApplicationDataTable } from '@/components/applications/table/data-table'
-import NewApplicationForm from '@/components/forms/new-application'
 import { users } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs/server'
@@ -23,7 +22,6 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <NewApplicationForm />
       <ApplicationDataTable
         data={jobApplications}
         columns={applicationTableColumns}

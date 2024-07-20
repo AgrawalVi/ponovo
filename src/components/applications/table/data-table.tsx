@@ -26,6 +26,7 @@ import { useState } from 'react'
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter'
 import { dataTableApplicationStatusOptions } from '@/data'
 import { DataTablePagination } from '@/components/ui/data-table-pagination'
+import NewApplicationButton from '@/components/forms/new-application-button'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -57,24 +58,29 @@ export function ApplicationDataTable<TData, TValue>({
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center space-x-2">
-        <Input
-          placeholder="Search Companies..."
-          value={
-            (table.getColumn('companyName')?.getFilterValue() as string) ?? ''
-          }
-          onChange={(event) =>
-            table.getColumn('companyName')?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        {table.getColumn('applicationStatus') && (
-          <DataTableFacetedFilter
-            column={table.getColumn('applicationStatus')}
-            title="Application Status"
-            options={dataTableApplicationStatusOptions}
+      <div className="flex w-full items-center justify-between">
+        <div className="flex flex-1 items-center space-x-2">
+          <Input
+            placeholder="Search Companies..."
+            value={
+              (table.getColumn('companyName')?.getFilterValue() as string) ?? ''
+            }
+            onChange={(event) =>
+              table.getColumn('companyName')?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
           />
-        )}
+          {table.getColumn('applicationStatus') && (
+            <DataTableFacetedFilter
+              column={table.getColumn('applicationStatus')}
+              title="Application Status"
+              options={dataTableApplicationStatusOptions}
+            />
+          )}
+        </div>
+        <div>
+          <NewApplicationButton />
+        </div>
       </div>
       <div className="rounded-md border">
         <Table>
