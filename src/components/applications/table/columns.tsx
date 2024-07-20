@@ -16,6 +16,7 @@ import {
 import { dbJobApplication, applicationStatusEnum } from '@/types'
 import EditApplicationButton from '@/components/forms/new-application/edit-application-button'
 import DeleteApplicationButton from '@/components/forms/new-application/delete-application-button'
+import NewApplicationTimelineEventButton from '@/components/forms/timeline-event/new-timeline-event-button'
 
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   {
@@ -91,9 +92,11 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
       // TODO: Need to put edit, garbage, and copy link in a dropdownmeny and keep add timeline event in the same row
       return (
         <div className="space-x-2">
-          <Button variant="ghost" size="icon">
-            <MessageCirclePlus size="20" />
-          </Button>
+          <NewApplicationTimelineEventButton applicationId={jobApplication.id}>
+            <Button variant="ghost" size="icon">
+              <MessageCirclePlus size="20" />
+            </Button>
+          </NewApplicationTimelineEventButton>
           <EditApplicationButton application={row.original}>
             <Button variant="ghost" size="icon">
               <PencilIcon size="20" />
