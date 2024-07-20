@@ -7,6 +7,7 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
+import { v4 as uuidv4 } from 'uuid'
 
 export const applicationStatusEnum = pgEnum('application_status', [
   'applied',
@@ -34,7 +35,9 @@ export const jobRoleTypeEnum = pgEnum('job_role_type', [
 ])
 
 export const users = pgTable('users', {
-  id: serial('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$default(() => uuidv4()),
   email: text('email').notNull().unique(),
   firstName: text('first_name'),
   lastName: text('last_name'),
@@ -57,7 +60,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 
 export const jobApplications = pgTable('job_applications', {
   id: serial('id').primaryKey(),
-  userId: integer('user_id')
+  userId: text('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 
