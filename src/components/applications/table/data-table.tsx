@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter'
 import { dataTableApplicationStatusOptions } from '@/data'
 import { DataTablePagination } from '@/components/ui/data-table-pagination'
@@ -55,6 +55,16 @@ export function ApplicationDataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
   })
+
+  const [selectedRow, setSelectedRow] = useState<TData | null>(
+    table.getRowModel().rows?.[0]?.original ?? null,
+  )
+
+  useEffect(() => {
+    if (selectedRow) {
+      console.log(selectedRow)
+    }
+  }, [selectedRow])
 
   return (
     <div className="space-y-2">
@@ -110,6 +120,8 @@ export function ApplicationDataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  className="cursor-pointer"
+                  onClick={() => setSelectedRow(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
