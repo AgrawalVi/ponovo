@@ -26,7 +26,7 @@ import { useState } from 'react'
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter'
 import { dataTableApplicationStatusOptions } from '@/data'
 import { DataTablePagination } from '@/components/ui/data-table-pagination'
-import NewApplicationButton from '@/components/forms/new-application-button'
+import NewApplicationButton from '@/components/forms/new-application/new-application-button'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
