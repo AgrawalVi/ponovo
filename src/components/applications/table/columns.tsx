@@ -20,6 +20,7 @@ import {
   MoreHorizontal,
 } from 'lucide-react'
 import { dbJobApplication, applicationStatusEnum } from '@/types'
+import EditApplicationButton from '@/components/forms/new-application/edit-application-button'
 
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   {
@@ -104,14 +105,7 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
               </TooltipTrigger>
               <TooltipContent>Add Timeline Event</TooltipContent>
             </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <PencilIcon size="20" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Edit Information</TooltipContent>
-            </Tooltip>
+            <EditApplicationButton application={row.original} />
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button

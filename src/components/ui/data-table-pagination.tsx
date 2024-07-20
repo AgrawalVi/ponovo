@@ -22,7 +22,7 @@ interface DataTablePaginationProps<TData> {
 export function DataTablePagination<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
-  const text = table.getRowCount() < 2 ? 'application' : 'applications'
+  const text = table.getRowCount() < 2 ? 'Application' : 'Applications'
 
   return (
     <div className="flex items-center justify-between px-2">

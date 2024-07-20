@@ -34,54 +34,59 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react'
+import { dbJobApplication } from '@/types'
+import { editApplication } from '@/actions/applications/edit-application'
 
-interface NewApplicationFormProps {
+interface EditApplicationForm {
+  application: dbJobApplication
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
 }
 
-const defaultValues = {
-  companyName: '',
-  jobTitle: '',
-  url: '',
-  status: 'applied',
-}
-
-const NewApplicationForm = ({
+const EditApplicationForm = ({
+  application,
   setIsChanged,
   setOpen,
-}: NewApplicationFormProps) => {
+}: EditApplicationForm) => {
+  const defaultValues = {
+    companyName: application.companyName,
+    jobTitle: application.jobTitle,
+    url: application.url,
+    status: application.applicationStatus,
+    roleType: application.roleType,
+    appliedDate: application.dateApplied,
+  }
+
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
 
   const form = useForm<z.infer<typeof newApplicationSchema>>({
     resolver: zodResolver(newApplicationSchema),
     defaultValues: {
-      companyName: '',
-      jobTitle: '',
-      url: '',
-      status: 'applied',
-      roleType: 'internship',
-      appliedDate: new Date(),
+      companyName: application.companyName,
+      jobTitle: application.jobTitle,
+      url: application.url ?? undefined,
+      status: application.applicationStatus,
+      roleType: application.roleType,
+      appliedDate: application.dateApplied,
     },
   })
 
   useEffect(() => {
     const subscription = form.watch((values) => {
-      const { roleType, appliedDate, ...rest } = values
-      setIsChanged(JSON.stringify(rest) !== JSON.stringify(defaultValues))
+      setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
     })
     return () => subscription.unsubscribe()
   }, [form, setIsChanged])
 
   const onSubmit = (data: z.infer<typeof newApplicationSchema>) => {
     startTransition(() => {
-      newApplication(data)
+      editApplication(data, application.id)
         .then((response) => {
           if (response.success) {
             form.reset()
             setOpen(false)
-            toast({ title: 'Application logged successfully' })
+            toast({ title: 'Application edited successfully' })
           } else {
             toast({
               title: 'Something went wrong!',
@@ -270,4 +275,4 @@ const NewApplicationForm = ({
   )
 }
 
-export default NewApplicationForm
+export default EditApplicationForm
