@@ -3,12 +3,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { DropdownMenu } from '@/components/ui/dropdown-menu'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
 import {
   MessageCirclePlus,
@@ -97,45 +91,23 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
       // TODO: Need to put edit, garbage, and copy link in a dropdownmeny and keep add timeline event in the same row
       return (
         <div className="space-x-2">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <MessageCirclePlus size="20" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Add Timeline Event</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <EditApplicationButton application={row.original}>
-                <TooltipTrigger asChild>
-                  <Button variant="ghost" size="icon">
-                    <PencilIcon size="20" />
-                  </Button>
-                </TooltipTrigger>
-              </EditApplicationButton>
-              <TooltipContent>Edit Information</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <DeleteApplicationButton application={row.original}>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="hover:bg-destructive/10 hover:text-destructive"
-                  >
-                    <Trash2Icon size="20" />
-                  </Button>
-                </DeleteApplicationButton>
-              </TooltipTrigger>
-
-              <TooltipContent>Delete Application</TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <Button variant="ghost" size="icon">
+            <MessageCirclePlus size="20" />
+          </Button>
+          <EditApplicationButton application={row.original}>
+            <Button variant="ghost" size="icon">
+              <PencilIcon size="20" />
+            </Button>
+          </EditApplicationButton>
+          <DeleteApplicationButton application={row.original}>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-destructive/10 hover:text-destructive"
+            >
+              <Trash2Icon size="20" />
+            </Button>
+          </DeleteApplicationButton>
         </div>
       )
     },
