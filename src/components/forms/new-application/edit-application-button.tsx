@@ -20,11 +20,15 @@ import {
 } from '@/components/ui/tooltip'
 import { PencilIcon } from 'lucide-react'
 
+interface EditApplicationButtonProps {
+  application: dbJobApplication
+  children: React.ReactNode
+}
+
 export default function EditApplicationButton({
   application,
-}: {
-  application: dbJobApplication
-}) {
+  children,
+}: EditApplicationButtonProps) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -41,16 +45,7 @@ export default function EditApplicationButton({
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <DialogTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <PencilIcon size="20" />
-              </Button>
-            </DialogTrigger>
-          </TooltipTrigger>
-          <TooltipContent>Edit Information</TooltipContent>
-        </Tooltip>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
             <DialogTitle>New Application</DialogTitle>

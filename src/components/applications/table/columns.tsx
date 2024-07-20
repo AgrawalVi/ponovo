@@ -21,6 +21,7 @@ import {
 } from 'lucide-react'
 import { dbJobApplication, applicationStatusEnum } from '@/types'
 import EditApplicationButton from '@/components/forms/new-application/edit-application-button'
+import DeleteApplicationButton from '@/components/forms/new-application/delete-application-button'
 
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   {
@@ -105,17 +106,33 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
               </TooltipTrigger>
               <TooltipContent>Add Timeline Event</TooltipContent>
             </Tooltip>
-            <EditApplicationButton application={row.original} />
+          </TooltipProvider>
+          <TooltipProvider>
+            <Tooltip>
+              <EditApplicationButton application={row.original}>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <PencilIcon size="20" />
+                  </Button>
+                </TooltipTrigger>
+              </EditApplicationButton>
+              <TooltipContent>Edit Information</TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:bg-destructive/10 hover:text-destructive"
-                >
-                  <Trash2Icon size="20" />
-                </Button>
+                <DeleteApplicationButton application={row.original}>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-destructive/10 hover:text-destructive"
+                  >
+                    <Trash2Icon size="20" />
+                  </Button>
+                </DeleteApplicationButton>
               </TooltipTrigger>
+
               <TooltipContent>Delete Application</TooltipContent>
             </Tooltip>
           </TooltipProvider>

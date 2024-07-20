@@ -79,7 +79,9 @@ export function ApplicationDataTable<TData, TValue>({
           )}
         </div>
         <div>
-          <NewApplicationButton />
+          <NewApplicationButton>
+            <Button>New Application</Button>
+          </NewApplicationButton>
         </div>
       </div>
       <div className="rounded-md border">

@@ -13,7 +13,11 @@ import { useState } from 'react'
 import NewApplicationForm from './new-application-form'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 
-export default function NewApplicationButton() {
+export default function NewApplicationButton({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -30,9 +34,7 @@ export default function NewApplicationButton() {
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <DialogTrigger asChild>
-          <Button>New Application</Button>
-        </DialogTrigger>
+        <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
             <DialogTitle>New Application</DialogTitle>
