@@ -6,8 +6,12 @@ import { api } from '@/trpc/react'
 export default function FullApplicationView({
   applicationId,
 }: {
-  applicationId: number
+  applicationId?: number
 }) {
+  if (!applicationId) {
+    return <div>No application selected</div>
+  }
+
   const response = api.timeLineUpdates.getAllByApplicationId.useQuery({
     id: applicationId,
   })

@@ -27,16 +27,20 @@ import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filte
 import { dataTableApplicationStatusOptions } from '@/data'
 import { DataTablePagination } from '@/components/ui/data-table-pagination'
 import NewApplicationButton from '@/components/forms/new-application/new-application-button'
+import FullApplicationView from './full-application-view'
+import { dbJobApplication } from '@/types'
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+interface DataTableProps {
+  columns: ColumnDef<dbJobApplication>[]
+  data: dbJobApplication[]
+  initialSelectedRowId?: number
 }
 
-export function ApplicationDataTable<TData, TValue>({
+export function ApplicationDataTable({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
+  initialSelectedRowId,
+}: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
@@ -56,15 +60,21 @@ export function ApplicationDataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
   })
 
-  const [selectedRow, setSelectedRow] = useState<TData | null>(
-    table.getRowModel().rows?.[0]?.original ?? null,
+  const [selectedRow, setSelectedRow] = useState<dbJobApplication | null>(
+    () => {
+      if (initialSelectedRowId) {
+        const row = table
+          .getRowModel()
+          .rows?.find((row) => row.original.id === initialSelectedRowId)
+        if (row) {
+          return row.original
+        }
+      }
+      return table.getRowModel().rows?.[0]?.original ?? null
+    },
   )
 
-  useEffect(() => {
-    if (selectedRow) {
-      console.log(selectedRow)
-    }
-  }, [selectedRow])
+  useEffect(() => {}, [selectedRow])
 
   return (
     <div className="space-y-2">
@@ -147,6 +157,7 @@ export function ApplicationDataTable<TData, TValue>({
         </Table>
       </div>
       <DataTablePagination table={table} />
+      <FullApplicationView applicationId={selectedRow?.id} />
     </div>
   )
 }

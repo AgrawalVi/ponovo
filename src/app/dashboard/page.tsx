@@ -30,7 +30,6 @@ export default async function DashboardPage() {
         data={jobApplications}
         columns={applicationTableColumns}
       />
-      <FullApplicationView applicationId={8} />
     </div>
   )
 }
