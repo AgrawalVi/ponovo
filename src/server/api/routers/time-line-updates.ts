@@ -9,8 +9,11 @@ import { eq } from 'drizzle-orm'
 
 export const timeLineUpdatesRouter = createTRPCRouter({
   getAllByApplicationId: publicProcedure
-    .input(z.object({ id: z.string() }))
+    .input(z.object({ id: z.string().optional() }))
     .query(async ({ input }) => {
+      if (!input.id) {
+        return undefined
+      }
       const jobApplicationTimelineUpdates =
         await db.query.jobApplications.findFirst({
           where: eq(jobApplications.id, input.id),

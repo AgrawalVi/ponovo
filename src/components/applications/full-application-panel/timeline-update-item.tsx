@@ -4,6 +4,7 @@ import TimelineUpdateBadge from '../general/timeline-update-badge'
 import { Textarea } from '@/components/ui/textarea'
 import { PencilIcon, Trash2Icon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import DeleteTimelineEventButton from '@/components/forms/timeline-event/delete-timeline-event-button'
 
 export default function TimelineUpdateItem({
   timelineUpdate,
@@ -34,13 +35,10 @@ export default function TimelineUpdateItem({
         >
           <PencilIcon size="20" />
         </Button>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="border border-dashed hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
-        >
-          <Trash2Icon size="20" />
-        </Button>
+        <DeleteTimelineEventButton
+          applicationId={timelineUpdate.jobApplicationId}
+          timelineUpdateId={timelineUpdate.id}
+        />
       </div>
     </li>
   )

@@ -49,13 +49,13 @@ export default function FullApplicationView({
     }, 2000)
   }, [hasCopied])
 
-  if (!applicationId) {
-    return <div>No application selected</div>
-  }
-
   const query = api.timeLineUpdates.getAllByApplicationId.useQuery({
     id: applicationId,
   })
+
+  if (!applicationId) {
+    return <div>No application selected</div>
+  }
 
   if (query.isPending) {
     return <FullApplicationSkeleton />
