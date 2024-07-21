@@ -21,19 +21,17 @@ export default function FullApplicationViewSkeleton() {
             <Skeleton className="h-7 w-36" />
           </div>
         </div>
-        <span>
+        <div className="flex justify-between">
           <Skeleton className="h-5 w-28" />
-        </span>
-        <span>
           <Skeleton className="h-5 w-28" />
-        </span>
+        </div>
       </CardHeader>
       <CardContent>
         <Separator orientation="horizontal" />
         {[1, 2].length > 0 && (
           <ul className="divide-y">
-            {[1, 2].map((timelineUpdate) => (
-              <TimelineUpdateItemSkeleton />
+            {[1, 2].map((index) => (
+              <TimelineUpdateItemSkeleton key={index} />
             ))}
           </ul>
         )}
