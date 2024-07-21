@@ -1,11 +1,21 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Nunito, Maven_Pro } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
 
-const inter = Inter({ subsets: ['latin'] })
+const nunito = Nunito({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-nunito',
+})
+
+const maven = Maven_Pro({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-maven',
+})
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,8 +31,12 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+      <html
+        lang="en"
+        suppressHydrationWarning
+        className={`${maven.className} ${nunito.className}`}
+      >
+        <body>
           <ThemeProvider
             attribute="class"
             defaultTheme="dark"
