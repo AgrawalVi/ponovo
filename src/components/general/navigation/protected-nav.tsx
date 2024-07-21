@@ -1,19 +1,14 @@
+'use client'
+
 import Link from 'next/link'
+import { useEffect } from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip'
-import {
-  Home,
-  LineChart,
-  Package,
-  Package2,
-  PanelLeft,
-  ScrollText,
-  Settings,
-  ShoppingCart,
-  Users2,
-} from 'lucide-react'
+import { Home, Package2, PanelLeft, ScrollText, Settings } from 'lucide-react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { UserButton } from '@clerk/nextjs'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 export const navItems = [
   {
@@ -34,9 +29,10 @@ export const navItems = [
 ]
 
 export function SidebarNav() {
+  const pathname = usePathname()
   return (
     <>
-      <aside className="sticky inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
+      <aside className="sticky inset-y-0 left-0 z-10 hidden w-20 flex-col border-r bg-background sm:flex">
         <nav className="flex h-full flex-col items-center justify-between gap-4 px-2 py-5">
           <div>
             <Link
@@ -51,7 +47,11 @@ export function SidebarNav() {
                 <TooltipTrigger asChild>
                   <Link
                     href={item.href}
-                    className="my-4 flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                    className={cn(
+                      'my-4 flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
+                      item.href === pathname &&
+                        'bg-accent text-accent-foreground',
+                    )}
                   >
                     <item.icon className="h-5 w-5" />
                     <span className="sr-only">{item.name}</span>
@@ -69,6 +69,7 @@ export function SidebarNav() {
 }
 
 export function MobileNav() {
+  const pathname = usePathname()
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Sheet>
@@ -82,7 +83,9 @@ export function MobileNav() {
           <nav className="grid gap-6 text-lg font-medium">
             <Link
               href="#"
-              className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+              className={cn(
+                'group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base',
+              )}
             >
               <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
               <span className="sr-only">Acme Inc</span>
@@ -91,7 +94,11 @@ export function MobileNav() {
               <Link
                 href={item.href}
                 key={item.href}
-                className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+                className={cn(
+                  'flex items-center gap-4 px-2.5 py-1 text-muted-foreground hover:text-foreground',
+                  pathname === item.href &&
+                    'rounded-lg bg-accent/50 text-accent-foreground',
+                )}
               >
                 <item.icon className="h-5 w-5" />
                 {item.name}

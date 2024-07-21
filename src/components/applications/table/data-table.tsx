@@ -170,7 +170,7 @@ export function ApplicationDataTable({
         </div>
         <DataTablePagination table={table} />
       </div>
-      <FullApplicationView applicationId={selectedRow?.id} />
+      <FullApplicationView applicationId={selectedRow?.id || ''} />
     </div>
   )
 }

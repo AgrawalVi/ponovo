@@ -12,8 +12,6 @@ export default async function DashboardPage() {
     redirect('/')
   }
 
-  console.log('render')
-
   const userWithJobApplications = await db.query.users.findMany({
     with: {
       jobApplications: true,
@@ -21,14 +19,17 @@ export default async function DashboardPage() {
     where: eq(users.clerkId, user.userId),
   })
 
+  if (userWithJobApplications.length !== 1) {
+    redirect('/')
+  }
+
   const jobApplications = userWithJobApplications[0].jobApplications
 
   return (
     <div className="flex w-full flex-col items-center">
-      <ApplicationDataTable
-        data={jobApplications}
-        columns={applicationTableColumns}
-      />
+      <div className="my-10 bg-gradient-to-b from-foreground from-50% to-neutral-600 bg-clip-text pt-2 text-6xl font-semibold text-transparent dark:to-neutral-400">
+        Dashboard
+      </div>
     </div>
   )
 }
