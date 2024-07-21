@@ -10,30 +10,23 @@ import { cn } from '@/lib/utils'
 
 export default function MainHero() {
   return (
-    <div>
-      <div>
-        <Spotlight
-          className="-left-10 -top-40 h-screen md:-top-20 md:left-0"
-          fill="white"
-        />
-        <Spotlight className="left-full top-10 h-[80vh] w-[50vh]" fill="cyan" />
-      </div>
+    <div className="w-full px-10">
       <div className="bg-grid-black/[0.025] dark:bg-grid-white/[0.025] absolute left-0 top-0 flex h-dvh w-full items-center justify-center bg-background dark:bg-background">
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-background"></div>
       </div>
       <div className="relative my-10 flex h-full justify-center space-y-20 align-middle">
         <div className="flex max-w-6xl flex-col space-y-20 text-center">
-          <div className="flex flex-col items-center justify-center space-y-8">
+          <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-8">
             <div>
               <button className="w-fit cursor-default rounded-full border px-4 py-1">
                 Currently in Beta
               </button>
-              <div className="font-maven bg-gradient-to-b from-foreground to-neutral-600 bg-clip-text py-4 text-8xl font-bold text-transparent dark:to-neutral-500">
+              <div className="font-maven bg-gradient-to-b from-foreground to-neutral-600 bg-clip-text py-4 text-3xl font-bold text-transparent dark:to-neutral-500 sm:text-8xl">
                 Make Job Application Tracking Easy
               </div>
             </div>
             <div className="flex justify-center">
-              <div className="max-w-3xl text-2xl text-muted-foreground">
+              <div className="max-w-3xl text-base text-muted-foreground sm:text-2xl">
                 Ponovo is a job application tracking tool that easily helps you
                 visualize and manage your job applications in one unified place.
               </div>
