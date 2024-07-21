@@ -35,6 +35,9 @@ import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react'
 import { applicationTimelineSchema } from '@/schemas'
 import { Textarea } from '@/components/ui/textarea'
+import { useQueryClient } from '@tanstack/react-query'
+import { getQueryKey } from '@trpc/react-query'
+import { api } from '@/trpc/react'
 
 interface NewApplicationTimelineEventFormProps {
   setIsChanged: (value: boolean) => void
@@ -51,8 +54,12 @@ const NewApplicationTimelineEventForm = ({
   setOpen,
   applicationId,
 }: NewApplicationTimelineEventFormProps) => {
+  const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
+  const queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
+    id: applicationId,
+  })
 
   const form = useForm<z.infer<typeof applicationTimelineSchema>>({
     resolver: zodResolver(applicationTimelineSchema),
@@ -77,6 +84,9 @@ const NewApplicationTimelineEventForm = ({
         .then((response) => {
           if (response.success) {
             form.reset()
+            queryClient.invalidateQueries({
+              queryKey,
+            })
             setOpen(false)
             toast({ title: 'Application update logged successfully' })
           } else {
