@@ -22,7 +22,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
-import { deleteTimelineUpdate } from '@/actions/application-updates/delete-application-update'
+import { deleteTimelineUpdate } from '@/actions/timeline-updates/delete-timeline-update'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
@@ -57,7 +57,7 @@ export default function DeleteTimelineEventButton({
 
   return (
     <Dialog>
-      <TooltipProvider delayDuration={100}>
+      <TooltipProvider delayDuration={200}>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button

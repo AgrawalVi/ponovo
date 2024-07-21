@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { PencilIcon, Trash2Icon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import DeleteTimelineEventButton from '@/components/forms/timeline-event/delete-timeline-event-button'
+import EditTimelineEventButton from '@/components/forms/timeline-event/edit-timeline-event-button'
 
 export default function TimelineUpdateItem({
   timelineUpdate,
@@ -28,9 +29,7 @@ export default function TimelineUpdateItem({
         </div>
       )}
       <div className="flex w-full justify-end space-x-2">
-        <Button variant="ghost" className="border border-dashed" size="icon">
-          <PencilIcon size="20" />
-        </Button>
+        <EditTimelineEventButton timelineUpdate={timelineUpdate} />
         <DeleteTimelineEventButton
           applicationId={timelineUpdate.jobApplicationId}
           timelineUpdateId={timelineUpdate.id}

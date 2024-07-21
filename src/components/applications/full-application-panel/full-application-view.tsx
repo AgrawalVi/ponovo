@@ -113,7 +113,7 @@ export default function FullApplicationView({
         <div className="grid grid-cols-3">
           <div className="flex justify-self-start">
             {url && (
-              <TooltipProvider delayDuration={100}>
+              <TooltipProvider delayDuration={200}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button

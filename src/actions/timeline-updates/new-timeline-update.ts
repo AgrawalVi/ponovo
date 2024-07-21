@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { applicationTimelineSchema } from '@/schemas'
+import { applicationTimelineUpdateSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import {
@@ -12,11 +12,11 @@ import {
 import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
-export async function newApplicationUpdate(
-  values: z.infer<typeof applicationTimelineSchema>,
+export async function newTimelineUpdate(
+  values: z.infer<typeof applicationTimelineUpdateSchema>,
   jobApplicationId: string,
 ) {
-  const validatedFields = applicationTimelineSchema.safeParse(values)
+  const validatedFields = applicationTimelineUpdateSchema.safeParse(values)
 
   if (!validatedFields.success) {
     return { error: 'Invalid Fields' }

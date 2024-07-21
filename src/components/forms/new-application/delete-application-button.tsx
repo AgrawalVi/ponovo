@@ -46,7 +46,7 @@ export default function DeleteApplicationButton({
 
   return (
     <Dialog>
-      <TooltipProvider delayDuration={100}>
+      <TooltipProvider delayDuration={200}>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button

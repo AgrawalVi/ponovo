@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
-import { newApplicationUpdate } from '@/actions/application-updates/new-application-update'
+import { newTimelineUpdate } from '@/actions/timeline-updates/new-timeline-update'
 
 import { useToast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
@@ -33,7 +33,7 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react'
-import { applicationTimelineSchema } from '@/schemas'
+import { applicationTimelineUpdateSchema } from '@/schemas'
 import { Textarea } from '@/components/ui/textarea'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
@@ -61,8 +61,8 @@ const NewApplicationTimelineEventForm = ({
     id: applicationId,
   })
 
-  const form = useForm<z.infer<typeof applicationTimelineSchema>>({
-    resolver: zodResolver(applicationTimelineSchema),
+  const form = useForm<z.infer<typeof applicationTimelineUpdateSchema>>({
+    resolver: zodResolver(applicationTimelineUpdateSchema),
     defaultValues: {
       updateType: 'rejected',
       updateDate: new Date(),
@@ -78,9 +78,9 @@ const NewApplicationTimelineEventForm = ({
     return () => subscription.unsubscribe()
   }, [form, setIsChanged])
 
-  const onSubmit = (data: z.infer<typeof applicationTimelineSchema>) => {
+  const onSubmit = (data: z.infer<typeof applicationTimelineUpdateSchema>) => {
     startTransition(() => {
-      newApplicationUpdate(data, applicationId)
+      newTimelineUpdate(data, applicationId)
         .then((response) => {
           if (response.success) {
             form.reset()

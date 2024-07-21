@@ -14,7 +14,7 @@ export const newApplicationSchema = z.object({
   appliedDate: z.date(),
 })
 
-export const applicationTimelineSchema = z.object({
+export const applicationTimelineUpdateSchema = z.object({
   updateType: z.enum(timeLineUpdateEnum.enumValues),
   updateDate: z.date(),
   comments: z.string().optional(),

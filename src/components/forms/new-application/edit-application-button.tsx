@@ -44,7 +44,7 @@ export default function EditApplicationButton({
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <TooltipProvider delayDuration={100}>
+        <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button

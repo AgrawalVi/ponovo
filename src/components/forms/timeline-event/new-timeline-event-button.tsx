@@ -41,7 +41,7 @@ export default function NewApplicationTimelineEventButton({
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <TooltipProvider delayDuration={100}>
+        <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
               <Button className="w-32">
