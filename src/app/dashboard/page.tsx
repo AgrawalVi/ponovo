@@ -1,6 +1,5 @@
 import { applicationTableColumns } from '@/components/applications/table/columns'
 import { ApplicationDataTable } from '@/components/applications/table/data-table'
-import FullApplicationView from '@/components/applications/table/full-application-view'
 import { users } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs/server'
