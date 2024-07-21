@@ -113,7 +113,7 @@ export default function FullApplicationView({
         <div className="grid grid-cols-3">
           <div className="flex justify-self-start">
             {url && (
-              <TooltipProvider>
+              <TooltipProvider delayDuration={100}>
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <Button
@@ -134,22 +134,10 @@ export default function FullApplicationView({
             )}
           </div>
           <div className="flex justify-self-center">
-            <NewApplicationTimelineEventButton applicationId={applicationId}>
-              <Button className="w-32">
-                <PlusIcon size="20" />
-              </Button>
-            </NewApplicationTimelineEventButton>
+            <NewApplicationTimelineEventButton applicationId={applicationId} />
           </div>
           <div className="flex space-x-2 justify-self-end">
-            <EditApplicationButton application={rest}>
-              <Button
-                variant="ghost"
-                className="border border-dashed"
-                size="icon"
-              >
-                <PencilIcon size="20" />
-              </Button>
-            </EditApplicationButton>
+            <EditApplicationButton application={rest} />
             <DeleteApplicationButton
               applicationId={applicationId}
             ></DeleteApplicationButton>

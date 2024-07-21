@@ -57,7 +57,7 @@ export default function DeleteTimelineEventButton({
 
   return (
     <Dialog>
-      <TooltipProvider>
+      <TooltipProvider delayDuration={100}>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button

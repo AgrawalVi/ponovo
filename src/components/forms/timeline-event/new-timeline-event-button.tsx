@@ -17,12 +17,12 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { PlusIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
 export default function NewApplicationTimelineEventButton({
-  children,
   applicationId,
 }: {
-  children: React.ReactNode
   applicationId: string
 }) {
   const [mainOpen, setMainOpen] = useState(false)
@@ -41,12 +41,18 @@ export default function NewApplicationTimelineEventButton({
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <TooltipProvider>
+        <TooltipProvider delayDuration={100}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <DialogTrigger asChild>
-                <DialogTrigger asChild>{children}</DialogTrigger>
-              </DialogTrigger>
+              <Button className="w-32">
+                <DialogTrigger asChild>
+                  <DialogTrigger asChild>
+                    <span className="flex h-full w-full items-center justify-center">
+                      <PlusIcon size="20" />
+                    </span>
+                  </DialogTrigger>
+                </DialogTrigger>
+              </Button>
             </TooltipTrigger>
             <TooltipContent>Add a TimelineUpdate</TooltipContent>
           </Tooltip>
