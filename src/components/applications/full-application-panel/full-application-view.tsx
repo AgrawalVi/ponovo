@@ -151,13 +151,7 @@ export default function FullApplicationView({
               </Button>
             </EditApplicationButton>
             <DeleteApplicationButton applicationId={applicationId}>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="border border-dashed hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
-              >
-                <Trash2Icon size="20" />
-              </Button>
+              
             </DeleteApplicationButton>
           </div>
         </div>

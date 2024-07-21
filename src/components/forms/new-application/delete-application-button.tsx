@@ -3,26 +3,31 @@
 import { deleteApplication } from '@/actions/applications/delete-application'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { buttonVariants } from '@/components/ui/button'
+  TooltipProvider,
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+} from '@/components/ui/tooltip'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
-import { AlertCircle } from 'lucide-react'
+import { AlertCircle, Trash2Icon } from 'lucide-react'
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 
 export default function DeleteApplicationButton({
   applicationId,
-  children,
 }: {
   applicationId: number
-  children: React.ReactNode
 }) {
   const { toast } = useToast()
 
@@ -40,31 +45,53 @@ export default function DeleteApplicationButton({
   }
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>{children}</AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
+    <Dialog>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="border border-dashed hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
+            >
+              <DialogTrigger asChild>
+                <span className="flex h-full w-full items-center justify-center">
+                  <Trash2Icon size="20" />
+                </span>
+              </DialogTrigger>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Delete Application</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle className="pb-2">
             Are you sure you want to delete the application?
-          </AlertDialogTitle>
+          </DialogTitle>
+          <DialogDescription>
+            <VisuallyHidden.Root>
+              Are you sure you want to delete the application?
+            </VisuallyHidden.Root>
+          </DialogDescription>
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              This will delete the application and you will lose all data
-              associated with it.
+              This will delete the selected job application and you will lose
+              all data associated with it.
             </AlertDescription>
           </Alert>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction
-            className={cn(buttonVariants({ variant: 'destructive' }))}
+        </DialogHeader>
+        <DialogFooter>
+          <DialogClose
+            className={cn(buttonVariants({ variant: 'outline' }))}
             onClick={handleDelete}
           >
-            Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+            Cancel
+          </DialogClose>
+          <Button variant="destructive">Delete</Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }
