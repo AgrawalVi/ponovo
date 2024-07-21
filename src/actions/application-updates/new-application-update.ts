@@ -14,7 +14,7 @@ import { revalidatePath } from 'next/cache'
 
 export async function newApplicationUpdate(
   values: z.infer<typeof applicationTimelineSchema>,
-  jobApplicationId: number,
+  jobApplicationId: string,
 ) {
   const validatedFields = applicationTimelineSchema.safeParse(values)
 
@@ -71,6 +71,7 @@ export async function newApplicationUpdate(
       timeLineUpdate: updateType,
       timelineUpdateReceivedAt: updateDate,
       comments: comments,
+      userId: existingUser[0].id,
     })
   } catch (e) {
     console.error(e)

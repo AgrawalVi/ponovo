@@ -6,7 +6,7 @@ import { auth } from '@clerk/nextjs/server'
 import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
-export async function deleteApplication(applicationId: number) {
+export async function deleteApplication(applicationId: string) {
   const user = auth()
 
   if (!user.userId) {

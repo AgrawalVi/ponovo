@@ -10,7 +10,7 @@ import { revalidatePath } from 'next/cache'
 
 export async function editApplication(
   values: z.infer<typeof newApplicationSchema>,
-  applicationId: number,
+  applicationId: string,
 ) {
   const validatedFields = newApplicationSchema.safeParse(values)
 

@@ -1,10 +1,10 @@
 import {
-  integer,
   pgEnum,
   pgTable,
   serial,
   text,
   timestamp,
+  uuid,
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 import { v4 as uuidv4 } from 'uuid'
@@ -35,7 +35,7 @@ export const jobRoleTypeEnum = pgEnum('job_role_type', [
 ])
 
 export const users = pgTable('users', {
-  id: text('id')
+  id: uuid('id')
     .primaryKey()
     .$default(() => uuidv4()),
   email: text('email').notNull().unique(),
@@ -56,11 +56,14 @@ export const users = pgTable('users', {
 
 export const usersRelations = relations(users, ({ many }) => ({
   jobApplications: many(jobApplications),
+  jobApplicationTimelineUpdates: many(jobApplicationTimelineUpdates),
 }))
 
 export const jobApplications = pgTable('job_applications', {
-  id: serial('id').primaryKey(),
-  userId: text('user_id')
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  userId: uuid('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 
@@ -97,16 +100,20 @@ export const jobApplicationsRelations = relations(
 export const jobApplicationTimelineUpdates = pgTable(
   'job_application_timeline_updates',
   {
-    id: serial('id').primaryKey(),
-    jobApplicationId: integer('job_application_id')
+    id: uuid('id')
+      .primaryKey()
+      .$defaultFn(() => uuidv4()),
+    userId: uuid('user_id').references(() => users.id, {
+      onDelete: 'cascade',
+    }),
+    jobApplicationId: uuid('job_application_id')
       .notNull()
       .references(() => jobApplications.id, { onDelete: 'cascade' }),
-    timeLineUpdate: timeLineUpdateEnum('time_line_update').notNull(),
 
+    timeLineUpdate: timeLineUpdateEnum('time_line_update').notNull(),
     timelineUpdateReceivedAt: timestamp('timeline_update_received_at')
       .notNull()
       .defaultNow(),
-
     comments: text('comments'),
 
     createdAt: timestamp('created_at').notNull().defaultNow(),
@@ -122,6 +129,10 @@ export const jobApplicationTimelineUpdatesRelations = relations(
     jobApplication: one(jobApplications, {
       fields: [jobApplicationTimelineUpdates.jobApplicationId],
       references: [jobApplications.id],
+    }),
+    user: one(users, {
+      fields: [jobApplicationTimelineUpdates.userId],
+      references: [users.id],
     }),
   }),
 )

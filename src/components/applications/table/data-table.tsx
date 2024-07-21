@@ -34,7 +34,7 @@ import { cn } from '@/lib/utils'
 interface DataTableProps {
   columns: ColumnDef<dbJobApplication>[]
   data: dbJobApplication[]
-  initialSelectedRowId?: number
+  initialSelectedRowId?: string
 }
 
 export function ApplicationDataTable({

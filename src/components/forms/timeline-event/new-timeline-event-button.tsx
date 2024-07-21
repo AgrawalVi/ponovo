@@ -23,7 +23,7 @@ export default function NewApplicationTimelineEventButton({
   applicationId,
 }: {
   children: React.ReactNode
-  applicationId: number
+  applicationId: string
 }) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)

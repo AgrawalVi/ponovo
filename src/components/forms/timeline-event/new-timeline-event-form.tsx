@@ -42,7 +42,7 @@ import { api } from '@/trpc/react'
 interface NewApplicationTimelineEventFormProps {
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
-  applicationId: number
+  applicationId: string
 }
 
 const defaultValues = {

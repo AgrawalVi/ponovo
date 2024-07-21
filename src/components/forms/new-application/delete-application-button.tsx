@@ -27,7 +27,7 @@ import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 export default function DeleteApplicationButton({
   applicationId,
 }: {
-  applicationId: number
+  applicationId: string
 }) {
   const { toast } = useToast()
 

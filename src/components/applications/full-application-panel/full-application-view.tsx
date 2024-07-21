@@ -39,7 +39,7 @@ import { dbJobApplication } from '@/types'
 export default function FullApplicationView({
   applicationId,
 }: {
-  applicationId?: number
+  applicationId?: string
 }) {
   const [hasCopied, setHasCopied] = useState(false)
 
