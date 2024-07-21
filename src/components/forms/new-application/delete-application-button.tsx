@@ -23,17 +23,28 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
+import { useQueryClient } from '@tanstack/react-query'
+import { getQueryKey } from '@trpc/react-query'
+import { api } from '@/trpc/react'
 
 export default function DeleteApplicationButton({
   applicationId,
 }: {
   applicationId: string
 }) {
+  const queryClient = useQueryClient()
   const { toast } = useToast()
+
+  const queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
+    id: applicationId,
+  })
 
   const handleDelete = async () => {
     const response = await deleteApplication(applicationId)
     if (response.success) {
+      queryClient.invalidateQueries({
+        queryKey: queryKey,
+      })
       toast({ title: 'Application deleted successfully' })
     } else {
       toast({

@@ -6,13 +6,14 @@ import {
 } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { eq } from 'drizzle-orm'
+import { dbJobApplicationWithTimelineUpdates } from '@/types'
 
 export const timeLineUpdatesRouter = createTRPCRouter({
   getAllByApplicationId: publicProcedure
     .input(z.object({ id: z.string().optional() }))
     .query(async ({ input }) => {
-      if (!input.id) {
-        return undefined
+      if (!input.id || input.id === null) {
+        return null
       }
       const jobApplicationTimelineUpdates =
         await db.query.jobApplications.findFirst({
@@ -25,6 +26,9 @@ export const timeLineUpdatesRouter = createTRPCRouter({
             },
           },
         })
+      if (!jobApplicationTimelineUpdates) {
+        return null
+      }
       return jobApplicationTimelineUpdates
     }),
 })

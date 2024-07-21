@@ -20,26 +20,17 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
-import {
-  Check,
-  Copy,
-  CopyCheck,
-  Delete,
-  PencilIcon,
-  PlusIcon,
-  Trash2Icon,
-} from 'lucide-react'
+import { Check, Copy } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import TimelineUpdateItem from './timeline-update-item'
 import NewTimelineUpdateButton from '@/components/forms/timeline-updates/new-timeline-update-button'
 import DeleteApplicationButton from '@/components/forms/new-application/delete-application-button'
 import EditApplicationButton from '@/components/forms/new-application/edit-application-button'
-import { dbJobApplication } from '@/types'
 
 export default function FullApplicationView({
   applicationId,
 }: {
-  applicationId?: string
+  applicationId: string
 }) {
   const [hasCopied, setHasCopied] = useState(false)
 
@@ -64,8 +55,9 @@ export default function FullApplicationView({
   if (!query.data) {
     if (query.error) {
       console.error(query.error)
+      return <div>An error has occurred</div>
     }
-    return <div>An error has occurred</div>
+    return <div>No application found</div>
   }
 
   const {

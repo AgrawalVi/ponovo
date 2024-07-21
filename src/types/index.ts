@@ -13,6 +13,11 @@ export type dbUserWithJobApplications = typeof users.$inferSelect & {
   jobApplications: (typeof jobApplications.$inferSelect)[]
 }
 
+export type dbJobApplicationWithTimelineUpdates =
+  typeof jobApplications.$inferSelect & {
+    jobApplicationTimelineUpdates: (typeof jobApplicationTimelineUpdates.$inferSelect)[]
+  }
+
 export type dbJobApplicationTimelineUpdate =
   typeof jobApplicationTimelineUpdates.$inferSelect
 

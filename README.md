@@ -18,3 +18,4 @@ run with `ngrok http --domain=sunbeam-precious-badly.ngrok-free.app 3000`
 - [ ] Mobile Support
 - [ ] BUG: Closing modal, discarding changes, and reopening modal, closing without making edits results in confirm popup showing up when it shouldn't
   - Potential Fix: Reset form on close? Not sure
+- [ ] BUG: Deleting an application should select a different application to view automatically
