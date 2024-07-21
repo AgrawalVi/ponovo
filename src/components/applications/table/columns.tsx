@@ -17,6 +17,7 @@ import { dbJobApplication, applicationStatusEnum } from '@/types'
 import EditApplicationButton from '@/components/forms/new-application/edit-application-button'
 import DeleteApplicationButton from '@/components/forms/new-application/delete-application-button'
 import NewApplicationTimelineEventButton from '@/components/forms/timeline-event/new-timeline-event-button'
+import ApplicationStatusBadge from '../general/application-status-badge'
 
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   {
@@ -56,7 +57,7 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
         <div className="flex w-full items-center justify-center text-center">
           <ApplicationStatusBadge status={status} />
         </div>
-)
+      )
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
@@ -64,7 +65,7 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   },
   {
     accessorKey: 'dateApplied',
-    sortingFn: 'datetime'
+    sortingFn: 'datetime',
     header: ({ column }) => {
       const isSorted = column.getIsSorted()
       return (
@@ -87,7 +88,11 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
     },
     cell: ({ row }) => {
       const date = row.getValue('dateApplied') as string
-      return format(new Date(date), 'P')
+      return (
+        <div className="text-center">
+          <p>{format(new Date(date), 'PPP')}</p>
+        </div>
+      )
     },
   },
   {
