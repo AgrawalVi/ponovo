@@ -21,6 +21,7 @@ import NewApplicationTimelineEventButton from '@/components/forms/timeline-event
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   {
     accessorKey: 'companyName',
+    sortingFn: 'alphanumeric',
     header: ({ column }) => {
       const isSorted = column.getIsSorted()
       return (
