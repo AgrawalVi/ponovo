@@ -6,7 +6,7 @@
 
 run with `ngrok http --domain=sunbeam-precious-badly.ngrok-free.app 3000`
 
-## TODOS:
+## TODOs:
 
 - [ ] Add edit and delete application update sections
 - [ ] Fix tooltips throughout app
