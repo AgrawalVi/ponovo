@@ -1,14 +1,15 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect } from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip'
 import { Home, Package2, PanelLeft, ScrollText, Settings } from 'lucide-react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
-import { UserButton } from '@clerk/nextjs'
+import { ClerkLoading, SignedIn, UserButton } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { ModeToggle } from '@/components/ui/mode-toggle'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const navItems = [
   {
@@ -61,7 +62,15 @@ export function SidebarNav() {
               </Tooltip>
             ))}
           </div>
-          <UserButton />
+          <div className="flex w-full flex-col items-center space-y-4">
+            <ModeToggle side="right" className="size-8 rounded-full" />
+            <ClerkLoading>
+              <Skeleton className="h-7 w-7 rounded-full" />
+            </ClerkLoading>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </div>
         </nav>
       </aside>
     </>
@@ -107,7 +116,15 @@ export function MobileNav() {
           </nav>
         </SheetContent>
       </Sheet>
-      <UserButton />
+      <div className="flex items-center space-x-2">
+        <ClerkLoading>
+          <Skeleton className="h-7 w-7 rounded-full" />
+        </ClerkLoading>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+        <ModeToggle className="size-8 rounded-full" />
+      </div>
     </header>
   )
 }

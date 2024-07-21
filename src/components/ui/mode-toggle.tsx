@@ -13,7 +13,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { cn } from '@/lib/utils'
 
-export function ModeToggle({ className }: { className?: string }) {
+export function ModeToggle({
+  className,
+  side = 'bottom',
+}: {
+  className?: string
+  side?: 'top' | 'bottom' | 'left' | 'right'
+}) {
   const { setTheme } = useTheme()
 
   return (
@@ -25,7 +31,7 @@ export function ModeToggle({ className }: { className?: string }) {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent align="end" side={side}>
         <DropdownMenuItem onClick={() => setTheme('light')}>
           Light
         </DropdownMenuItem>
