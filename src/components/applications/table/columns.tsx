@@ -52,7 +52,11 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
     header: 'Application Status',
     cell: ({ row }) => {
       const status = row.getValue('applicationStatus') as applicationStatusEnum
-      return <div className="text-center">{status}</div>
+      return (
+        <div className="flex w-full items-center justify-center text-center">
+          <ApplicationStatusBadge status={status} />
+        </div>
+)
     },
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id))
