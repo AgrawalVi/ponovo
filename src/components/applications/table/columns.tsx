@@ -60,6 +60,7 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   },
   {
     accessorKey: 'dateApplied',
+    sortingFn: 'datetime'
     header: ({ column }) => {
       const isSorted = column.getIsSorted()
       return (
