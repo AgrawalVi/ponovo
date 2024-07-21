@@ -4,19 +4,8 @@ import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { DropdownMenu } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import {
-  MessageCirclePlus,
-  PencilIcon,
-  Trash2Icon,
-  ArrowUpDown,
-  ArrowUp,
-  ArrowDown,
-  MoreHorizontal,
-} from 'lucide-react'
+import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react'
 import { dbJobApplication, applicationStatusEnum } from '@/types'
-import EditApplicationButton from '@/components/forms/new-application/edit-application-button'
-import DeleteApplicationButton from '@/components/forms/new-application/delete-application-button'
-import NewApplicationTimelineEventButton from '@/components/forms/timeline-event/new-timeline-event-button'
 import ApplicationStatusBadge from '../general/application-status-badge'
 
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
@@ -50,7 +39,13 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   },
   {
     accessorKey: 'applicationStatus',
-    header: 'Application Status',
+    header: () => {
+      return (
+        <div className="flex justify-center">
+          <span>Application Status</span>
+        </div>
+      )
+    },
     cell: ({ row }) => {
       const status = row.getValue('applicationStatus') as applicationStatusEnum
       return (
@@ -69,21 +64,23 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
     header: ({ column }) => {
       const isSorted = column.getIsSorted()
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(isSorted === 'asc')}
-        >
-          Date Applied
-          {isSorted ? (
-            isSorted === 'asc' ? (
-              <ArrowUp className="ml-2 h-4 w-4" />
+        <div className="flex justify-center">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(isSorted === 'asc')}
+          >
+            Date Applied
+            {isSorted ? (
+              isSorted === 'asc' ? (
+                <ArrowUp className="ml-2 h-4 w-4" />
+              ) : (
+                <ArrowDown className="ml-2 h-4 w-4" />
+              )
             ) : (
-              <ArrowDown className="ml-2 h-4 w-4" />
-            )
-          ) : (
-            <ArrowUpDown className="ml-2 h-4 w-4" />
-          )}
-        </Button>
+              <ArrowUpDown className="ml-2 h-4 w-4" />
+            )}
+          </Button>
+        </div>
       )
     },
     cell: ({ row }) => {
@@ -91,37 +88,6 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
       return (
         <div className="text-center">
           <p>{format(new Date(date), 'PPP')}</p>
-        </div>
-      )
-    },
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => {
-      const jobApplication = row.original
-
-      // TODO: Need to put edit, garbage, and copy link in a dropdownmeny and keep add timeline event in the same row
-      return (
-        <div className="space-x-2">
-          <NewApplicationTimelineEventButton applicationId={jobApplication.id}>
-            <Button variant="ghost" size="icon">
-              <MessageCirclePlus size="20" />
-            </Button>
-          </NewApplicationTimelineEventButton>
-          <EditApplicationButton application={jobApplication}>
-            <Button variant="ghost" size="icon">
-              <PencilIcon size="20" />
-            </Button>
-          </EditApplicationButton>
-          <DeleteApplicationButton applicationId={jobApplication.id}>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="hover:bg-destructive/10 hover:text-destructive"
-            >
-              <Trash2Icon size="20" />
-            </Button>
-          </DeleteApplicationButton>
         </div>
       )
     },
