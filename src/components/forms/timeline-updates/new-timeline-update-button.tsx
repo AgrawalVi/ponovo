@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -10,24 +9,22 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog'
 import { useState } from 'react'
+import NewTimelineUpdateForm from './new-timeline-update-form'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
-import { dbJobApplicationTimelineUpdate } from '@/types'
-import EditTimelineEventForm from './edit-timeline-event-form'
-import { PencilIcon } from 'lucide-react'
 import {
-  TooltipProvider,
   Tooltip,
-  TooltipTrigger,
   TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { PlusIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
 
-interface EditApplicationButtonProps {
-  timelineUpdate: dbJobApplicationTimelineUpdate
-}
-
-export default function EditApplicationButton({
-  timelineUpdate,
-}: EditApplicationButtonProps) {
+export default function NewTimelineUpdateButton({
+  applicationId,
+}: {
+  applicationId: string
+}) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -47,34 +44,30 @@ export default function EditApplicationButton({
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                className="border border-dashed"
-                size="icon"
-              >
+              <Button className="w-32">
                 <DialogTrigger asChild>
-                  <span className="flex h-full w-full items-center justify-center">
-                    <PencilIcon size="20" />
-                  </span>
+                  <DialogTrigger asChild>
+                    <span className="flex h-full w-full items-center justify-center">
+                      <PlusIcon size="20" />
+                    </span>
+                  </DialogTrigger>
                 </DialogTrigger>
               </Button>
             </TooltipTrigger>
-            <TooltipContent align="center" avoidCollisions={false}>
-              Edit Application
-            </TooltipContent>
+            <TooltipContent>Add a TimelineUpdate</TooltipContent>
           </Tooltip>
         </TooltipProvider>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>New Application</DialogTitle>
+            <DialogTitle>New Timeline Update</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to log your new application
+            Fill out the form to log your new timeline update
           </DialogDescription>
-          <EditTimelineEventForm
-            timelineUpdate={timelineUpdate}
+          <NewTimelineUpdateForm
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
+            applicationId={applicationId}
           />
         </DialogContent>
       </Dialog>

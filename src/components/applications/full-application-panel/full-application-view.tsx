@@ -31,7 +31,7 @@ import {
 } from 'lucide-react'
 import { Separator } from '@/components/ui/separator'
 import TimelineUpdateItem from './timeline-update-item'
-import NewApplicationTimelineEventButton from '@/components/forms/timeline-event/new-timeline-event-button'
+import NewTimelineUpdateButton from '@/components/forms/timeline-updates/new-timeline-update-button'
 import DeleteApplicationButton from '@/components/forms/new-application/delete-application-button'
 import EditApplicationButton from '@/components/forms/new-application/edit-application-button'
 import { dbJobApplication } from '@/types'
@@ -134,13 +134,11 @@ export default function FullApplicationView({
             )}
           </div>
           <div className="flex justify-self-center">
-            <NewApplicationTimelineEventButton applicationId={applicationId} />
+            <NewTimelineUpdateButton applicationId={applicationId} />
           </div>
           <div className="flex space-x-2 justify-self-end">
             <EditApplicationButton application={rest} />
-            <DeleteApplicationButton
-              applicationId={applicationId}
-            ></DeleteApplicationButton>
+            <DeleteApplicationButton applicationId={applicationId} />
           </div>
         </div>
       </CardFooter>

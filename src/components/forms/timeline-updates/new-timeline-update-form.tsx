@@ -39,7 +39,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 
-interface NewApplicationTimelineEventFormProps {
+interface NewTimelineUpdateFormProps {
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
   applicationId: string
@@ -49,11 +49,11 @@ const defaultValues = {
   comments: '',
 }
 
-const NewApplicationTimelineEventForm = ({
+const NewTimelineUpdateForm = ({
   setIsChanged,
   setOpen,
   applicationId,
-}: NewApplicationTimelineEventFormProps) => {
+}: NewTimelineUpdateFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
@@ -219,4 +219,4 @@ const NewApplicationTimelineEventForm = ({
   )
 }
 
-export default NewApplicationTimelineEventForm
+export default NewTimelineUpdateForm

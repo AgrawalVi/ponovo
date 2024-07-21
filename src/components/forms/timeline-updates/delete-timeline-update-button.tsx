@@ -27,7 +27,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 
-export default function DeleteTimelineEventButton({
+export default function DeleteTimelineUpdateButton({
   applicationId,
   timelineUpdateId,
 }: {

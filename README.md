@@ -8,8 +8,8 @@ run with `ngrok http --domain=sunbeam-precious-badly.ngrok-free.app 3000`
 
 ## TODOs:
 
-- [ ] Add edit and delete application update sections
-- [ ] Fix tooltips throughout app
+- [x] Add edit and delete application update sections
+- [x] Fix tooltips throughout app
 - [ ] Finish Home Page
 - [ ] Add Charts for Dashboard
 - [ ] Add User Settings

@@ -40,17 +40,17 @@ import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 
-interface EditTimelineEventFormProps {
+interface EditTimelineUpdateFormProps {
   timelineUpdate: dbJobApplicationTimelineUpdate
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
 }
 
-const EditTimelineEventForm = ({
+const EditTimelineUpdateForm = ({
   timelineUpdate,
   setIsChanged,
   setOpen,
-}: EditTimelineEventFormProps) => {
+}: EditTimelineUpdateFormProps) => {
   const queryClient = useQueryClient()
   const queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
     id: timelineUpdate.jobApplicationId,
@@ -226,4 +226,4 @@ const EditTimelineEventForm = ({
   )
 }
 
-export default EditTimelineEventForm
+export default EditTimelineUpdateForm

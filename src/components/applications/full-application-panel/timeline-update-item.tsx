@@ -2,8 +2,8 @@ import { dbJobApplicationTimelineUpdate } from '@/types'
 import { format } from 'date-fns'
 import TimelineUpdateBadge from '../general/timeline-update-badge'
 import { Textarea } from '@/components/ui/textarea'
-import DeleteTimelineEventButton from '@/components/forms/timeline-event/delete-timeline-event-button'
-import EditTimelineEventButton from '@/components/forms/timeline-event/edit-timeline-event-button'
+import DeleteTimelineUpdateButton from '@/components/forms/timeline-updates/delete-timeline-update-button'
+import EditTimelineUpdateButton from '@/components/forms/timeline-updates/edit-timeline-update-button'
 
 export default function TimelineUpdateItem({
   timelineUpdate,
@@ -27,8 +27,8 @@ export default function TimelineUpdateItem({
         </div>
       )}
       <div className="flex w-full justify-end space-x-2">
-        <EditTimelineEventButton timelineUpdate={timelineUpdate} />
-        <DeleteTimelineEventButton
+        <EditTimelineUpdateButton timelineUpdate={timelineUpdate} />
+        <DeleteTimelineUpdateButton
           applicationId={timelineUpdate.jobApplicationId}
           timelineUpdateId={timelineUpdate.id}
         />
