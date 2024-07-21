@@ -83,13 +83,15 @@ export default function DeleteApplicationButton({
           </Alert>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose
-            className={cn(buttonVariants({ variant: 'outline' }))}
-            onClick={handleDelete}
-          >
+          <DialogClose className={cn(buttonVariants({ variant: 'outline' }))}>
             Cancel
           </DialogClose>
-          <Button variant="destructive">Delete</Button>
+          <DialogClose
+            className={cn(buttonVariants({ variant: 'destructive' }))}
+            onClick={handleDelete}
+          >
+            Delete
+          </DialogClose>
         </DialogFooter>
       </DialogContent>
     </Dialog>
