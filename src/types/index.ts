@@ -1,5 +1,8 @@
-import { InferInsertModel } from 'drizzle-orm'
-import { jobApplications, users } from '@/drizzle/schema'
+import {
+  jobApplications,
+  jobApplicationTimelineUpdates,
+  users,
+} from '@/drizzle/schema'
 
 // DRIZZLE
 export type dbJobApplication = typeof jobApplications.$inferSelect
@@ -10,9 +13,21 @@ export type dbUserWithJobApplications = typeof users.$inferSelect & {
   jobApplications: (typeof jobApplications.$inferSelect)[]
 }
 
+export type dbJobApplicationTimelineUpdate =
+  typeof jobApplicationTimelineUpdates.$inferSelect
+
 export type applicationStatusEnum =
   | 'applied'
   | 'interviewed'
+  | 'rejected'
+  | 'offer-received'
+  | 'offer-declined'
+  | 'offer-accepted'
+
+export type timeLineUpdateEnum =
+  | 'applied'
+  | 'online-assessment-received'
+  | 'interview-scheduled'
   | 'rejected'
   | 'offer-received'
   | 'offer-declined'

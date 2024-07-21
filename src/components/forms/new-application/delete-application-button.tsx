@@ -15,20 +15,19 @@ import {
 import { buttonVariants } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
-import { dbJobApplication } from '@/types'
 import { AlertCircle } from 'lucide-react'
 
 export default function DeleteApplicationButton({
-  application,
+  applicationId,
   children,
 }: {
-  application: dbJobApplication
+  applicationId: number
   children: React.ReactNode
 }) {
   const { toast } = useToast()
 
   const handleDelete = async () => {
-    const response = await deleteApplication(application.id)
+    const response = await deleteApplication(applicationId)
     if (response.success) {
       toast({ title: 'Application deleted successfully' })
     } else {

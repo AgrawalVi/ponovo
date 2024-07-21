@@ -108,12 +108,12 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
               <MessageCirclePlus size="20" />
             </Button>
           </NewApplicationTimelineEventButton>
-          <EditApplicationButton application={row.original}>
+          <EditApplicationButton application={jobApplication}>
             <Button variant="ghost" size="icon">
               <PencilIcon size="20" />
             </Button>
           </EditApplicationButton>
-          <DeleteApplicationButton application={row.original}>
+          <DeleteApplicationButton applicationId={jobApplication.id}>
             <Button
               variant="ghost"
               size="icon"

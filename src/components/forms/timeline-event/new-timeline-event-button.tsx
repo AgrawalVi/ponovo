@@ -11,6 +11,12 @@ import {
 import { useState } from 'react'
 import NewApplicationTimelineEventForm from './new-timeline-event-form'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 
 export default function NewApplicationTimelineEventButton({
   children,
@@ -35,13 +41,22 @@ export default function NewApplicationTimelineEventButton({
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <DialogTrigger asChild>{children}</DialogTrigger>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <DialogTrigger asChild>
+                <DialogTrigger asChild>{children}</DialogTrigger>
+              </DialogTrigger>
+            </TooltipTrigger>
+            <TooltipContent>Add a TimelineUpdate</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>New Application</DialogTitle>
+            <DialogTitle>New Timeline Update</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to log your new application
+            Fill out the form to log your new timeline update
           </DialogDescription>
           <NewApplicationTimelineEventForm
             setIsChanged={setIsChanged}
