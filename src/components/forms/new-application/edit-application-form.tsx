@@ -36,6 +36,9 @@ import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react'
 import { dbJobApplication } from '@/types'
 import { editApplication } from '@/actions/applications/edit-application'
+import { useQueryClient } from '@tanstack/react-query'
+import { getQueryKey } from '@trpc/react-query'
+import { api } from '@/trpc/react'
 
 interface EditApplicationForm {
   application: dbJobApplication
@@ -48,6 +51,11 @@ const EditApplicationForm = ({
   setIsChanged,
   setOpen,
 }: EditApplicationForm) => {
+  const queryClient = useQueryClient()
+  const queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
+    id: application.id,
+  })
+
   const defaultValues = {
     companyName: application.companyName,
     jobTitle: application.jobTitle,
@@ -86,6 +94,9 @@ const EditApplicationForm = ({
           if (response.success) {
             form.reset()
             setOpen(false)
+            queryClient.invalidateQueries({
+              queryKey,
+            })
             toast({ title: 'Application edited successfully' })
           } else {
             toast({
