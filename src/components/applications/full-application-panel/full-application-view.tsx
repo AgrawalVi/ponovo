@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/card'
 import ApplicationStatusBadge from '../general/application-status-badge'
 import {
-  TooltipProvider,
   Tooltip,
   TooltipContent,
   TooltipTrigger,
@@ -105,24 +104,22 @@ export default function FullApplicationView({
         <div className="grid grid-cols-3">
           <div className="flex justify-self-start">
             {url && (
-              <TooltipProvider delayDuration={200}>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <Button
-                      variant="ghost"
-                      className="border border-dashed"
-                      size="icon"
-                      onClick={() => {
-                        navigator.clipboard.writeText(url)
-                        setHasCopied(true)
-                      }}
-                    >
-                      {hasCopied ? <Check size="20" /> : <Copy size="20" />}
-                    </Button>
-                  </TooltipTrigger>
-                  <TooltipContent>Copy Job Post URL</TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="border border-dashed"
+                    size="icon"
+                    onClick={() => {
+                      navigator.clipboard.writeText(url)
+                      setHasCopied(true)
+                    }}
+                  >
+                    {hasCopied ? <Check size="20" /> : <Copy size="20" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Copy Job Post URL</TooltipContent>
+              </Tooltip>
             )}
           </div>
           <div className="flex justify-self-center">

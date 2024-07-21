@@ -15,7 +15,6 @@ import { dbJobApplication } from '@/types'
 import EditApplicationForm from './edit-application-form'
 import { PencilIcon } from 'lucide-react'
 import {
-  TooltipProvider,
   Tooltip,
   TooltipTrigger,
   TooltipContent,
@@ -44,26 +43,24 @@ export default function EditApplicationButton({
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                className="border border-dashed"
-                size="icon"
-              >
-                <DialogTrigger asChild>
-                  <span className="flex h-full w-full items-center justify-center">
-                    <PencilIcon size="20" />
-                  </span>
-                </DialogTrigger>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent align="center" avoidCollisions={false}>
-              Edit Application
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              className="border border-dashed"
+              size="icon"
+            >
+              <DialogTrigger asChild>
+                <span className="flex h-full w-full items-center justify-center">
+                  <PencilIcon size="20" />
+                </span>
+              </DialogTrigger>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent align="center" avoidCollisions={false}>
+            Edit Application
+          </TooltipContent>
+        </Tooltip>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
             <DialogTitle>New Application</DialogTitle>

@@ -3,7 +3,6 @@
 import { deleteApplication } from '@/actions/applications/delete-application'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import {
-  TooltipProvider,
   Tooltip,
   TooltipTrigger,
   TooltipContent,
@@ -57,24 +56,22 @@ export default function DeleteApplicationButton({
 
   return (
     <Dialog>
-      <TooltipProvider delayDuration={200}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="border border-dashed hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
-            >
-              <DialogTrigger asChild>
-                <span className="flex h-full w-full items-center justify-center">
-                  <Trash2Icon size="20" />
-                </span>
-              </DialogTrigger>
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>Delete Application</TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="border border-dashed hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
+          >
+            <DialogTrigger asChild>
+              <span className="flex h-full w-full items-center justify-center">
+                <Trash2Icon size="20" />
+              </span>
+            </DialogTrigger>
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Delete Application</TooltipContent>
+      </Tooltip>
       <DialogContent>
         <DialogHeader>
           <DialogTitle className="pb-2">

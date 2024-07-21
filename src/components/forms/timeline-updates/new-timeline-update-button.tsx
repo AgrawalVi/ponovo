@@ -14,7 +14,6 @@ import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { PlusIcon } from 'lucide-react'
@@ -41,22 +40,20 @@ export default function NewTimelineUpdateButton({
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
-        <TooltipProvider delayDuration={200}>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button className="w-32">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button className="w-32">
+              <DialogTrigger asChild>
                 <DialogTrigger asChild>
-                  <DialogTrigger asChild>
-                    <span className="flex h-full w-full items-center justify-center">
-                      <PlusIcon size="20" />
-                    </span>
-                  </DialogTrigger>
+                  <span className="flex h-full w-full items-center justify-center">
+                    <PlusIcon size="20" />
+                  </span>
                 </DialogTrigger>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Add a TimelineUpdate</TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+              </DialogTrigger>
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Add a TimelineUpdate</TooltipContent>
+        </Tooltip>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
             <DialogTitle>New Timeline Update</DialogTitle>

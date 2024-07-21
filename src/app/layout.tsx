@@ -4,6 +4,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 const nunito = Nunito({
   subsets: ['latin'],
@@ -43,8 +44,10 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <main>{children}</main>
-            <Toaster />
+            <TooltipProvider delayDuration={200}>
+              <main>{children}</main>
+              <Toaster />
+            </TooltipProvider>
           </ThemeProvider>
         </body>
       </html>

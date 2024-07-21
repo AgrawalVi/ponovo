@@ -1,5 +1,8 @@
 import Footer from '@/components/general/navigation/footer'
-import ProtectedNav from '@/components/general/navigation/protected-nav'
+import {
+  MobileNav,
+  SidebarNav,
+} from '@/components/general/navigation/protected-nav'
 import { TRPCReactProvider } from '@/trpc/react'
 
 export default function DashboardLayout({
@@ -9,9 +12,14 @@ export default function DashboardLayout({
 }) {
   return (
     <TRPCReactProvider>
-      <div className="grid min-h-dvh grid-rows-[auto_1fr_auto]">
-        <ProtectedNav />
-        {children}
+      <div className="grid min-h-dvh grid-rows-[auto_1fr_auto] sm:grid-rows-[1fr_auto]">
+        <div className="block sm:hidden">
+          <MobileNav />
+        </div>
+        <div className="flex">
+          <SidebarNav />
+          {children}
+        </div>
         <Footer />
       </div>
     </TRPCReactProvider>

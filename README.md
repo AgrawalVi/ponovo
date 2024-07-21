@@ -10,9 +10,9 @@ run with `ngrok http --domain=sunbeam-precious-badly.ngrok-free.app 3000`
 
 - [x] Add edit and delete application update sections
 - [x] Fix tooltips throughout app
-- [ ] Finish Home Page
+- [x] Finish Home Page
 - [ ] Add Charts for Dashboard
-- [ ] Integration with Analytics Provider
+- [ ] Integration with Analytics Provider - Vercel
 - [ ] Add User Settings
   - [ ] Choose Goals
   - [ ] Choose Default Job Role Type
