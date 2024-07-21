@@ -2,8 +2,6 @@ import { dbJobApplicationTimelineUpdate } from '@/types'
 import { format } from 'date-fns'
 import TimelineUpdateBadge from '../general/timeline-update-badge'
 import { Textarea } from '@/components/ui/textarea'
-import { PencilIcon, Trash2Icon } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import DeleteTimelineEventButton from '@/components/forms/timeline-event/delete-timeline-event-button'
 import EditTimelineEventButton from '@/components/forms/timeline-event/edit-timeline-event-button'
 
