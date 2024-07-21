@@ -6,7 +6,7 @@ import Link from 'next/link'
 
 export default function UnprotectedNav() {
   return (
-    <header className="flex h-20 w-full items-center justify-between border-b border-border bg-background px-5">
+    <header className="sticky top-0 flex h-20 w-full items-center justify-between border-b border-border bg-background px-5">
       <div className="">
         <Link href="/">Logo</Link>
       </div>
