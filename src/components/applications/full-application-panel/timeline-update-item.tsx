@@ -27,7 +27,11 @@ export default function TimelineUpdateItem({
         </div>
       )}
       <div className="flex w-full justify-end space-x-2">
-        <Button variant="ghost" className="border border-dashed" size="icon">
+        <Button
+          variant="ghost"
+          className="border border-dashed hover:border-muted-foreground/30"
+          size="icon"
+        >
           <PencilIcon size="20" />
         </Button>
         <Button
