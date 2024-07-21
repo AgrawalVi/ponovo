@@ -150,9 +150,9 @@ export default function FullApplicationView({
                 <PencilIcon size="20" />
               </Button>
             </EditApplicationButton>
-            <DeleteApplicationButton applicationId={applicationId}>
-              
-            </DeleteApplicationButton>
+            <DeleteApplicationButton
+              applicationId={applicationId}
+            ></DeleteApplicationButton>
           </div>
         </div>
       </CardFooter>
