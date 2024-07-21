@@ -3,6 +3,7 @@
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -10,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { AlertCircle } from 'lucide-react'
+import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
 
 interface ConfirmCloseDialogProps {
   setMainOpen: (value: boolean) => void
@@ -28,6 +30,11 @@ export default function ConfirmCloseDialog({
         <DialogHeader>
           <DialogTitle>Are you sure you want to exit?</DialogTitle>
         </DialogHeader>
+        <DialogDescription>
+          <VisuallyHidden.Root>
+            This will exit the form and you will lose any unsaved changes.
+          </VisuallyHidden.Root>
+        </DialogDescription>
         <Alert variant="destructive">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>
