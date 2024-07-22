@@ -1,17 +1,15 @@
-import { Spotlight } from '@/components/aceternity/spotlight'
 import Image from 'next/image'
 import darkImage from '@/assets/images/home-screenshot-dark.png'
 import lightImage from '@/assets/images/home-screenshot-light.png'
 import { BorderBeam } from '@/components/magicui/border-beam'
 import Link from 'next/link'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { ArrowRight } from 'lucide-react'
-import { cn } from '@/lib/utils'
 
 export default function MainHero() {
   return (
     <div className="w-full px-10">
-      <div className="bg-grid-black/[0.025] dark:bg-grid-white/[0.025] absolute left-0 top-0 flex h-dvh w-full items-center justify-center bg-background dark:bg-background">
+      <div className="absolute left-0 top-0 flex h-dvh w-full items-center justify-center bg-background bg-grid-black/[0.025] dark:bg-background dark:bg-grid-white/[0.025]">
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-background"></div>
       </div>
       <div className="relative my-10 flex h-full justify-center space-y-20 align-middle">
@@ -21,7 +19,7 @@ export default function MainHero() {
               <button className="w-fit cursor-default rounded-full border px-4 py-1">
                 Currently in Beta
               </button>
-              <div className="font-maven bg-gradient-to-b from-foreground to-neutral-600 bg-clip-text py-4 text-3xl font-bold text-transparent dark:to-neutral-500 sm:text-8xl">
+              <div className="bg-gradient-to-b from-foreground to-neutral-600 bg-clip-text py-4 font-maven text-3xl font-bold text-transparent dark:to-neutral-500 sm:text-8xl">
                 Make Job Application Tracking Easy
               </div>
             </div>
@@ -40,7 +38,7 @@ export default function MainHero() {
               </Button>
             </Link>
           </div>
-          <div className="shadow-teal-intense-hero relative overflow-hidden rounded-2xl">
+          <div className="relative overflow-hidden rounded-2xl shadow-teal-intense-hero">
             <BorderBeam
               size={500}
               colorFrom="var(--cyan-400)"
