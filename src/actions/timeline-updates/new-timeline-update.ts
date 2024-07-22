@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { getJobApplicationByIdAndUserId } from '@/data/job-applications/get-job-applications'
 import { insertTimelineUpdate } from '@/data/timeline-updates/insert-timeline-update'
+import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
 
 export async function newTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
@@ -59,7 +60,7 @@ export async function newTimelineUpdate(
   )
 
   if (!application) {
-    return { error: 'Database failed to insert application update' }
+    return { error: 'Database failed to update application status' }
   }
 
   revalidatePath('/dashboard')
