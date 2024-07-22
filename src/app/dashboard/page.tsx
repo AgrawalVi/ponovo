@@ -1,5 +1,4 @@
-import { applicationTableColumns } from '@/components/applications/table/columns'
-import { ApplicationDataTable } from '@/components/applications/table/data-table'
+import ChartGrid from '@/components/dashboard/chart-grid'
 import { users } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { auth } from '@clerk/nextjs/server'
@@ -29,6 +28,9 @@ export default async function DashboardPage() {
     <div className="flex w-full flex-col items-center">
       <div className="my-10 bg-gradient-to-b from-foreground from-50% to-neutral-600 bg-clip-text pt-2 text-6xl font-semibold text-transparent dark:to-neutral-400">
         Dashboard
+      </div>
+      <div>
+        <ChartGrid />
       </div>
     </div>
   )

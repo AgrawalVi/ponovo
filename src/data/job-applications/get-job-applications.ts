@@ -26,6 +26,23 @@ export const getJobApplicationByIdAndUserId = async (
   return jobApplication[0]
 }
 
+export const getAllJobApplicationsByUserId = async (userId: string) => {
+  let applications
+  try {
+    applications = await db
+      .select()
+      .from(jobApplications)
+      .where(eq(jobApplications.userId, userId))
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+  if (applications.length !== 1) {
+    return null
+  }
+  return applications[0]
+}
+
 export const getJobApplicationWithTimelineUpdatesAscendingByIdAndUserId =
   async (id: string, userId: string) => {
     let jobApplicationWithTimelineUpdates
