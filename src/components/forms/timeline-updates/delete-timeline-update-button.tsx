@@ -37,7 +37,7 @@ export default function DeleteTimelineUpdateButton({
   const queryClient = useQueryClient()
 
   const handleDelete = async () => {
-    const response = await deleteTimelineUpdate(timelineUpdateId)
+    const response = await deleteTimelineUpdate(timelineUpdateId, applicationId)
     if (response.success) {
       queryClient.invalidateQueries({
         queryKey: getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
