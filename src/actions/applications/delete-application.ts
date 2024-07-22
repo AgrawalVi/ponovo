@@ -1,40 +1,31 @@
 'use server'
 
-import { jobApplications, users } from '@/drizzle/schema'
-import { db } from '@/lib/db'
+import { deleteJobApplicationByIdAndUserId } from '@/data/job-applications/delete-job-application'
+import { getUserByClerkId } from '@/data/users/get-users'
 import { auth } from '@clerk/nextjs/server'
-import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteApplication(applicationId: string) {
-  const user = auth()
+  const currentUser = auth()
 
-  if (!user.userId) {
+  if (!currentUser.userId) {
     return { error: 'Unauthorized' }
   }
 
-  const existingUser = await db
-    .select()
-    .from(users)
-    .where(eq(users.clerkId, user.userId))
+  const existingUser = await getUserByClerkId(currentUser.userId)
 
-  if (existingUser.length !== 1) {
+  if (!existingUser) {
     return { error: 'User not found' }
   }
 
-  try {
-    await db
-      .delete(jobApplications)
-      .where(
-        and(
-          eq(jobApplications.id, applicationId),
-          eq(jobApplications.userId, existingUser[0].id),
-        ),
-      )
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to delete user' }
+  const result = await deleteJobApplicationByIdAndUserId(
+    applicationId,
+    existingUser.id,
+  )
+  if (!result) {
+    return { error: 'Database failed to delete job application' }
   }
+
   revalidatePath('/dashboard')
   return { success: 'Application deleted successfully' }
 }

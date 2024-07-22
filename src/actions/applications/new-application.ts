@@ -3,10 +3,10 @@
 import { z } from 'zod'
 import { newApplicationSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
-import { db } from '@/lib/db'
-import { users, jobApplications } from '@/drizzle/schema'
-import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
+import { getUserByClerkId } from '@/data/users/get-users'
+import { insertJobApplication } from '@/data/job-applications/insert-job-applications'
+import { insertTimelineUpdate } from '@/data/timeline-updates/insert-timeline-updates'
 
 export async function newApplication(
   values: z.infer<typeof newApplicationSchema>,
@@ -26,28 +26,34 @@ export async function newApplication(
     return { error: 'Unauthorized' }
   }
 
-  const existingUser = await db
-    .select()
-    .from(users)
-    .where(eq(users.clerkId, currentUser.userId))
+  const existingUser = await getUserByClerkId(currentUser.userId)
 
-  if (existingUser.length !== 1) {
+  if (!existingUser) {
     return { error: 'User not found' }
   }
 
-  try {
-    await db.insert(jobApplications).values({
-      userId: existingUser[0].id,
-      applicationStatus: status,
-      dateApplied: appliedDate,
-      companyName: companyName,
-      jobTitle: jobTitle,
-      url: url,
-      roleType: roleType,
-    })
-  } catch (e) {
-    console.error(e)
+  const jobApplication = await insertJobApplication(
+    existingUser.id,
+    status,
+    companyName,
+    jobTitle,
+    url,
+    roleType,
+    appliedDate,
+  )
+
+  if (!jobApplication) {
     return { error: 'Database failed to insert job application' }
+  }
+
+  if (jobApplication.applicationStatus === 'applied') {
+    await insertTimelineUpdate(
+      jobApplication.id,
+      existingUser.id,
+      'applied',
+      appliedDate,
+      undefined,
+    )
   }
 
   revalidatePath('/dashboard')

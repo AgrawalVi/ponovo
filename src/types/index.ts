@@ -40,6 +40,8 @@ export type timeLineUpdateEnum =
   | 'offer-declined'
   | 'offer-accepted'
 
+export type roleTypeEnum = 'full-time' | 'co-op' | 'internship'
+
 // DATA TABLE
 export type DataTableFacetedFilterOption = {
   label: string

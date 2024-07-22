@@ -3,10 +3,9 @@
 import { z } from 'zod'
 import { newApplicationSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
-import { db } from '@/lib/db'
-import { users, jobApplications } from '@/drizzle/schema'
-import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
+import { getUserByClerkId } from '@/data/users/get-users'
+import { editApplicationByIdAndUserId } from '@/data/job-applications/edit-job-applications'
 
 export async function editApplication(
   values: z.infer<typeof newApplicationSchema>,
@@ -27,55 +26,24 @@ export async function editApplication(
     return { error: 'Unauthorized' }
   }
 
-  let existingUser
-  try {
-    existingUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.clerkId, currentUser.userId))
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to get user' }
-  }
+  const existingUser = await getUserByClerkId(currentUser.userId)
 
-  if (existingUser.length !== 1) {
+  if (!existingUser) {
     return { error: 'User not found' }
   }
 
-  let existingApplication
-  try {
-    existingApplication = await db
-      .select()
-      .from(jobApplications)
-      .where(
-        and(
-          eq(jobApplications.userId, existingUser[0].id),
-          eq(jobApplications.id, applicationId),
-        ),
-      )
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to get application' }
-  }
+  const updatedApplication = await editApplicationByIdAndUserId(
+    applicationId,
+    existingUser.id,
+    companyName,
+    jobTitle,
+    status,
+    roleType,
+    appliedDate,
+    url,
+  )
 
-  if (existingApplication.length !== 1) {
-    return { error: 'Application not found' }
-  }
-
-  try {
-    await db
-      .update(jobApplications)
-      .set({
-        companyName: companyName,
-        jobTitle: jobTitle,
-        url: url,
-        applicationStatus: status,
-        roleType: roleType,
-        dateApplied: appliedDate,
-      })
-      .where(eq(jobApplications.id, applicationId))
-  } catch (e) {
-    console.error(e)
+  if (!updatedApplication) {
     return { error: 'Database failed to update application' }
   }
 

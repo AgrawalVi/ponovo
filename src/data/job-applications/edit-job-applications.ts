@@ -1,7 +1,7 @@
 import 'server-only'
 
 import { getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId } from './get-job-applications'
-import { applicationStatusEnum, dbJobApplication } from '@/types'
+import { applicationStatusEnum, dbJobApplication, roleTypeEnum } from '@/types'
 import { db } from '@/lib/db'
 import { jobApplications } from '@/drizzle/schema'
 import { and, eq } from 'drizzle-orm'
@@ -105,6 +105,42 @@ export const changeApplicationStatusByIdAndUserId = async (
       .update(jobApplications)
       .set({
         applicationStatus: status,
+      })
+      .where(
+        and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)),
+      )
+      .returning()
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+  if (application.length !== 1) {
+    return null
+  }
+  return application[0]
+}
+
+export const editApplicationByIdAndUserId = async (
+  id: string,
+  userId: string,
+  companyName: string,
+  jobTitle: string,
+  applicationStatus: applicationStatusEnum,
+  roleType: roleTypeEnum,
+  appliedDate: Date,
+  url: string | undefined,
+) => {
+  let application
+  try {
+    application = await db
+      .update(jobApplications)
+      .set({
+        companyName,
+        jobTitle,
+        applicationStatus,
+        roleType,
+        dateApplied: appliedDate,
+        url,
       })
       .where(
         and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)),

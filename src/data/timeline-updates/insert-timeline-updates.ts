@@ -6,10 +6,10 @@ import { timeLineUpdateEnum } from '@/types'
 
 export const insertTimelineUpdate = async (
   jobApplicationId: string,
+  userId: string,
   timeLineUpdate: timeLineUpdateEnum,
   timelineUpdateReceivedAt: Date,
   comments: string | undefined,
-  userId: string,
 ) => {
   let timelineUpdate
   try {

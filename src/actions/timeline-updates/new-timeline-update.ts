@@ -44,10 +44,10 @@ export async function newTimelineUpdate(
 
   const timelineUpdate = await insertTimelineUpdate(
     existingApplication.id,
+    existingUser.id,
     updateType,
     updateDate,
     comments,
-    existingUser.id,
   )
 
   if (!timelineUpdate) {
