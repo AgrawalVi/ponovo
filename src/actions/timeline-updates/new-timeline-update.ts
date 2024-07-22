@@ -3,14 +3,10 @@
 import { z } from 'zod'
 import { applicationTimelineUpdateSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
-import { db } from '@/lib/db'
-import {
-  users,
-  jobApplications,
-  jobApplicationTimelineUpdates,
-} from '@/drizzle/schema'
-import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
+import { getUserByClerkId } from '@/data/users/get-users'
+import { getJobApplicationByIdAndUserId } from '@/data/job-applications/get-job-applications'
+import { insertTimelineUpdate } from '@/data/timeline-updates/insert-timeline-update'
 
 export async function newTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
@@ -30,51 +26,39 @@ export async function newTimelineUpdate(
     return { error: 'Unauthorized' }
   }
 
-  let existingUser
-  try {
-    existingUser = await db
-      .select()
-      .from(users)
-      .where(eq(users.clerkId, currentUser.userId))
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to get user' }
-  }
+  const existingUser = await getUserByClerkId(currentUser.userId)
 
-  if (existingUser.length !== 1) {
+  if (!existingUser) {
     return { error: 'User not found' }
   }
 
-  let existingApplication
-  try {
-    existingApplication = await db
-      .select()
-      .from(jobApplications)
-      .where(
-        and(
-          eq(jobApplications.userId, existingUser[0].id),
-          eq(jobApplications.id, jobApplicationId),
-        ),
-      )
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to get application' }
-  }
+  const existingApplication = await getJobApplicationByIdAndUserId(
+    jobApplicationId,
+    existingUser.id,
+  )
 
-  if (existingApplication.length !== 1) {
+  if (!existingApplication) {
     return { error: 'Application not found' }
   }
 
-  try {
-    await db.insert(jobApplicationTimelineUpdates).values({
-      jobApplicationId: existingApplication[0].id,
-      timeLineUpdate: updateType,
-      timelineUpdateReceivedAt: updateDate,
-      comments: comments,
-      userId: existingUser[0].id,
-    })
-  } catch (e) {
-    console.error(e)
+  const timelineUpdate = await insertTimelineUpdate(
+    existingApplication.id,
+    updateType,
+    updateDate,
+    comments,
+    existingUser.id,
+  )
+
+  if (!timelineUpdate) {
+    return { error: 'Database failed to insert timeline update' }
+  }
+
+  const application = await autoUpdateJobApplicationStatusByIdAndUserId(
+    existingApplication.id,
+    existingUser.id,
+  )
+
+  if (!application) {
     return { error: 'Database failed to insert application update' }
   }
 
