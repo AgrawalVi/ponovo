@@ -30,6 +30,10 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
 
   const applicationOnly: dbJobApplication = rest
 
+  if (!latestUpdate) {
+    return applicationOnly
+  }
+
   switch (latestUpdate.timeLineUpdate) {
     case 'online-assessment-completed' || 'interviewed':
       if (application.applicationStatus === 'interviewed') {
