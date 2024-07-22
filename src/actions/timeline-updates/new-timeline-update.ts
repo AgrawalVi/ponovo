@@ -6,7 +6,7 @@ import { auth } from '@clerk/nextjs/server'
 import { revalidatePath } from 'next/cache'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { getJobApplicationByIdAndUserId } from '@/data/job-applications/get-job-applications'
-import { insertTimelineUpdate } from '@/data/timeline-updates/insert-timeline-update'
+import { insertTimelineUpdate } from '@/data/timeline-updates/insert-timeline-updates'
 import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
 
 export async function newTimelineUpdate(

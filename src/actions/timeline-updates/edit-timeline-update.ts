@@ -3,10 +3,10 @@
 import { z } from 'zod'
 import { applicationTimelineUpdateSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
-import { jobApplicationTimelineUpdates, users } from '@/drizzle/schema'
-import { db } from '@/lib/db'
-import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
+import { getUserByClerkId } from '@/data/users/get-users'
+import { editTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/edit-timeline-updates'
+import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
 
 export default async function editTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
@@ -27,38 +27,31 @@ export default async function editTimelineUpdate(
     return { error: 'Unauthorized' }
   }
 
-  const existingUser = await db
-    .select()
-    .from(users)
-    .where(eq(users.clerkId, currentUser.userId))
+  const existingUser = await getUserByClerkId(currentUser.userId)
 
-  if (existingUser.length !== 1) {
+  if (!existingUser) {
     return { error: 'User not found' }
   }
 
-  try {
-    const timelineUpdate = await db
-      .update(jobApplicationTimelineUpdates)
-      .set({
-        timeLineUpdate: updateType,
-        timelineUpdateReceivedAt: updateDate,
-        comments: comments,
-      })
-      .where(
-        and(
-          eq(jobApplicationTimelineUpdates.id, timelineUpdateId),
-          eq(jobApplicationTimelineUpdates.userId, existingUser[0].id),
-          eq(jobApplicationTimelineUpdates.jobApplicationId, applicationId),
-        ),
-      )
-      .returning()
+  const updatedTimelineUpdate = await editTimelineUpdateByIdAndUserId(
+    timelineUpdateId,
+    existingUser.id,
+    updateType,
+    updateDate,
+    comments,
+  )
 
-    if (timelineUpdate.length !== 1) {
-      return { error: 'Timeline update not found' }
-    }
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to update timeline update' }
+  if (!updatedTimelineUpdate) {
+    return { error: 'Timeline update not found' }
+  }
+
+  const application = await autoUpdateJobApplicationStatusByIdAndUserId(
+    applicationId,
+    existingUser.id,
+  )
+
+  if (!application) {
+    return { error: 'Database failed to update application status' }
   }
 
   revalidatePath('/dashboard')

@@ -1,39 +1,42 @@
 'use server'
 
-import { jobApplicationTimelineUpdates, users } from '@/drizzle/schema'
-import { db } from '@/lib/db'
+import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
+import { deleteTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/delete-timeline-updates'
+import { getUserByClerkId } from '@/data/users/get-users'
 import { auth } from '@clerk/nextjs/server'
-import { and, eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
-export async function deleteTimelineUpdate(timelineUpdateId: string) {
-  const user = auth()
+export async function deleteTimelineUpdate(
+  timelineUpdateId: string,
+  applicationId: string,
+) {
+  const currentUser = auth()
 
-  if (!user.userId) {
+  if (!currentUser.userId) {
     return { error: 'Unauthorized' }
   }
 
-  const existingUser = await db
-    .select()
-    .from(users)
-    .where(eq(users.clerkId, user.userId))
+  const existingUser = await getUserByClerkId(currentUser.userId)
 
-  if (existingUser.length !== 1) {
+  if (!existingUser) {
     return { error: 'User not found' }
   }
 
-  try {
-    await db
-      .delete(jobApplicationTimelineUpdates)
-      .where(
-        and(
-          eq(jobApplicationTimelineUpdates.id, timelineUpdateId),
-          eq(jobApplicationTimelineUpdates.userId, existingUser[0].id),
-        ),
-      )
-  } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to delete user' }
+  const result = await deleteTimelineUpdateByIdAndUserId(
+    timelineUpdateId,
+    existingUser.id,
+  )
+  if (!result) {
+    return { error: 'Database failed to delete timeline update' }
+  }
+
+  const application = await autoUpdateJobApplicationStatusByIdAndUserId(
+    applicationId,
+    existingUser.id,
+  )
+
+  if (!application) {
+    return { error: 'Database failed to update application status' }
   }
 
   revalidatePath('/dashboard')
