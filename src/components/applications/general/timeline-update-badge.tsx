@@ -28,6 +28,18 @@ export default function TimelineUpdateBadge({
           Interviewed
         </Badge>
       )
+    case 'interviewed':
+      return (
+        <Badge className={cn('h-fit', className)} variant="accent">
+          Interviewed
+        </Badge>
+      )
+    case 'online-assessment-completed':
+      return (
+        <Badge className={cn('h-fit', className)} variant="accent">
+          Interviewed
+        </Badge>
+      )
     case 'rejected':
       return (
         <Badge className={cn('h-fit', className)} variant="destructive">

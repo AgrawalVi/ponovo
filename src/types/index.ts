@@ -33,6 +33,8 @@ export type timeLineUpdateEnum =
   | 'applied'
   | 'online-assessment-received'
   | 'interview-scheduled'
+  | 'interviewed'
+  | 'online-assessment-completed'
   | 'rejected'
   | 'offer-received'
   | 'offer-declined'

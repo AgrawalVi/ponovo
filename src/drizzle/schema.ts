@@ -26,6 +26,8 @@ export const timeLineUpdateEnum = pgEnum('time_line_update', [
   'offer-received',
   'offer-declined',
   'offer-accepted',
+  'interviewed',
+  'online-assessment-completed',
 ])
 
 export const jobRoleTypeEnum = pgEnum('job_role_type', [

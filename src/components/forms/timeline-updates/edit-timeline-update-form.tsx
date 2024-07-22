@@ -142,9 +142,13 @@ const EditTimelineUpdateForm = ({
                     <SelectItem value="online-assessment-received">
                       Online Assessment Received
                     </SelectItem>
+                    <SelectItem value="online-assessment-completed">
+                      Online Assessment Completed
+                    </SelectItem>
                     <SelectItem value="interview-scheduled">
                       Interview Scheduled
                     </SelectItem>
+                    <SelectItem value="interviewed">Interviewed</SelectItem>
                     <SelectItem value="rejected">Rejected</SelectItem>
                     <SelectItem value="offer-received">
                       Offer Received
