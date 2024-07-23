@@ -1,4 +1,5 @@
 import {
+  integer,
   pgEnum,
   pgTable,
   serial,
@@ -43,6 +44,7 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   firstName: text('first_name'),
   lastName: text('last_name'),
+  applicationGoal: integer('application_goal').notNull().default(0),
 
   preferredJobType: jobRoleTypeEnum('user_role_preference')
     .notNull()

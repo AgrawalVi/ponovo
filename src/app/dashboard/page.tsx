@@ -7,22 +7,10 @@ import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
   const user = auth()
+  console.log(user)
   if (!user.userId) {
     redirect('/')
   }
-
-  const userWithJobApplications = await db.query.users.findMany({
-    with: {
-      jobApplications: true,
-    },
-    where: eq(users.clerkId, user.userId),
-  })
-
-  if (userWithJobApplications.length !== 1) {
-    redirect('/')
-  }
-
-  const jobApplications = userWithJobApplications[0].jobApplications
 
   return (
     <div className="flex w-full flex-col items-center">
