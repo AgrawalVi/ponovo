@@ -3,6 +3,7 @@ import 'server-only'
 import { jobApplications } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { and, eq } from 'drizzle-orm'
+import { timeLineUpdateEnum } from '@/types'
 
 export const getJobApplicationByIdAndUserId = async (
   id: string,
@@ -37,10 +38,7 @@ export const getAllJobApplicationsByUserId = async (userId: string) => {
     console.error(e)
     return null
   }
-  if (applications.length !== 1) {
-    return null
-  }
-  return applications[0]
+  return applications
 }
 
 export const getJobApplicationWithTimelineUpdatesAscendingByIdAndUserId =
@@ -92,3 +90,64 @@ export const getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId =
     }
     return jobApplicationWithTimelineUpdates
   }
+
+export const getFurthestStatusByJobApplicationId = async (id: string) => {
+  let jobApplication
+  try {
+    jobApplication = await db.query.jobApplications.findFirst({
+      where: eq(jobApplications.id, id),
+      with: {
+        jobApplicationTimelineUpdates: {
+          orderBy: (jobApplicationTimelineUpdates, { desc }) => [
+            desc(jobApplicationTimelineUpdates.timelineUpdateReceivedAt),
+          ],
+        },
+      },
+    })
+  } catch (e) {
+    console.error(e)
+    return null
+  }
+
+  if (!jobApplication) {
+    return null
+  }
+
+  const status = jobApplication.applicationStatus
+  const updates = jobApplication.jobApplicationTimelineUpdates
+
+  if (!updates || updates.length === 0) {
+    return getFurthestApplicationStatusByUpdateStatus(status)
+  }
+
+  if (!updates[1]) {
+    return 'applied'
+  } else {
+    return getFurthestApplicationStatusByUpdateStatus(updates[1].timeLineUpdate)
+  }
+}
+
+export const getFurthestApplicationStatusByUpdateStatus = (
+  status: timeLineUpdateEnum,
+) => {
+  switch (status) {
+    case 'applied':
+      return 'applied'
+    case 'online-assessment-received':
+      return 'interviewed'
+    case 'interview-scheduled':
+      return 'interviewed'
+    case 'interviewed':
+      return 'interviewed'
+    case 'online-assessment-completed':
+      return 'interviewed'
+    case 'offer-received':
+      return 'offer-received'
+    case 'offer-declined':
+      return 'offer-received'
+    case 'offer-accepted':
+      return 'offer-accepted'
+    default:
+      return 'applied'
+  }
+}

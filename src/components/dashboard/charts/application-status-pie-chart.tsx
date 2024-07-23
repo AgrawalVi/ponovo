@@ -18,6 +18,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@/components/ui/chart'
+
 const chartData = [
   { browser: 'chrome', visitors: 275, fill: 'var(--color-chrome)' },
   { browser: 'safari', visitors: 200, fill: 'var(--color-safari)' },
@@ -26,42 +27,48 @@ const chartData = [
   { browser: 'other', visitors: 190, fill: 'var(--color-other)' },
 ]
 
-const chartConfig = {
-  visitors: {
-    label: 'Visitors',
-  },
-  chrome: {
-    label: 'Chrome',
-    color: 'hsl(var(--chart-1))',
-  },
-  safari: {
-    label: 'Safari',
-    color: 'hsl(var(--chart-2))',
-  },
-  firefox: {
-    label: 'Firefox',
-    color: 'hsl(var(--chart-3))',
-  },
-  edge: {
-    label: 'Edge',
-    color: 'hsl(var(--chart-4))',
-  },
-  other: {
-    label: 'Other',
-    color: 'hsl(var(--chart-5))',
-  },
-} satisfies ChartConfig
+interface ApplicationPirChartData {
+  status: string
+  count: number
+  fill: string
+}
 
-export function ApplicationStatusPieChart() {
-  const totalVisitors = React.useMemo(() => {
-    return chartData.reduce((acc, curr) => acc + curr.visitors, 0)
+export function ApplicationStatusPieChart({
+  data,
+}: {
+  data: ApplicationPirChartData[]
+}) {
+  const chartConfig = {
+    count: {
+      label: 'Applications',
+    },
+    applied: {
+      label: 'Applied',
+      color: 'hsl(var(--chart-1))',
+    },
+    interviewed: {
+      label: 'Interviewed',
+      color: 'hsl(var(--chart-2))',
+    },
+    'offer-received': {
+      label: 'Offer Received',
+      color: 'hsl(var(--chart-3))',
+    },
+    'offer-accepted': {
+      label: 'Offer Accepted',
+      color: 'hsl(var(--chart-4))',
+    },
+  } satisfies ChartConfig
+
+  const totalApplications = React.useMemo(() => {
+    return data.reduce((acc, curr) => acc + curr.count, 0)
   }, [])
 
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
-        <CardDescription>January - June 2024</CardDescription>
+        <CardTitle>Application Status Breakdown</CardTitle>
+        <CardDescription>All Time</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
@@ -74,9 +81,9 @@ export function ApplicationStatusPieChart() {
               content={<ChartTooltipContent hideLabel />}
             />
             <Pie
-              data={chartData}
-              dataKey="visitors"
-              nameKey="browser"
+              data={data}
+              dataKey="count"
+              nameKey="status"
               innerRadius={60}
               strokeWidth={5}
             >
@@ -95,14 +102,16 @@ export function ApplicationStatusPieChart() {
                           y={viewBox.cy}
                           className="fill-foreground text-3xl font-bold"
                         >
-                          {totalVisitors.toLocaleString()}
+                          {totalApplications.toLocaleString()}
                         </tspan>
                         <tspan
                           x={viewBox.cx}
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Visitors
+                          {totalApplications === 1
+                            ? 'Application'
+                            : 'Applications'}
                         </tspan>
                       </text>
                     )
@@ -114,11 +123,8 @@ export function ApplicationStatusPieChart() {
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
         <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
+          Showing the furthest each application has gone
         </div>
       </CardFooter>
     </Card>
