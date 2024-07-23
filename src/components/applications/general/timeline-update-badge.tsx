@@ -25,7 +25,7 @@ export default function TimelineUpdateBadge({
     case 'interview-scheduled':
       return (
         <Badge className={cn('h-fit', className)} variant="accent">
-          Interviewed
+          Interview Scheduled
         </Badge>
       )
     case 'interviewed':
@@ -37,7 +37,7 @@ export default function TimelineUpdateBadge({
     case 'online-assessment-completed':
       return (
         <Badge className={cn('h-fit', className)} variant="accent">
-          Interviewed
+          Online Assessment Completed
         </Badge>
       )
     case 'rejected':
