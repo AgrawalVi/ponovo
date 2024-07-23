@@ -82,10 +82,10 @@ export function ApplicationDataTable({
   }, [sorting])
 
   return (
-    <div className="flex space-x-4 p-5">
-      <div className="col-span-2 flex-1 space-y-2">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex flex-1 items-center space-x-2">
+    <div className="flex flex-col items-center gap-4 p-5 xl:flex-row">
+      <div className="col-span-2 w-full space-y-2 md:w-[45rem] 2xl:w-[60rem]">
+        <div className="flex w-full items-end justify-between">
+          <div className="flex flex-1 flex-col-reverse items-start gap-2 md:flex-row">
             <Input
               placeholder="Search Companies..."
               value={
@@ -113,8 +113,8 @@ export function ApplicationDataTable({
             </NewApplicationButton>
           </div>
         </div>
-        <div className="rounded-md border 2xl:w-[60rem]">
-          <Table>
+        <div className="rounded-md border">
+          <Table className="w-full">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
