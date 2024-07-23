@@ -2,7 +2,13 @@
 
 import Link from 'next/link'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip'
-import { Home, Package2, PanelLeft, ScrollText, Settings } from 'lucide-react'
+import {
+  Home,
+  LayoutDashboard,
+  PanelLeft,
+  ScrollText,
+  Settings,
+} from 'lucide-react'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { ClerkLoading, SignedIn, UserButton } from '@clerk/nextjs'
@@ -15,7 +21,7 @@ export const navItems = [
   {
     name: 'Dashboard',
     href: '/dashboard',
-    icon: Home,
+    icon: LayoutDashboard,
   },
   {
     name: 'Applications',
@@ -40,7 +46,7 @@ export function SidebarNav() {
               href="/"
               className="group mb-4 flex h-9 w-9 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:h-8 md:w-8 md:text-base"
             >
-              <Package2 className="h-4 w-4 transition-all group-hover:scale-110" />
+              <Home className="h-4 w-4 transition-all group-hover:scale-110" />
               <span className="sr-only">Ponovo</span>
             </Link>
             {navItems.map((item) => (
@@ -96,7 +102,7 @@ export function MobileNav() {
                 'group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base',
               )}
             >
-              <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
+              <Home className="h-5 w-5 transition-all group-hover:scale-110" />
               <span className="sr-only">Acme Inc</span>
             </Link>
             {navItems.map((item) => (
