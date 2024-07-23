@@ -24,7 +24,6 @@ const config = {
     extend: {
       fontFamily: {
         maven: ['var(--font-maven-pro)', 'sans-serif'],
-        nunito: ['var(--font-nunito)', 'sans-serif'],
       },
       colors: {
         border: 'hsl(var(--border))',

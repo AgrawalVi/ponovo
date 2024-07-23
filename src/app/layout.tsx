@@ -1,16 +1,11 @@
 import type { Metadata } from 'next'
-import { Nunito, Maven_Pro } from 'next/font/google'
+import { Maven_Pro } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
+import { dark } from '@clerk/themes'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
-
-const nunito = Nunito({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-nunito',
-})
 
 const maven = Maven_Pro({
   subsets: ['latin'],
@@ -31,12 +26,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <ClerkProvider>
-      <html
-        lang="en"
-        suppressHydrationWarning
-        className={`${maven.className} ${nunito.className}`}
-      >
+    <ClerkProvider
+      appearance={{
+        baseTheme: [dark],
+      }}
+    >
+      <html lang="en" suppressHydrationWarning className={`${maven.className}`}>
         <body>
           <ThemeProvider
             attribute="class"
