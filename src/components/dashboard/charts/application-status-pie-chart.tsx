@@ -78,7 +78,7 @@ export function ApplicationStatusPieChart({
           <PieChart>
             <ChartTooltip
               cursor={false}
-              content={<ChartTooltipContent hideLabel />}
+              content={<ChartTooltipContent className="w-8" hideLabel />}
             />
             <Pie
               data={data}

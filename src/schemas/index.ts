@@ -19,3 +19,9 @@ export const applicationTimelineUpdateSchema = z.object({
   updateDate: z.date(),
   comments: z.string().optional(),
 })
+
+export const userPreferenceSchema = z.object({
+  applicationGoal: z.coerce
+    .number()
+    .min(0, { message: 'Application goal must be greater than 0' }),
+})
