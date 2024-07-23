@@ -18,6 +18,7 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
         userId,
       )
   } catch (e) {
+    console.error(e)
     return null
   }
 
@@ -35,7 +36,17 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
   }
 
   switch (latestUpdate.timeLineUpdate) {
-    case 'online-assessment-completed' || 'interviewed':
+    case 'online-assessment-completed':
+      if (application.applicationStatus === 'interviewed') {
+        return applicationOnly
+      } else {
+        return await changeApplicationStatusByIdAndUserId(
+          id,
+          userId,
+          'interviewed',
+        )
+      }
+    case 'interviewed':
       if (application.applicationStatus === 'interviewed') {
         return applicationOnly
       } else {
@@ -89,6 +100,7 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
       if (application.applicationStatus === 'applied') {
         return applicationOnly
       } else {
+        console.log('hello')
         return await changeApplicationStatusByIdAndUserId(id, userId, 'applied')
       }
   }
