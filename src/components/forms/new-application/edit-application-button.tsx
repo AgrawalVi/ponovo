@@ -63,10 +63,10 @@ export default function EditApplicationButton({
         </Tooltip>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>New Application</DialogTitle>
+            <DialogTitle>Edit Application</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to log your new application
+            Fill out the form to edit your application
           </DialogDescription>
           <EditApplicationForm
             application={application}

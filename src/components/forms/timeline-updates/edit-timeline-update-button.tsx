@@ -58,15 +58,15 @@ export default function EditTimelineUpdateButton({
             </Button>
           </TooltipTrigger>
           <TooltipContent align="center" avoidCollisions={false}>
-            Edit Application
+            Edit Timeline Update
           </TooltipContent>
         </Tooltip>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>New Application</DialogTitle>
+            <DialogTitle>Edit Timeline Update</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to log your new application
+            Fill out the form to edit your timeline update
           </DialogDescription>
           <EditTimelineUpdateForm
             timelineUpdate={timelineUpdate}
