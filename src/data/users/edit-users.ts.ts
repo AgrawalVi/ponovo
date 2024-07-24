@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { users } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { eq } from 'drizzle-orm'
