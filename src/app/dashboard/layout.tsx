@@ -18,7 +18,7 @@ export default function DashboardLayout({
         </div>
         <div className="flex w-full overflow-x-hidden">
           <SidebarNav />
-          <div className="flex w-full flex-col overflow-x-hidden">
+          <div className="flex w-full flex-col overflow-x-hidden p-4">
             {children}
           </div>
         </div>

@@ -1,6 +1,7 @@
 import getApplicationStatusPieChartData from '@/data/charts/application-status-pie-chart'
 import { auth } from '@clerk/nextjs/server'
 import { ApplicationStatusPieChart } from './application-status-pie-chart'
+import ApplicationStatusPieChartSkeleton from '@/components/skeletons/charts/application-status-pie-chart-skeleton'
 
 export default async function ApplicationStatusPieChartContainer() {
   const user = auth()
@@ -12,7 +13,9 @@ export default async function ApplicationStatusPieChartContainer() {
   const data = await getApplicationStatusPieChartData(user.userId)
 
   if (!data) {
-    return <div>No Applications Found</div>
+    return (
+      <ApplicationStatusPieChartSkeleton placeholderText="No Applications Found" />
+    )
   }
 
   return <ApplicationStatusPieChart data={data} />
