@@ -4,6 +4,7 @@ import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applicat
 import { deleteTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/delete-timeline-updates'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { auth } from '@clerk/nextjs/server'
+import { track } from '@vercel/analytics'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteTimelineUpdate(
@@ -38,6 +39,8 @@ export async function deleteTimelineUpdate(
   if (!application) {
     return { error: 'Database failed to update application status' }
   }
+
+  track('Timeline Update Deleted', { timelineUpdateId: timelineUpdateId })
 
   revalidatePath('/dashboard')
   return { success: 'Application deleted successfully' }

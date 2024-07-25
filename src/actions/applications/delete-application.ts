@@ -3,6 +3,7 @@
 import { deleteJobApplicationByIdAndUserId } from '@/data/job-applications/delete-job-application'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { auth } from '@clerk/nextjs/server'
+import { track } from '@vercel/analytics'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteApplication(applicationId: string) {
@@ -18,13 +19,15 @@ export async function deleteApplication(applicationId: string) {
     return { error: 'User not found' }
   }
 
-  const result = await deleteJobApplicationByIdAndUserId(
+  const response = await deleteJobApplicationByIdAndUserId(
     applicationId,
     existingUser.id,
   )
-  if (!result) {
+  if (!response) {
     return { error: 'Database failed to delete job application' }
   }
+
+  track('Application deleted', { applicationId: applicationId })
 
   revalidatePath('/dashboard')
   return { success: 'Application deleted successfully' }

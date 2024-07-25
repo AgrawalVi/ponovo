@@ -3,6 +3,7 @@
 import { updateUserPreferencesByClerkId } from '@/data/users/edit-users.ts'
 import { userPreferenceSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
+import { track } from '@vercel/analytics'
 import { z } from 'zod'
 
 export const updateUserPreferences = async (
@@ -30,6 +31,8 @@ export const updateUserPreferences = async (
   if (!updatedUser) {
     return { error: 'Database failed to update user' }
   }
+
+  track('User Preferences Updated', { userId: user.userId })
 
   return { success: 'User preferences updated successfully' }
 }

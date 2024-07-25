@@ -8,6 +8,7 @@ import { getUserByClerkId } from '@/data/users/get-users'
 import { getJobApplicationByIdAndUserId } from '@/data/job-applications/get-job-applications'
 import { insertTimelineUpdate } from '@/data/timeline-updates/insert-timeline-updates'
 import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
+import { track } from '@vercel/analytics'
 
 export async function newTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
@@ -62,6 +63,8 @@ export async function newTimelineUpdate(
   if (!application) {
     return { error: 'Database failed to update application status' }
   }
+
+  track('Timeline Update Created', { timelineUpdateId: timelineUpdate.id })
 
   revalidatePath('/dashboard')
   return { success: 'Application update logged successfully' }

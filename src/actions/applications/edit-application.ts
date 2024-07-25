@@ -6,6 +6,7 @@ import { auth } from '@clerk/nextjs/server'
 import { revalidatePath } from 'next/cache'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { editApplicationByIdAndUserId } from '@/data/job-applications/edit-job-applications'
+import { track } from '@vercel/analytics'
 
 export async function editApplication(
   values: z.infer<typeof newApplicationSchema>,
@@ -46,6 +47,8 @@ export async function editApplication(
   if (!updatedApplication) {
     return { error: 'Database failed to update application' }
   }
+
+  track('Application Updated', { applicationId: updatedApplication.id })
 
   revalidatePath('/dashboard')
   return { success: 'Application updated successfully' }

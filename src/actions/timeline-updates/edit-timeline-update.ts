@@ -7,6 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { editTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/edit-timeline-updates'
 import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
+import { track } from '@vercel/analytics'
 
 export default async function editTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
@@ -53,6 +54,8 @@ export default async function editTimelineUpdate(
   if (!application) {
     return { error: 'Database failed to update application status' }
   }
+
+  track('Timeline Update Updated', { timelineUpdateId: timelineUpdateId })
 
   revalidatePath('/dashboard')
   return { success: 'Timeline update updated successfully' }

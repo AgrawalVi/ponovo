@@ -6,6 +6,7 @@ import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { Analytics } from '@vercel/analytics/react'
 
 const maven = Maven_Pro({
   subsets: ['latin'],
@@ -41,6 +42,7 @@ export default function RootLayout({
           >
             <TooltipProvider delayDuration={200}>
               <main>{children}</main>
+              <Analytics />
               <Toaster />
             </TooltipProvider>
           </ThemeProvider>
