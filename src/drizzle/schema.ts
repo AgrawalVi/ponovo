@@ -107,9 +107,7 @@ export const jobApplicationTimelineUpdates = pgTable(
     id: uuid('id')
       .primaryKey()
       .$defaultFn(() => uuidv4()),
-    userId: uuid('user_id').references(() => users.id, {
-      onDelete: 'cascade',
-    }),
+    userId: uuid('user_id').references(() => users.id),
     jobApplicationId: uuid('job_application_id')
       .notNull()
       .references(() => jobApplications.id, { onDelete: 'cascade' }),
