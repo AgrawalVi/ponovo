@@ -50,6 +50,15 @@ export default async function getApplicationStatusPieChartData(
     }
   }
 
+  if (
+    interviewedCount === 0 &&
+    offerReceivedCount === 0 &&
+    offerAcceptedCount === 0 &&
+    appliedCount === 0
+  ) {
+    return null
+  }
+
   return [
     {
       status: 'applied',

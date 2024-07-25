@@ -12,7 +12,7 @@ export default async function ApplicationStatusPieChartContainer() {
 
   const data = await getApplicationStatusPieChartData(user.userId)
 
-  if (!data || data.length === 0) {
+  if (!data) {
     return (
       <ApplicationStatusPieChartSkeleton placeholderText="No Applications Found" />
     )
