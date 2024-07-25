@@ -4,7 +4,7 @@ import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applicat
 import { deleteTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/delete-timeline-updates'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { auth } from '@clerk/nextjs/server'
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteTimelineUpdate(

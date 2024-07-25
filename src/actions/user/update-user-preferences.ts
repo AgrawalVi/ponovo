@@ -3,7 +3,7 @@
 import { updateUserPreferencesByClerkId } from '@/data/users/edit-users.ts'
 import { userPreferenceSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server'
 import { z } from 'zod'
 
 export const updateUserPreferences = async (

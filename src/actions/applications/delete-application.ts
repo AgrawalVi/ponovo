@@ -3,7 +3,7 @@
 import { deleteJobApplicationByIdAndUserId } from '@/data/job-applications/delete-job-application'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { auth } from '@clerk/nextjs/server'
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteApplication(applicationId: string) {

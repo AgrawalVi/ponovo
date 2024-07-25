@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { insertJobApplication } from '@/data/job-applications/insert-job-applications'
 import { insertTimelineUpdate } from '@/data/timeline-updates/insert-timeline-updates'
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server'
 
 export async function newApplication(
   values: z.infer<typeof newApplicationSchema>,

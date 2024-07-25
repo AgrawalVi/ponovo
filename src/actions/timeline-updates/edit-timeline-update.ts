@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { editTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/edit-timeline-updates'
 import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server'
 
 export default async function editTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
