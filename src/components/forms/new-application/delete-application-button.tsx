@@ -90,7 +90,7 @@ export default function DeleteApplicationButton({
             </AlertDescription>
           </Alert>
         </DialogHeader>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <DialogClose className={cn(buttonVariants({ variant: 'outline' }))}>
             Cancel
           </DialogClose>

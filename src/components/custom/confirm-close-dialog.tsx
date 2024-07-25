@@ -41,7 +41,7 @@ export default function ConfirmCloseDialog({
             This will exit the form and you will lose any unsaved changes.
           </AlertDescription>
         </Alert>
-        <DialogFooter>
+        <DialogFooter className="gap-2">
           <Button
             className="w-full"
             variant="outline"

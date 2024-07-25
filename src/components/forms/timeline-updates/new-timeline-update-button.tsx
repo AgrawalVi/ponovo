@@ -42,7 +42,7 @@ export default function NewTimelineUpdateButton({
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button className="w-32">
+            <Button className="sm:w-32">
               <DialogTrigger asChild>
                 <DialogTrigger asChild>
                   <span className="flex h-full w-full items-center justify-center">
