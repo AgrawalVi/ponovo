@@ -44,7 +44,7 @@ export default function FullApplicationView({
   })
 
   if (!applicationId) {
-    return <div>No application selected</div>
+    return null
   }
 
   if (query.isPending) {
