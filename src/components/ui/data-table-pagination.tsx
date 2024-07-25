@@ -29,7 +29,7 @@ export function DataTablePagination<TData>({
       <div className="hidden flex-1 text-sm text-muted-foreground lg:block">
         {table.getRowCount()} {text}
       </div>
-      <div className="flex w-full items-center justify-between space-x-6 lg:space-x-8">
+      <div className="flex w-full items-center justify-between space-x-6 lg:w-fit lg:justify-end lg:space-x-8">
         <div className="flex items-center space-x-2">
           <p className="text-sm font-medium">Rows per page</p>
           <Select
