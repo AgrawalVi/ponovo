@@ -12,13 +12,15 @@ export default function DashboardLayout({
 }) {
   return (
     <TRPCReactProvider>
-      <div className="grid min-h-dvh grid-rows-[auto_1fr_auto] sm:grid-rows-[1fr_auto]">
+      <div className="grid min-h-screen w-full grid-rows-[auto_1fr_auto] overflow-x-hidden sm:grid-rows-[1fr_auto]">
         <div className="block sm:hidden">
           <MobileNav />
         </div>
-        <div className="flex">
+        <div className="flex w-full overflow-x-hidden">
           <SidebarNav />
-          {children}
+          <div className="flex w-full flex-col overflow-x-hidden">
+            {children}
+          </div>
         </div>
         <Footer />
       </div>
