@@ -67,7 +67,9 @@ export function ApplicationStatusPieChart({
   return (
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Application Status Breakdown</CardTitle>
+        <CardTitle className="text-center">
+          Application Status Breakdown
+        </CardTitle>
         <CardDescription>All Time</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -123,8 +125,8 @@ export function ApplicationStatusPieChart({
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
-        <div className="leading-none text-muted-foreground">
-          Showing the furthest each application has gone
+        <div className="text-center leading-none text-muted-foreground">
+          Showing the furthest each application has gone in the process
         </div>
       </CardFooter>
     </Card>

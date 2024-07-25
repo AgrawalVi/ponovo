@@ -23,7 +23,7 @@ export default async function DashboardPage() {
         <ChartGrid />
       </div>
       <div className="flex flex-col items-center space-y-2">
-        <div className="text-xl">
+        <div className="text-center text-xl">
           While waiting for more charts to be added, start logging some
           applications
         </div>

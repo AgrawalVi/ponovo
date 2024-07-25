@@ -9,13 +9,21 @@ import {
   ScrollText,
   Settings,
 } from 'lucide-react'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { ClerkLoading, SignedIn, UserButton } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ModeToggle } from '@/components/ui/mode-toggle'
 import { Skeleton } from '@/components/ui/skeleton'
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden'
 
 export const navItems = [
   {
@@ -88,6 +96,12 @@ export function MobileNav() {
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Sheet>
+        <VisuallyHidden>
+          <SheetTitle>Navbar</SheetTitle>
+          <SheetDescription>
+            This is the navigation menu for the application
+          </SheetDescription>
+        </VisuallyHidden>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
             <PanelLeft className="h-5 w-5" />
