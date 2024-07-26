@@ -18,7 +18,6 @@ export default function Footer() {
           <Link
             href="https://vishrut.tech"
             target="_blank"
-            rel="noreferrer noopener"
             className="transition-all hover:text-primary"
           >
             Vishrut Agrawal
