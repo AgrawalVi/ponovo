@@ -1,8 +1,4 @@
-import {
-  applicationStatusEnum,
-  jobRoleTypeEnum,
-  timeLineUpdateEnum,
-} from '@/drizzle/schema'
+import { applicationStatusEnum, jobRoleTypeEnum } from '@/drizzle/schema'
 import { z } from 'zod'
 
 export const newApplicationSchema = z.object({
@@ -15,7 +11,7 @@ export const newApplicationSchema = z.object({
 })
 
 export const applicationTimelineUpdateSchema = z.object({
-  updateType: z.enum(timeLineUpdateEnum.enumValues),
+  updateType: z.enum(applicationStatusEnum.enumValues),
   updateDate: z.date(),
   comments: z.string().optional(),
 })

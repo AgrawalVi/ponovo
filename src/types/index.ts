@@ -32,17 +32,6 @@ export type statusEnum =
   | 'offer-declined'
   | 'offer-accepted'
 
-export type timeLineUpdateEnum =
-  | 'applied'
-  | 'online-assessment-received'
-  | 'interview-scheduled'
-  | 'interviewed'
-  | 'online-assessment-completed'
-  | 'rejected'
-  | 'offer-received'
-  | 'offer-declined'
-  | 'offer-accepted'
-
 export type roleTypeEnum = 'full-time' | 'co-op' | 'internship'
 
 // DATA TABLE
