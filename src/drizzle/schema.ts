@@ -121,6 +121,7 @@ export const jobApplicationTimelineUpdates = pgTable(
       .defaultNow(),
     comments: text('comments'),
     actionDate: timestamp('action-date'),
+    url: text('url'),
 
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
