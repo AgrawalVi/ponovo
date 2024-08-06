@@ -2,13 +2,13 @@ import {
   integer,
   pgEnum,
   pgTable,
-  serial,
   text,
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 import { v4 as uuidv4 } from 'uuid'
+import { datetime } from 'drizzle-orm/mysql-core'
 
 export const applicationStatusEnum = pgEnum('application_status', [
   'applied',
@@ -17,6 +17,9 @@ export const applicationStatusEnum = pgEnum('application_status', [
   'offer-received',
   'offer-declined',
   'offer-accepted',
+  'online-assessment-received',
+  'interview-scheduled',
+  'online-assessment-completed',
 ])
 
 export const timeLineUpdateEnum = pgEnum('time_line_update', [
@@ -117,6 +120,7 @@ export const jobApplicationTimelineUpdates = pgTable(
       .notNull()
       .defaultNow(),
     comments: text('comments'),
+    actionDate: timestamp('action-date'),
 
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
