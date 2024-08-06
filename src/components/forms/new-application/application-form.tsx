@@ -40,79 +40,118 @@ import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 
-interface EditApplicationForm {
-  application: dbJobApplication
+interface ApplicationFormProps {
+  application?: dbJobApplication
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
 }
 
-const EditApplicationForm = ({
+const ApplicationForm = ({
   application,
   setIsChanged,
   setOpen,
-}: EditApplicationForm) => {
+}: ApplicationFormProps) => {
   const queryClient = useQueryClient()
-  const queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
-    id: application.id,
-  })
-
-  const defaultValues = {
-    companyName: application.companyName,
-    jobTitle: application.jobTitle,
-    url: application.url,
-    status: application.applicationStatus,
-    roleType: application.roleType,
-    appliedDate: application.dateApplied,
-  }
-
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
+
+  let queryKey = undefined
+  if (application) {
+    queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
+      id: application.id,
+    })
+  }
+
+  const defaultValues = application
+    ? {
+        companyName: application.companyName,
+        jobTitle: application.jobTitle,
+        url: application.url,
+        status: application.applicationStatus,
+        roleType: application.roleType,
+        appliedDate: application.dateApplied,
+      }
+    : {
+        companyName: '',
+        jobTitle: '',
+        url: '',
+        status: 'applied',
+      }
 
   const form = useForm<z.infer<typeof newApplicationSchema>>({
     resolver: zodResolver(newApplicationSchema),
     defaultValues: {
-      companyName: application.companyName,
-      jobTitle: application.jobTitle,
-      url: application.url ?? undefined,
-      status: application.applicationStatus,
-      roleType: application.roleType,
-      appliedDate: application.dateApplied,
+      companyName: application?.companyName ?? '',
+      jobTitle: application?.jobTitle ?? '',
+      url: application?.url ?? '',
+      status: application?.applicationStatus ?? 'applied',
+      roleType: application?.roleType ?? 'internship',
+      appliedDate: application?.dateApplied ?? new Date(),
     },
   })
 
   useEffect(() => {
     const subscription = form.watch((values) => {
-      setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
+      if (application) {
+        setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
+      } else {
+        const { roleType, appliedDate, ...rest } = values
+        setIsChanged(JSON.stringify(rest) !== JSON.stringify(defaultValues))
+      }
     })
     return () => subscription.unsubscribe()
   }, [form, setIsChanged])
 
   const onSubmit = (data: z.infer<typeof newApplicationSchema>) => {
     startTransition(() => {
-      editApplication(data, application.id)
-        .then((response) => {
-          if (response.success) {
-            form.reset()
-            setOpen(false)
-            queryClient.invalidateQueries({
-              queryKey,
-            })
-            toast({ title: 'Application edited successfully' })
-          } else {
+      if (application) {
+        editApplication(data, application.id)
+          .then((response) => {
+            if (response.success) {
+              form.reset()
+              setOpen(false)
+              queryClient.invalidateQueries({
+                queryKey,
+              })
+              toast({ title: 'Application edited successfully' })
+            } else {
+              toast({
+                title: 'Something went wrong!',
+                description: response.error,
+                variant: 'destructive',
+              })
+            }
+          })
+          .catch(() => {
             toast({
               title: 'Something went wrong!',
-              description: response.error,
+              description: 'An unknown error has occurred',
               variant: 'destructive',
             })
-          }
-        })
-        .catch(() => {
-          toast({
-            title: 'Something went wrong!',
-            description: 'An unknown error has occurred',
-            variant: 'destructive',
           })
-        })
+      } else {
+        newApplication(data)
+          .then((response) => {
+            if (response.success) {
+              form.reset()
+              setOpen(false)
+              toast({ title: 'Application logged successfully' })
+            } else {
+              toast({
+                title: 'Something went wrong!',
+                description: response.error,
+                variant: 'destructive',
+              })
+            }
+          })
+          .catch(() => {
+            toast({
+              title: 'Something went wrong!',
+              description: 'An unknown error has occurred',
+              variant: 'destructive',
+            })
+          })
+      }
     })
   }
 
@@ -286,4 +325,4 @@ const EditApplicationForm = ({
   )
 }
 
-export default EditApplicationForm
+export default ApplicationForm

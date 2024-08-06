@@ -12,13 +12,13 @@ import {
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import { dbJobApplication } from '@/types'
-import EditApplicationForm from './edit-application-form'
 import { PencilIcon } from 'lucide-react'
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
+import ApplicationForm from './application-form'
 
 interface EditApplicationButtonProps {
   application: dbJobApplication
@@ -68,7 +68,7 @@ export default function EditApplicationButton({
           <DialogDescription>
             Fill out the form to edit your application
           </DialogDescription>
-          <EditApplicationForm
+          <ApplicationForm
             application={application}
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}

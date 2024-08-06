@@ -9,8 +9,8 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog'
 import { useState } from 'react'
-import NewApplicationForm from './new-application-form'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
+import ApplicationForm from './application-form'
 
 export default function NewApplicationButton({
   children,
@@ -41,10 +41,7 @@ export default function NewApplicationButton({
           <DialogDescription>
             Fill out the form to log your new application
           </DialogDescription>
-          <NewApplicationForm
-            setIsChanged={setIsChanged}
-            setOpen={setMainOpen}
-          />
+          <ApplicationForm setIsChanged={setIsChanged} setOpen={setMainOpen} />
         </DialogContent>
       </Dialog>
 
