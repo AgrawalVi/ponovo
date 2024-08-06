@@ -1,7 +1,7 @@
 import 'server-only'
 
 import { getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId } from './get-job-applications'
-import { applicationStatusEnum, dbJobApplication, roleTypeEnum } from '@/types'
+import { statusEnum, dbJobApplication, roleTypeEnum } from '@/types'
 import { db } from '@/lib/db'
 import { jobApplications } from '@/drizzle/schema'
 import { and, eq } from 'drizzle-orm'
@@ -109,7 +109,7 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
 export const changeApplicationStatusByIdAndUserId = async (
   id: string,
   userId: string,
-  status: applicationStatusEnum,
+  status: statusEnum,
 ) => {
   let application
   try {
@@ -137,7 +137,7 @@ export const editApplicationByIdAndUserId = async (
   userId: string,
   companyName: string,
   jobTitle: string,
-  applicationStatus: applicationStatusEnum,
+  applicationStatus: statusEnum,
   roleType: roleTypeEnum,
   appliedDate: Date,
   url: string | undefined,

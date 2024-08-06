@@ -1,6 +1,6 @@
 import { dbJobApplicationTimelineUpdate } from '@/types'
 import { format } from 'date-fns'
-import TimelineUpdateBadge from '../general/timeline-update-badge'
+import StatusBadge from '../general/status-badge'
 import { Textarea } from '@/components/ui/textarea'
 import DeleteTimelineUpdateButton from '@/components/forms/timeline-updates/delete-timeline-update-button'
 import EditTimelineUpdateButton from '@/components/forms/timeline-updates/edit-timeline-update-button'
@@ -15,7 +15,7 @@ export default function TimelineUpdateItem({
   return (
     <li className="space-y-4 py-6">
       <div className="flex items-center justify-between">
-        <TimelineUpdateBadge timelineUpdate={timeLineUpdate} />
+        <StatusBadge status={timeLineUpdate} />
         <div className="flex justify-center">
           {format(new Date(timelineUpdateReceivedAt), 'PPP')}
         </div>

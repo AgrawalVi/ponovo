@@ -2,12 +2,12 @@ import 'server-only'
 
 import { jobApplicationTimelineUpdates } from '@/drizzle/schema'
 import { db } from '@/lib/db'
-import { timeLineUpdateEnum } from '@/types'
+import { statusEnum } from '@/types'
 
 export const insertTimelineUpdate = async (
   jobApplicationId: string,
   userId: string,
-  timeLineUpdate: timeLineUpdateEnum,
+  timeLineUpdate: statusEnum,
   timelineUpdateReceivedAt: Date,
   comments: string | undefined,
 ) => {

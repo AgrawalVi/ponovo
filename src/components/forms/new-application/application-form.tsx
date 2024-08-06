@@ -39,6 +39,7 @@ import { editApplication } from '@/actions/applications/edit-application'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
+import StatusFormElement from '../status-form-element'
 
 interface ApplicationFormProps {
   application?: dbJobApplication
@@ -287,31 +288,11 @@ const ApplicationForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Application Status</FormLabel>
-                <Select
+                <StatusFormElement
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
                   disabled={isPending}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an application status" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="applied">Applied</SelectItem>
-                    <SelectItem value="interviewed">Interviewed</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                    <SelectItem value="offer-received">
-                      Offer Received
-                    </SelectItem>
-                    <SelectItem value="offer-declined">
-                      Offer Declined
-                    </SelectItem>
-                    <SelectItem value="offer-accepted">
-                      Offer Accepted
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                />
                 <FormMessage />
               </FormItem>
             )}

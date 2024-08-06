@@ -3,7 +3,7 @@ import 'server-only'
 import { jobApplications } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { and, eq } from 'drizzle-orm'
-import { timeLineUpdateEnum } from '@/types'
+import { statusEnum } from '@/types'
 
 export const getJobApplicationByIdAndUserId = async (
   id: string,
@@ -128,7 +128,7 @@ export const getFurthestStatusByJobApplicationId = async (id: string) => {
 }
 
 export const getFurthestApplicationStatusByUpdateStatus = (
-  status: timeLineUpdateEnum,
+  status: statusEnum,
 ) => {
   switch (status) {
     case 'applied':

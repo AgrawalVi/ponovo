@@ -1,12 +1,12 @@
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
-import { applicationStatusEnum } from '@/types'
+import { statusEnum } from '@/types'
 
-export default function ApplicationStatusBadge({
+export default function StatusBadge({
   status,
   className,
 }: {
-  status: applicationStatusEnum
+  status: statusEnum
   className?: string
 }) {
   switch (status) {
@@ -16,10 +16,28 @@ export default function ApplicationStatusBadge({
           Applied
         </Badge>
       )
+    case 'online-assessment-received':
+      return (
+        <Badge className={cn('h-fit', className)} variant="accent">
+          Online Assessment Received
+        </Badge>
+      )
+    case 'interview-scheduled':
+      return (
+        <Badge className={cn('h-fit', className)} variant="accent">
+          Interview Scheduled
+        </Badge>
+      )
     case 'interviewed':
       return (
         <Badge className={cn('h-fit', className)} variant="accent">
           Interviewed
+        </Badge>
+      )
+    case 'online-assessment-completed':
+      return (
+        <Badge className={cn('h-fit', className)} variant="accent">
+          Online Assessment Completed
         </Badge>
       )
     case 'rejected':

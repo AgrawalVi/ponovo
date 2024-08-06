@@ -5,8 +5,8 @@ import { format } from 'date-fns'
 import { DropdownMenu } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react'
-import { dbJobApplication, applicationStatusEnum } from '@/types'
-import ApplicationStatusBadge from '../general/application-status-badge'
+import { dbJobApplication, statusEnum } from '@/types'
+import StatusBadge from '../general/status-badge'
 
 export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
   {
@@ -47,10 +47,10 @@ export const applicationTableColumns: ColumnDef<dbJobApplication>[] = [
       )
     },
     cell: ({ row }) => {
-      const status = row.getValue('applicationStatus') as applicationStatusEnum
+      const status = row.getValue('applicationStatus') as statusEnum
       return (
         <div className="flex w-full items-center justify-center text-center">
-          <ApplicationStatusBadge status={status} />
+          <StatusBadge status={status} />
         </div>
       )
     },

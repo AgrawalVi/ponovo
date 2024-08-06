@@ -1,12 +1,12 @@
 import 'server-only'
 
 import { db } from '@/lib/db'
-import { applicationStatusEnum, roleTypeEnum } from '@/types'
+import { statusEnum, roleTypeEnum } from '@/types'
 import { jobApplications } from '@/drizzle/schema'
 
 export const insertJobApplication = async (
   userId: string,
-  applicationStatus: applicationStatusEnum,
+  applicationStatus: statusEnum,
   companyName: string,
   jobTitle: string,
   url: string | undefined,

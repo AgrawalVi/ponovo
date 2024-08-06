@@ -2,13 +2,13 @@ import 'server-only'
 
 import { db } from '@/lib/db'
 import { jobApplicationTimelineUpdates } from '@/drizzle/schema'
-import { timeLineUpdateEnum } from '@/types'
+import { statusEnum } from '@/types'
 import { and, eq } from 'drizzle-orm'
 
 export const editTimelineUpdateByIdAndUserId = async (
   id: string,
   userId: string,
-  updateType: timeLineUpdateEnum,
+  updateType: statusEnum,
   updateDate: Date,
   comments: string | undefined,
 ) => {

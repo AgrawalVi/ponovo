@@ -12,7 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import ApplicationStatusBadge from '../general/application-status-badge'
+import StatusBadge from '../general/status-badge'
 import {
   Tooltip,
   TooltipContent,
@@ -73,7 +73,7 @@ export default function FullApplicationView({
   return (
     <Card className="relative h-fit w-[20rem] sm:w-[25rem]">
       <CardHeader>
-        <ApplicationStatusBadge
+        <StatusBadge
           className="absolute right-4 top-4"
           status={applicationStatus}
         />

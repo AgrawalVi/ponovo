@@ -21,9 +21,12 @@ export type dbJobApplicationWithTimelineUpdates =
 export type dbJobApplicationTimelineUpdate =
   typeof jobApplicationTimelineUpdates.$inferSelect
 
-export type applicationStatusEnum =
+export type statusEnum =
   | 'applied'
+  | 'online-assessment-received'
+  | 'interview-scheduled'
   | 'interviewed'
+  | 'online-assessment-completed'
   | 'rejected'
   | 'offer-received'
   | 'offer-declined'

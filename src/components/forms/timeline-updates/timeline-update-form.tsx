@@ -40,6 +40,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 import { newTimelineUpdate } from '@/actions/timeline-updates/new-timeline-update'
+import StatusFormElement from '../status-form-element'
 
 interface TimelineUpdateFormProps {
   timelineUpdate?: dbJobApplicationTimelineUpdate
@@ -164,40 +165,11 @@ const TimelineUpdateForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Update Type</FormLabel>
-                <Select
+                <StatusFormElement
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  value={field.value}
                   disabled={isPending}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an update type" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="applied">Applied</SelectItem>
-                    <SelectItem value="online-assessment-received">
-                      Online Assessment Received
-                    </SelectItem>
-                    <SelectItem value="online-assessment-completed">
-                      Online Assessment Completed
-                    </SelectItem>
-                    <SelectItem value="interview-scheduled">
-                      Interview Scheduled
-                    </SelectItem>
-                    <SelectItem value="interviewed">Interviewed</SelectItem>
-                    <SelectItem value="rejected">Rejected</SelectItem>
-                    <SelectItem value="offer-received">
-                      Offer Received
-                    </SelectItem>
-                    <SelectItem value="offer-declined">
-                      Offer Declined
-                    </SelectItem>
-                    <SelectItem value="offer-accepted">
-                      Offer Accepted
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                />
                 <FormMessage />
               </FormItem>
             )}
