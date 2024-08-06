@@ -9,7 +9,6 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog'
 import { useState } from 'react'
-import NewTimelineUpdateForm from './new-timeline-update-form'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import {
   Tooltip,
@@ -18,6 +17,7 @@ import {
 } from '@/components/ui/tooltip'
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import TimelineUpdateForm from './timeline-update-form'
 
 export default function NewTimelineUpdateButton({
   applicationId,
@@ -61,7 +61,7 @@ export default function NewTimelineUpdateButton({
           <DialogDescription>
             Fill out the form to log your new timeline update
           </DialogDescription>
-          <NewTimelineUpdateForm
+          <TimelineUpdateForm
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
             applicationId={applicationId}

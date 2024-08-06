@@ -2,11 +2,11 @@
 
 import { useEffect, useTransition } from 'react'
 import { z } from 'zod'
+import { applicationTimelineUpdateSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { cn } from '@/lib/utils'
-import { newTimelineUpdate } from '@/actions/timeline-updates/new-timeline-update'
 
 import { useToast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
@@ -33,77 +33,121 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react'
-import { applicationTimelineUpdateSchema } from '@/schemas'
+import { dbJobApplicationTimelineUpdate } from '@/types'
 import { Textarea } from '@/components/ui/textarea'
+import editTimelineUpdate from '@/actions/timeline-updates/edit-timeline-update'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
+import { newTimelineUpdate } from '@/actions/timeline-updates/new-timeline-update'
 
-interface NewTimelineUpdateFormProps {
+interface TimelineUpdateFormProps {
+  timelineUpdate?: dbJobApplicationTimelineUpdate
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
   applicationId: string
 }
 
-const defaultValues = {
-  comments: '',
-}
-
-const NewTimelineUpdateForm = ({
+const TimelineUpdateForm = ({
+  timelineUpdate,
   setIsChanged,
   setOpen,
   applicationId,
-}: NewTimelineUpdateFormProps) => {
+}: TimelineUpdateFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
-  const queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
-    id: applicationId,
-  })
+
+  let queryKey = undefined
+  if (timelineUpdate) {
+    queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
+      id: timelineUpdate.jobApplicationId,
+    })
+  }
+
+  const defaultValues = timelineUpdate
+    ? {
+        updateType: timelineUpdate.timeLineUpdate,
+        updateDate: timelineUpdate.timelineUpdateReceivedAt,
+        comments: timelineUpdate.comments,
+      }
+    : {
+        comments: '',
+      }
 
   const form = useForm<z.infer<typeof applicationTimelineUpdateSchema>>({
     resolver: zodResolver(applicationTimelineUpdateSchema),
     defaultValues: {
-      updateType: 'rejected',
-      updateDate: new Date(),
-      comments: '',
+      updateType: timelineUpdate?.timeLineUpdate ?? 'rejected',
+      updateDate: timelineUpdate?.timelineUpdateReceivedAt ?? new Date(),
+      comments: timelineUpdate?.comments ?? '',
     },
   })
 
   useEffect(() => {
     const subscription = form.watch((values) => {
-      const { updateType, updateDate, ...rest } = values
-      setIsChanged(JSON.stringify(rest) !== JSON.stringify(defaultValues))
+      setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
     })
     return () => subscription.unsubscribe()
   }, [form, setIsChanged])
 
   const onSubmit = (data: z.infer<typeof applicationTimelineUpdateSchema>) => {
     startTransition(() => {
-      newTimelineUpdate(data, applicationId)
-        .then((response) => {
-          if (response.success) {
-            form.reset()
-            queryClient.invalidateQueries({
-              queryKey,
-            })
-            setOpen(false)
-            toast({ title: 'Application update logged successfully' })
-          } else {
+      if (timelineUpdate) {
+        editTimelineUpdate(
+          data,
+          timelineUpdate.id,
+          timelineUpdate.jobApplicationId,
+        )
+          .then((response) => {
+            if (response.success) {
+              form.reset()
+              setOpen(false)
+              queryClient.invalidateQueries({
+                queryKey,
+              })
+              toast({ title: 'Application edited successfully' })
+            } else {
+              toast({
+                title: 'Something went wrong!',
+                description: response.error,
+                variant: 'destructive',
+              })
+            }
+          })
+          .catch(() => {
             toast({
               title: 'Something went wrong!',
-              description: response.error,
+              description: 'An unknown error has occurred',
               variant: 'destructive',
             })
-          }
-        })
-        .catch(() => {
-          toast({
-            title: 'Something went wrong!',
-            description: 'An unknown error has occurred',
-            variant: 'destructive',
           })
-        })
+      } else {
+        newTimelineUpdate(data, applicationId)
+          .then((response) => {
+            if (response.success) {
+              form.reset()
+              queryClient.invalidateQueries({
+                queryKey,
+              })
+              setOpen(false)
+              toast({ title: 'Application update logged successfully' })
+            } else {
+              toast({
+                title: 'Something went wrong!',
+                description: response.error,
+                variant: 'destructive',
+              })
+            }
+          })
+          .catch(() => {
+            toast({
+              title: 'Something went wrong!',
+              description: 'An unknown error has occurred',
+              variant: 'destructive',
+            })
+          })
+      }
     })
   }
 
@@ -223,4 +267,4 @@ const NewTimelineUpdateForm = ({
   )
 }
 
-export default NewTimelineUpdateForm
+export default TimelineUpdateForm

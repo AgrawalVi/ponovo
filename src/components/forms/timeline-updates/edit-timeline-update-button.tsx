@@ -12,13 +12,13 @@ import {
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import { dbJobApplicationTimelineUpdate } from '@/types'
-import EditTimelineUpdateForm from './edit-timeline-update-form'
 import { PencilIcon } from 'lucide-react'
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
+import TimelineUpdateForm from './timeline-update-form'
 
 interface EditApplicationButtonProps {
   timelineUpdate: dbJobApplicationTimelineUpdate
@@ -68,10 +68,11 @@ export default function EditTimelineUpdateButton({
           <DialogDescription>
             Fill out the form to edit your timeline update
           </DialogDescription>
-          <EditTimelineUpdateForm
+          <TimelineUpdateForm
             timelineUpdate={timelineUpdate}
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
+            applicationId={timelineUpdate.jobApplicationId}
           />
         </DialogContent>
       </Dialog>
