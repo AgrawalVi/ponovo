@@ -4,15 +4,25 @@ import Link from 'next/link'
 export default function Footer() {
   return (
     <footer className="relative z-50 flex h-20 w-full items-center justify-between border-t border-border bg-background/50 px-5 text-muted-foreground backdrop-blur-lg backdrop-saturate-150">
-      <Link
-        href="https://zealous-tie-73d.notion.site/27faa9398cf64060a1b11f8fee865a07"
-        target="_blank"
-        rel="noreferrer noopener"
-        className="transition-all hover:text-primary"
-      >
-        Roadmap
-      </Link>
-      <div className="flex items-center space-x-2">
+      <div className="flex flex-col gap-2 sm:flex-row">
+        <Link
+          href="https://zealous-tie-73d.notion.site/27faa9398cf64060a1b11f8fee865a07"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="transition-all hover:text-primary"
+        >
+          Roadmap
+        </Link>
+        <Link
+          href="https://zealous-tie-73d.notion.site/Ponovo-Release-Notes-ae9958d5c8b54103b57c856bd131fe10?pvs=4"
+          target="_blank"
+          rel="noreferrer noopener"
+          className="transition-all hover:text-primary"
+        >
+          Release Notes
+        </Link>
+      </div>
+      <div className="flex flex-col-reverse items-end space-x-2 sm:flex-row sm:items-center">
         <div>
           © 2024{' '}
           <Link
