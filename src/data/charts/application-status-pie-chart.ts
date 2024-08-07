@@ -1,31 +1,12 @@
 import 'server-only'
 
-import { getAllJobApplicationsByUserId } from '../job-applications/get-job-applications'
+import {
+  getAllJobApplicationsByUserId,
+  getAllJobApplicationsWithTimelineUpdatesDescendingByUserId,
+} from '../job-applications/get-job-applications'
 import { getUserByClerkId } from '../users/get-users'
 import { statusEnum } from '@/types'
-
-export const getChartStatusByApplicationStatus = (status: statusEnum) => {
-  switch (status) {
-    case 'applied':
-      return 'applied'
-    case 'online-assessment-received':
-      return 'online-assessment'
-    case 'online-assessment-completed':
-      return 'online-assessment'
-    case 'interview-scheduled':
-      return 'interview'
-    case 'interviewed':
-      return 'interview'
-    case 'offer-received':
-      return 'offer'
-    case 'offer-declined':
-      return 'offer'
-    case 'offer-accepted':
-      return 'offer'
-    default:
-      return 'applied'
-  }
-}
+import { getFurthestStatusByApplication } from '@/utilities/applications'
 
 export default async function getApplicationStatusPieChartData(
   clerkId: string,
@@ -36,7 +17,10 @@ export default async function getApplicationStatusPieChartData(
     return null
   }
 
-  const jobApplications = await getAllJobApplicationsByUserId(existingUser.id)
+  const jobApplications =
+    await getAllJobApplicationsWithTimelineUpdatesDescendingByUserId(
+      existingUser.id,
+    )
 
   if (!jobApplications) {
     return null
@@ -49,9 +33,7 @@ export default async function getApplicationStatusPieChartData(
 
   if (jobApplications) {
     for (const application of jobApplications) {
-      const status = await getChartStatusByApplicationStatus(
-        application.applicationStatus,
-      )
+      const status = getFurthestStatusByApplication(application)
       if (!status) {
         continue
       } else {

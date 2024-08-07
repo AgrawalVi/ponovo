@@ -3,6 +3,7 @@ import 'server-only'
 import { jobApplications } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { and, eq } from 'drizzle-orm'
+import { statusEnum } from '@/types'
 
 export const getJobApplicationByIdAndUserId = async (
   id: string,
@@ -39,6 +40,28 @@ export const getAllJobApplicationsByUserId = async (userId: string) => {
   }
   return applications
 }
+
+export const getAllJobApplicationsWithTimelineUpdatesDescendingByUserId =
+  async (userId: string) => {
+    let jobApplicationsWithTimelineUpdates
+    try {
+      jobApplicationsWithTimelineUpdates =
+        await db.query.jobApplications.findMany({
+          where: eq(jobApplications.userId, userId),
+          with: {
+            jobApplicationTimelineUpdates: {
+              orderBy: (jobApplicationTimelineUpdates, { desc }) => [
+                desc(jobApplicationTimelineUpdates.timelineUpdateReceivedAt),
+              ],
+            },
+          },
+        })
+    } catch (e) {
+      console.error(e)
+      return null
+    }
+    return jobApplicationsWithTimelineUpdates
+  }
 
 export const getJobApplicationWithTimelineUpdatesAscendingByIdAndUserId =
   async (id: string, userId: string) => {
