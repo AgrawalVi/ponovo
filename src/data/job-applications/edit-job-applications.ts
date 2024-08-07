@@ -37,13 +37,13 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
 
   switch (latestUpdate.timeLineUpdate) {
     case 'online-assessment-completed':
-      if (application.applicationStatus === 'interviewed') {
+      if (application.applicationStatus === 'online-assessment-completed') {
         return applicationOnly
       } else {
         return await changeApplicationStatusByIdAndUserId(
           id,
           userId,
-          'interviewed',
+          'online-assessment-completed',
         )
       }
     case 'interviewed':
@@ -94,6 +94,26 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
           id,
           userId,
           'offer-accepted',
+        )
+      }
+    case 'online-assessment-received':
+      if (application.applicationStatus === 'online-assessment-received') {
+        return applicationOnly
+      } else {
+        return await changeApplicationStatusByIdAndUserId(
+          id,
+          userId,
+          'online-assessment-received',
+        )
+      }
+    case 'interview-scheduled':
+      if (application.applicationStatus === 'interview-scheduled') {
+        return applicationOnly
+      } else {
+        return await changeApplicationStatusByIdAndUserId(
+          id,
+          userId,
+          'interview-scheduled',
         )
       }
     default:
