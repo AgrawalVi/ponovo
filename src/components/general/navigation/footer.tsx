@@ -38,7 +38,11 @@ export default function Footer() {
           target="_blank"
           rel="noreferrer noopener"
         >
-          <Button variant="ghost" size="icon">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hover:bg-muted hover:text-primary"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
