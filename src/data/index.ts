@@ -1,6 +1,8 @@
 import { DataTableFacetedFilterOption } from '@/types'
 import {
-  CheckCircle,
+  BookCheck,
+  BookText,
+  CalendarCheck,
   CircleX,
   Contact,
   FileX,
@@ -19,17 +21,17 @@ export const dataTableApplicationStatusOptions: DataTableFacetedFilterOption[] =
     {
       label: 'Online Assessment Received',
       value: 'online-assessment-received',
-      icon: CheckCircle,
+      icon: BookText,
     },
     {
       label: 'Online Assessment Completed',
       value: 'online-assessment-completed',
-      icon: CheckCircle,
+      icon: BookCheck,
     },
     {
       label: 'Interview Scheduled',
       value: 'interview-scheduled',
-      icon: CheckCircle,
+      icon: CalendarCheck,
     },
     {
       label: 'Interviewed',
