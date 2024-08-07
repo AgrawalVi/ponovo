@@ -14,9 +14,9 @@ export default function TimelineUpdateItem({
 
   return (
     <li className="space-y-4 py-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <StatusBadge status={timeLineUpdate} />
-        <div className="flex justify-center">
+        <div className="text-end">
           {format(new Date(timelineUpdateReceivedAt), 'PPP')}
         </div>
       </div>
