@@ -1,10 +1,31 @@
 import 'server-only'
 
-import {
-  getAllJobApplicationsByUserId,
-  getFurthestStatusByJobApplicationId,
-} from '../job-applications/get-job-applications'
+import { getAllJobApplicationsByUserId } from '../job-applications/get-job-applications'
 import { getUserByClerkId } from '../users/get-users'
+import { statusEnum } from '@/types'
+
+export const getChartStatusByApplicationStatus = (status: statusEnum) => {
+  switch (status) {
+    case 'applied':
+      return 'applied'
+    case 'online-assessment-received':
+      return 'online-assessment'
+    case 'online-assessment-completed':
+      return 'online-assessment'
+    case 'interview-scheduled':
+      return 'interview'
+    case 'interviewed':
+      return 'interview'
+    case 'offer-received':
+      return 'offer'
+    case 'offer-declined':
+      return 'offer'
+    case 'offer-accepted':
+      return 'offer'
+    default:
+      return 'applied'
+  }
+}
 
 export default async function getApplicationStatusPieChartData(
   clerkId: string,
@@ -22,13 +43,15 @@ export default async function getApplicationStatusPieChartData(
   }
 
   let appliedCount = 0
-  let interviewedCount = 0
-  let offerReceivedCount = 0
-  let offerAcceptedCount = 0
+  let interviewCount = 0
+  let offerCount = 0
+  let onlineAssessmentCount = 0
 
   if (jobApplications) {
     for (const application of jobApplications) {
-      const status = await getFurthestStatusByJobApplicationId(application.id)
+      const status = await getChartStatusByApplicationStatus(
+        application.applicationStatus,
+      )
       if (!status) {
         continue
       } else {
@@ -36,14 +59,14 @@ export default async function getApplicationStatusPieChartData(
           case 'applied':
             appliedCount++
             break
-          case 'interviewed':
-            interviewedCount++
+          case 'interview':
+            interviewCount++
             break
-          case 'offer-received':
-            offerReceivedCount++
+          case 'offer':
+            offerCount++
             break
-          case 'offer-accepted':
-            offerAcceptedCount++
+          case 'online-assessment':
+            onlineAssessmentCount++
             break
         }
       }
@@ -51,9 +74,9 @@ export default async function getApplicationStatusPieChartData(
   }
 
   if (
-    interviewedCount === 0 &&
-    offerReceivedCount === 0 &&
-    offerAcceptedCount === 0 &&
+    interviewCount === 0 &&
+    offerCount === 0 &&
+    onlineAssessmentCount === 0 &&
     appliedCount === 0
   ) {
     return null
@@ -66,19 +89,19 @@ export default async function getApplicationStatusPieChartData(
       fill: 'var(--color-applied)',
     },
     {
-      status: 'interviewed',
-      count: interviewedCount,
-      fill: 'var(--color-interviewed)',
+      status: 'interview',
+      count: interviewCount,
+      fill: 'var(--color-interview)',
     },
     {
-      status: 'offer-received',
-      count: offerReceivedCount,
-      fill: 'var(--color-offer-received)',
+      status: 'offer',
+      count: offerCount,
+      fill: 'var(--color-offer)',
     },
     {
-      status: 'offer-accepted',
-      count: offerAcceptedCount,
-      fill: 'var(--color-offer-accepted)',
+      status: 'online-assessment',
+      count: onlineAssessmentCount,
+      fill: 'var(--color-online-assessment)',
     },
   ]
 }

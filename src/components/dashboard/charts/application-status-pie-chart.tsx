@@ -18,18 +18,9 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart'
 
-const chartData = [
-  { browser: 'chrome', visitors: 275, fill: 'var(--color-chrome)' },
-  { browser: 'safari', visitors: 200, fill: 'var(--color-safari)' },
-  { browser: 'firefox', visitors: 287, fill: 'var(--color-firefox)' },
-  { browser: 'edge', visitors: 173, fill: 'var(--color-edge)' },
-  { browser: 'other', visitors: 190, fill: 'var(--color-other)' },
-]
-
 interface ApplicationPirChartData {
   status: string
   count: number
-  fill: string
 }
 
 export function ApplicationStatusPieChart({
@@ -45,16 +36,16 @@ export function ApplicationStatusPieChart({
       label: 'Applied',
       color: 'hsl(var(--chart-1))',
     },
-    interviewed: {
-      label: 'Interviewed',
+    interview: {
+      label: 'Interview',
       color: 'hsl(var(--chart-2))',
     },
-    'offer-received': {
-      label: 'Offer Received',
+    offer: {
+      label: 'Offer',
       color: 'hsl(var(--chart-3))',
     },
-    'offer-accepted': {
-      label: 'Offer Accepted',
+    'online-assessment': {
+      label: 'Online Assessment',
       color: 'hsl(var(--chart-4))',
     },
   } satisfies ChartConfig
