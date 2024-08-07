@@ -78,9 +78,7 @@ export function ApplicationDataTable({
     },
   )
 
-  useEffect(() => {
-    console.log('sorting state', sorting)
-  }, [sorting])
+  useEffect(() => {}, [sorting])
 
   return (
     <div className="flex flex-col items-center gap-4 p-5 xl:flex-row xl:items-start xl:justify-center">

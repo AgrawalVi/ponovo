@@ -9,7 +9,6 @@ import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
   const user = auth()
-  console.log(user)
   if (!user.userId) {
     redirect('/')
   }

@@ -120,7 +120,6 @@ export const autoUpdateJobApplicationStatusByIdAndUserId = async (
       if (application.applicationStatus === 'applied') {
         return applicationOnly
       } else {
-        console.log('hello')
         return await changeApplicationStatusByIdAndUserId(id, userId, 'applied')
       }
   }
