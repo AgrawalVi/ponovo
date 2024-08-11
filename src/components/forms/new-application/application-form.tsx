@@ -34,7 +34,7 @@ import {
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react'
-import { dbJobApplication } from '@/types'
+import { dbJobApplication, roleTypeEnum } from '@/types'
 import { editApplication } from '@/actions/applications/edit-application'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
@@ -45,12 +45,14 @@ interface ApplicationFormProps {
   application?: dbJobApplication
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
+  roleType?: roleTypeEnum
 }
 
 const ApplicationForm = ({
   application,
   setIsChanged,
   setOpen,
+  roleType,
 }: ApplicationFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
@@ -77,6 +79,7 @@ const ApplicationForm = ({
         jobTitle: '',
         url: '',
         status: 'applied',
+        roleType: roleType ?? 'internship',
       }
 
   const form = useForm<z.infer<typeof newApplicationSchema>>({
@@ -86,7 +89,7 @@ const ApplicationForm = ({
       jobTitle: application?.jobTitle ?? '',
       url: application?.url ?? '',
       status: application?.applicationStatus ?? 'applied',
-      roleType: application?.roleType ?? 'internship',
+      roleType: application?.roleType ?? roleType ?? 'internship',
       appliedDate: application?.dateApplied ?? new Date(),
     },
   })

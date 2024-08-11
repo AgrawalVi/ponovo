@@ -11,6 +11,8 @@ import {
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import ApplicationForm from './application-form'
+import { useUser } from '@clerk/nextjs'
+import { roleTypeEnum } from '@/types'
 
 export default function NewApplicationButton({
   children,
@@ -21,6 +23,8 @@ export default function NewApplicationButton({
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
+  const { user, isLoaded } = useUser()
+
   const onExit = (event: any) => {
     event.preventDefault() // prevent the default form closure
     if (isChanged) {
@@ -29,6 +33,12 @@ export default function NewApplicationButton({
       setMainOpen(false)
     }
   }
+
+  if (!user || !isLoaded) {
+    return null
+  }
+
+  console.log(user)
 
   return (
     <>
@@ -41,7 +51,13 @@ export default function NewApplicationButton({
           <DialogDescription>
             Fill out the form to log your new application
           </DialogDescription>
-          <ApplicationForm setIsChanged={setIsChanged} setOpen={setMainOpen} />
+          <ApplicationForm
+            setIsChanged={setIsChanged}
+            setOpen={setMainOpen}
+            roleType={
+              user?.publicMetadata?.roleType as roleTypeEnum | undefined
+            }
+          />
         </DialogContent>
       </Dialog>
 

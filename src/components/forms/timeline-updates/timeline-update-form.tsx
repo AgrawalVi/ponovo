@@ -20,20 +20,13 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select'
-import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Calendar } from '@/components/ui/calendar'
 import { CalendarIcon } from 'lucide-react'
-import { dbJobApplicationTimelineUpdate } from '@/types'
+import { dbJobApplicationTimelineUpdate, statusEnum } from '@/types'
 import { Textarea } from '@/components/ui/textarea'
 import editTimelineUpdate from '@/actions/timeline-updates/edit-timeline-update'
 import { useQueryClient } from '@tanstack/react-query'
@@ -47,6 +40,7 @@ interface TimelineUpdateFormProps {
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
   applicationId: string
+  timelineUpdateType?: statusEnum
 }
 
 const TimelineUpdateForm = ({
@@ -54,6 +48,7 @@ const TimelineUpdateForm = ({
   setIsChanged,
   setOpen,
   applicationId,
+  timelineUpdateType,
 }: TimelineUpdateFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
@@ -74,12 +69,14 @@ const TimelineUpdateForm = ({
       }
     : {
         comments: '',
+        updateType: timelineUpdateType ?? 'rejected',
       }
 
   const form = useForm<z.infer<typeof applicationTimelineUpdateSchema>>({
     resolver: zodResolver(applicationTimelineUpdateSchema),
     defaultValues: {
-      updateType: timelineUpdate?.timeLineUpdate ?? 'rejected',
+      updateType:
+        timelineUpdate?.timeLineUpdate ?? timelineUpdateType ?? 'rejected',
       updateDate: timelineUpdate?.timelineUpdateReceivedAt ?? new Date(),
       comments: timelineUpdate?.comments ?? '',
     },
