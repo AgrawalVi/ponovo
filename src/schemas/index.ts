@@ -20,4 +20,6 @@ export const userPreferenceSchema = z.object({
   applicationGoal: z.coerce
     .number()
     .min(0, { message: 'Application goal must be greater than 0' }),
+  roleType: z.enum(jobRoleTypeEnum.enumValues),
+  timelineUpdateType: z.enum(applicationStatusEnum.enumValues),
 })

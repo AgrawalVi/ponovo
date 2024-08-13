@@ -18,6 +18,8 @@ import {
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import TimelineUpdateForm from './timeline-update-form'
+import { useUser } from '@clerk/nextjs'
+import { statusEnum } from '@/types'
 
 export default function NewTimelineUpdateButton({
   applicationId,
@@ -27,6 +29,12 @@ export default function NewTimelineUpdateButton({
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
+
+  const { user, isLoaded } = useUser()
+
+  if (!isLoaded || !user) {
+    return null
+  }
 
   const onExit = (event: any) => {
     event.preventDefault() // prevent the default form closure
@@ -65,6 +73,9 @@ export default function NewTimelineUpdateButton({
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
             applicationId={applicationId}
+            timelineUpdateType={
+              user?.publicMetadata?.timelineUpdateType as statusEnum
+            }
           />
         </DialogContent>
       </Dialog>
