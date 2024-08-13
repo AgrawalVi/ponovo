@@ -38,8 +38,6 @@ export default function NewApplicationButton({
     return null
   }
 
-  console.log(user)
-
   return (
     <>
       <Dialog open={mainOpen} onOpenChange={setMainOpen}>

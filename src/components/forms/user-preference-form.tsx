@@ -61,7 +61,6 @@ const UserPreferencesForm = ({
         .then((response) => {
           if (response.success) {
             toast({ title: 'Application update logged successfully' })
-            console.log(user)
             user?.reload()
           } else {
             toast({
