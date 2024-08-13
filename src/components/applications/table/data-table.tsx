@@ -81,100 +81,103 @@ export function ApplicationDataTable({
   useEffect(() => {}, [sorting])
 
   return (
-    <div className="flex flex-col items-center gap-4 p-5 xl:flex-row xl:items-start xl:justify-center">
-      <div className="col-span-2 w-full space-y-2 md:w-[40rem] 2xl:w-[60rem]">
-        <div className="flex w-full items-end justify-between gap-2">
-          <div className="flex flex-1 flex-col-reverse items-start gap-2 md:flex-row">
-            <Input
-              placeholder="Search Companies..."
-              value={
-                (table.getColumn('companyName')?.getFilterValue() as string) ??
-                ''
-              }
-              onChange={(event) =>
-                table
-                  .getColumn('companyName')
-                  ?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
-            {table.getColumn('applicationStatus') && (
-              <DataTableFacetedFilter
-                column={table.getColumn('applicationStatus')}
-                title="Application Status"
-                options={dataTableApplicationStatusOptions}
+    <div className="flex w-full justify-center">
+      <div className="flex max-w-screen-2xl flex-col items-start gap-4 p-5 lg:grid lg:grid-cols-5 xl:grid-cols-3">
+        <div className="w-full space-y-2 lg:col-span-3 xl:col-span-2">
+          <div className="flex w-full items-end justify-between gap-2">
+            <div className="flex flex-1 flex-col-reverse items-start gap-2 md:flex-row">
+              <Input
+                placeholder="Search Companies..."
+                value={
+                  (table
+                    .getColumn('companyName')
+                    ?.getFilterValue() as string) ?? ''
+                }
+                onChange={(event) =>
+                  table
+                    .getColumn('companyName')
+                    ?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
               />
-            )}
-          </div>
-          <div>
-            <NewApplicationButton>
-              <Button className="hidden lg:block">New Application</Button>
-            </NewApplicationButton>
-            <NewApplicationButton>
-              <Button className="block lg:hidden">
-                <PlusIcon />
-              </Button>
-            </NewApplicationButton>
-          </div>
-        </div>
-        <div className="rounded-md border">
-          <Table className="w-full">
-            <TableHeader>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id}>
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext(),
-                            )}
-                      </TableHead>
-                    )
-                  })}
-                </TableRow>
-              ))}
-            </TableHeader>
-            <TableBody>
-              {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && 'selected'}
-                    className={cn(
-                      'cursor-pointer',
-                      row.original.id === selectedRow?.id && 'bg-muted',
-                    )}
-                    onClick={() => setSelectedRow(row.original)}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
-                    No results.
-                  </TableCell>
-                </TableRow>
+              {table.getColumn('applicationStatus') && (
+                <DataTableFacetedFilter
+                  column={table.getColumn('applicationStatus')}
+                  title="Application Status"
+                  options={dataTableApplicationStatusOptions}
+                />
               )}
-            </TableBody>
-          </Table>
+            </div>
+            <div>
+              <NewApplicationButton>
+                <Button className="hidden lg:block">New Application</Button>
+              </NewApplicationButton>
+              <NewApplicationButton>
+                <Button className="block lg:hidden">
+                  <PlusIcon />
+                </Button>
+              </NewApplicationButton>
+            </div>
+          </div>
+          <div className="rounded-md border">
+            <Table className="w-full">
+              <TableHeader>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => {
+                      return (
+                        <TableHead key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext(),
+                              )}
+                        </TableHead>
+                      )
+                    })}
+                  </TableRow>
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows?.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <TableRow
+                      key={row.id}
+                      data-state={row.getIsSelected() && 'selected'}
+                      className={cn(
+                        'cursor-pointer',
+                        row.original.id === selectedRow?.id && 'bg-muted',
+                      )}
+                      onClick={() => setSelectedRow(row.original)}
+                    >
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
+          </div>
+          <DataTablePagination table={table} />
         </div>
-        <DataTablePagination table={table} />
+        <FullApplicationView applicationId={selectedRow?.id || ''} />
       </div>
-      <FullApplicationView applicationId={selectedRow?.id || ''} />
     </div>
   )
 }

@@ -13,6 +13,8 @@ import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import ApplicationForm from './application-form'
 import { useUser } from '@clerk/nextjs'
 import { roleTypeEnum } from '@/types'
+import { Button } from '@/components/ui/button'
+import { PlusIcon } from 'lucide-react'
 
 export default function NewApplicationButton({
   children,
@@ -36,6 +38,12 @@ export default function NewApplicationButton({
 
   if (!user || !isLoaded) {
     return null
+    // <>
+    //   <Button className="hidden lg:block">New Application</Button>
+    //   <Button className="block lg:hidden">
+    //     <PlusIcon />
+    //   </Button>
+    // </>
   }
 
   return (
