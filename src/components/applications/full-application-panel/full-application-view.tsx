@@ -71,7 +71,7 @@ export default function FullApplicationView({
   const { jobApplicationTimelineUpdates, ...rest } = query.data
 
   return (
-    <Card className="relative h-fit w-[20rem] sm:w-[25rem]">
+    <Card className="relative h-fit w-full md:w-[40rem] xl:w-[25rem]">
       <CardHeader>
         <StatusBadge
           className="absolute right-4 top-4"
@@ -101,7 +101,7 @@ export default function FullApplicationView({
         <Separator orientation="horizontal" />
       </CardContent>
       <CardFooter>
-        <div className="grid grid-cols-3">
+        <div className="grid w-full grid-cols-3">
           <div className="flex justify-self-start">
             {url && (
               <Tooltip>

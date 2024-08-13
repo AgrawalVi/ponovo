@@ -13,7 +13,7 @@ import TimelineUpdateItemSkeleton from './timeline-update-item-skeleton'
 
 export default function FullApplicationViewSkeleton() {
   return (
-    <Card className="relative h-fit w-[25rem]">
+    <Card className="relative h-fit w-full md:w-[40rem] xl:w-[25rem]">
       <CardHeader>
         <Skeleton className="h-8 w-40" />
         <div className="flex items-center justify-between">
