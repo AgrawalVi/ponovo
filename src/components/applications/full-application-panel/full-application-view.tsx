@@ -72,19 +72,24 @@ export default function FullApplicationView({
 
   return (
     <Card className="relative h-fit w-full md:w-[40rem] xl:w-[25rem]">
-      <CardHeader>
-        <StatusBadge
-          className="absolute right-4 top-4"
+      <CardHeader className="pb-[18px]">
+        {/* <StatusBadge
+          className="absolute right-3 top-3"
           status={applicationStatus}
-        />
-        <CardTitle>{companyName}</CardTitle>
+        /> */}
+        <CardTitle className="capitalize">{companyName}</CardTitle>
         <div className="flex items-center justify-between">
-          <div className="pt-2 text-lg text-muted-foreground">{jobTitle}</div>
+          <div className="pt-2 text-lg capitalize text-muted-foreground">
+            {jobTitle}
+          </div>
         </div>
         <CardDescription className="flex justify-between">
-          <span>{roleType}</span>
+          <span className="capitalize">{roleType}</span>
           <span>{format(new Date(dateApplied), 'PPP')}</span>
         </CardDescription>
+        <div className="flex justify-end pt-2">
+          <StatusBadge status={applicationStatus} />
+        </div>
       </CardHeader>
       <CardContent>
         <Separator orientation="horizontal" />
