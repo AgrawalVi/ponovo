@@ -82,7 +82,7 @@ export function ApplicationDataTable({
 
   return (
     <div className="flex flex-col items-center gap-4 p-5 xl:flex-row xl:items-start xl:justify-center">
-      <div className="col-span-2 w-full space-y-2 md:w-[45rem] 2xl:w-[60rem]">
+      <div className="col-span-2 w-full space-y-2 md:w-[40rem] 2xl:w-[60rem]">
         <div className="flex w-full items-end justify-between gap-2">
           <div className="flex flex-1 flex-col-reverse items-start gap-2 md:flex-row">
             <Input
