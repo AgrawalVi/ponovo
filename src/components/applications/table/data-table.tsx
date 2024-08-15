@@ -119,7 +119,7 @@ export function ApplicationDataTable({
               </NewApplicationButton>
             </div>
           </div>
-          <div className="rounded-md border">
+          <div className="flex w-full rounded-md border">
             <Table className="w-full">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (
