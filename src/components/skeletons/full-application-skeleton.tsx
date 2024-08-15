@@ -1,15 +1,21 @@
 'use client'
 
 import { Skeleton } from '@/components/ui/skeleton'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import TimelineUpdateItemSkeleton from './timeline-update-item-skeleton'
 
 export default function FullApplicationViewSkeleton() {
   return (
-    <Card className="col-span-2 h-fit w-full xl:col-span-1">
+    <Card className="relative h-fit w-full lg:w-[30rem] xl:w-[35rem]">
       <CardHeader>
-        <Skeleton className="h-8 w-64" />
+        <Skeleton className="h-8 w-40" />
         <div className="flex items-center justify-between">
           <div className="pt-2 text-lg text-muted-foreground">
             <Skeleton className="h-7 w-36" />

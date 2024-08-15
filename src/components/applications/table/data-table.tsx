@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/table'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { DataTableFacetedFilter } from '@/components/ui/data-table-faceted-filter'
 import { dataTableApplicationStatusOptions } from '@/data'
 import { DataTablePagination } from '@/components/ui/data-table-pagination'
@@ -78,12 +78,10 @@ export function ApplicationDataTable({
     },
   )
 
-  useEffect(() => {}, [sorting])
-
   return (
-    <div className="flex w-full justify-center">
-      <div className="flex max-w-screen-2xl flex-col items-start gap-4 p-5 lg:grid lg:grid-cols-5 xl:grid-cols-3">
-        <div className="w-full space-y-2 lg:col-span-3 xl:col-span-2">
+    <div className="w-full justify-center overflow-x-auto">
+      <div className="flex flex-col items-center gap-4 p-5 lg:flex-row lg:items-start lg:justify-center xl:max-w-[1440px]">
+        <div className="col-span-2 w-full space-y-2">
           <div className="flex w-full items-end justify-between gap-2">
             <div className="flex flex-1 flex-col-reverse items-start gap-2 md:flex-row">
               <Input
@@ -119,7 +117,7 @@ export function ApplicationDataTable({
               </NewApplicationButton>
             </div>
           </div>
-          <div className="flex w-full rounded-md border">
+          <div className="rounded-md border">
             <Table className="w-full">
               <TableHeader>
                 {table.getHeaderGroups().map((headerGroup) => (

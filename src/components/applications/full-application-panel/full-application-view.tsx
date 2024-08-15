@@ -71,12 +71,12 @@ export default function FullApplicationView({
   const { jobApplicationTimelineUpdates, ...rest } = query.data
 
   return (
-    <Card className="col-span-2 h-fit w-full xl:col-span-1">
+    <Card className="relative h-fit w-full lg:w-[30rem] xl:w-[35rem]">
       <CardHeader className="pb-[18px]">
-        {/* <StatusBadge
-          className="absolute right-3 top-3"
+        <StatusBadge
+          className="absolute right-2 top-2"
           status={applicationStatus}
-        /> */}
+        />
         <CardTitle className="capitalize">{companyName}</CardTitle>
         <div className="flex items-center justify-between">
           <div className="pt-2 text-lg capitalize text-muted-foreground">
@@ -87,9 +87,9 @@ export default function FullApplicationView({
           <span className="capitalize">{roleType}</span>
           <span>{format(new Date(dateApplied), 'PPP')}</span>
         </CardDescription>
-        <div className="flex justify-end pt-2">
+        {/* <div className="flex justify-end pt-2">
           <StatusBadge status={applicationStatus} />
-        </div>
+        </div> */}
       </CardHeader>
       <CardContent>
         <Separator orientation="horizontal" />
