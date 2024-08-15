@@ -87,9 +87,6 @@ export default function FullApplicationView({
           <span className="capitalize">{roleType}</span>
           <span>{format(new Date(dateApplied), 'PPP')}</span>
         </CardDescription>
-        {/* <div className="flex justify-end pt-2">
-          <StatusBadge status={applicationStatus} />
-        </div> */}
       </CardHeader>
       <CardContent>
         <Separator orientation="horizontal" />

@@ -108,11 +108,11 @@ export function ApplicationDataTable({
             </div>
             <div>
               <NewApplicationButton>
-                <Button className="hidden lg:block">New Application</Button>
+                <Button className="hidden xl:block">New Application</Button>
               </NewApplicationButton>
               <NewApplicationButton>
-                <Button className="block lg:hidden">
-                  <PlusIcon />
+                <Button className="w-12 items-center xl:hidden" size="icon">
+                  <PlusIcon size={20} />
                 </Button>
               </NewApplicationButton>
             </div>

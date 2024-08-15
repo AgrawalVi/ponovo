@@ -38,12 +38,6 @@ export default function NewApplicationButton({
 
   if (!user || !isLoaded) {
     return null
-    // <>
-    //   <Button className="hidden lg:block">New Application</Button>
-    //   <Button className="block lg:hidden">
-    //     <PlusIcon />
-    //   </Button>
-    // </>
   }
 
   return (
