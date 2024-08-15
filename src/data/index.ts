@@ -19,12 +19,12 @@ export const dataTableApplicationStatusOptions: DataTableFacetedFilterOption[] =
       icon: Send,
     },
     {
-      label: 'Online Assessment Received',
+      label: 'OA Received',
       value: 'online-assessment-received',
       icon: BookText,
     },
     {
-      label: 'Online Assessment Completed',
+      label: 'OA Completed',
       value: 'online-assessment-completed',
       icon: BookCheck,
     },
