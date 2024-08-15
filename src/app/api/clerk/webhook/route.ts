@@ -51,7 +51,6 @@ export async function POST(req: Request) {
   }
 
   // now that we have the payload verified, we can do whatever with it.
-
   if (evt.type === 'user.created') {
     const response = await newUser(evt.data)
     if (response.error) {

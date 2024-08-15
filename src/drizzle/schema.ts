@@ -8,7 +8,6 @@ import {
 } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 import { v4 as uuidv4 } from 'uuid'
-import { datetime } from 'drizzle-orm/mysql-core'
 
 export const applicationStatusEnum = pgEnum('application_status', [
   'applied',
@@ -47,11 +46,14 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   firstName: text('first_name'),
   lastName: text('last_name'),
-  applicationGoal: integer('application_goal').notNull().default(0),
 
-  preferredJobType: jobRoleTypeEnum('user_role_preference')
-    .notNull()
-    .default('internship'),
+  applicationGoal: integer('application_goal').default(0),
+  preferredJobType: jobRoleTypeEnum('user_role_preference').default(
+    'internship',
+  ),
+  defaultTimelineUpdateType: applicationStatusEnum(
+    'default-timeline-update-type',
+  ).default('applied'),
 
   clerkId: text('clerk_id').notNull().unique(),
 

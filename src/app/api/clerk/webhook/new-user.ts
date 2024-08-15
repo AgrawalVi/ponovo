@@ -1,4 +1,4 @@
-import { UserJSON } from '@clerk/nextjs/server'
+import { clerkClient, UserJSON } from '@clerk/nextjs/server'
 import { db } from '@/lib/db'
 import { users } from '@/drizzle/schema'
 
@@ -18,6 +18,19 @@ export const newUser = async (user: UserJSON) => {
   } catch (e) {
     console.error(e)
     return { error: 'unable to create user' + e }
+  }
+
+  try {
+    await clerkClient.users.updateUserMetadata(user.id, {
+      publicMetadata: {
+        applicationGoal: 0,
+        roleType: 'internship',
+        timelineUpdateType: 'rejected',
+      },
+    })
+  } catch (e) {
+    console.error(e)
+    return { error: 'unable to update user metadata' + e }
   }
 
   return { success: 'user created' }

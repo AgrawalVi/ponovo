@@ -35,6 +35,8 @@ export const updateUserPreferences = async (
   const updatedUser = await updateUserPreferencesByClerkId(
     user.userId,
     applicationGoal,
+    roleType,
+    timelineUpdateType,
   )
 
   if (!updatedUser) {

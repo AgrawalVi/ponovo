@@ -10,11 +10,14 @@ export const updateUser = async (user: UserJSON) => {
   )
 
   try {
-    await db.update(users).set({
-      email: userEmail[0].email_address,
-      firstName: user.first_name,
-      lastName: user.last_name,
-    })
+    await db
+      .update(users)
+      .set({
+        email: userEmail[0].email_address,
+        firstName: user.first_name,
+        lastName: user.last_name,
+      })
+      .where(eq(users.clerkId, user.id))
   } catch (e) {
     console.error(e)
     return { error: 'unable to update user' + e }
