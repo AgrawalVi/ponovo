@@ -19,7 +19,7 @@ export default function StatusBadge({
     case 'online-assessment-received':
       return (
         <Badge className={cn('h-fit', className)} variant="accent">
-          Online Assessment Received
+          OA Received
         </Badge>
       )
     case 'interview-scheduled':
@@ -37,7 +37,7 @@ export default function StatusBadge({
     case 'online-assessment-completed':
       return (
         <Badge className={cn('h-fit', className)} variant="accent">
-          Online Assessment Completed
+          OA Completed
         </Badge>
       )
     case 'rejected':
