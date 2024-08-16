@@ -66,6 +66,7 @@ export const users = pgTable('users', {
 export const usersRelations = relations(users, ({ many }) => ({
   jobApplications: many(jobApplications),
   jobApplicationTimelineUpdates: many(jobApplicationTimelineUpdates),
+  savedJobApplications: many(savedJobApplications),
 }))
 
 export const jobApplications = pgTable('job_applications', {
@@ -141,6 +142,33 @@ export const jobApplicationTimelineUpdatesRelations = relations(
     }),
     user: one(users, {
       fields: [jobApplicationTimelineUpdates.userId],
+      references: [users.id],
+    }),
+  }),
+)
+
+export const savedJobApplications = pgTable('saved_job_applications', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  userId: uuid('user_id').references(() => users.id),
+
+  companyName: text('company_name').notNull(),
+  jobTitle: text('job_title').notNull(),
+  job_post_url: text('job_post_url'),
+  comments: text('comments'),
+
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+})
+
+export const savedJobApplicationsRelations = relations(
+  savedJobApplications,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [savedJobApplications.userId],
       references: [users.id],
     }),
   }),
