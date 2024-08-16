@@ -53,7 +53,7 @@ export const users = pgTable('users', {
   ),
   defaultTimelineUpdateType: applicationStatusEnum(
     'default-timeline-update-type',
-  ).default('applied'),
+  ).default('rejected'),
 
   clerkId: text('clerk_id').notNull().unique(),
 
