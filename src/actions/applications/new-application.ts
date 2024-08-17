@@ -18,7 +18,7 @@ export async function newApplication(
     return { error: 'Invalid Fields' }
   }
 
-  const { companyName, jobTitle, url, status, roleType, appliedDate } =
+  const { companyName, jobTitle, job_post_url, status, roleType, appliedDate } =
     validatedFields.data
 
   const currentUser = auth()
@@ -38,7 +38,7 @@ export async function newApplication(
     status,
     companyName,
     jobTitle,
-    url,
+    job_post_url,
     roleType,
     appliedDate,
   )

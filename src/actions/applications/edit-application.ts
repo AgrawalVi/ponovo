@@ -18,7 +18,7 @@ export async function editApplication(
     return { error: 'Invalid Fields' }
   }
 
-  const { companyName, jobTitle, url, status, roleType, appliedDate } =
+  const { companyName, jobTitle, job_post_url, status, roleType, appliedDate } =
     validatedFields.data
 
   const currentUser = auth()
@@ -41,7 +41,7 @@ export async function editApplication(
     status,
     roleType,
     appliedDate,
-    url,
+    job_post_url,
   )
 
   if (!updatedApplication) {

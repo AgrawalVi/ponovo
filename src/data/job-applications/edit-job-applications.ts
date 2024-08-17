@@ -159,7 +159,7 @@ export const editApplicationByIdAndUserId = async (
   applicationStatus: statusEnum,
   roleType: roleTypeEnum,
   appliedDate: Date,
-  url: string | undefined,
+  job_post_url: string | undefined,
 ) => {
   let application
   try {
@@ -171,7 +171,7 @@ export const editApplicationByIdAndUserId = async (
         applicationStatus,
         roleType,
         dateApplied: appliedDate,
-        url,
+        job_post_url,
       })
       .where(
         and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)),

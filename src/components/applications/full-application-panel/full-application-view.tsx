@@ -64,7 +64,7 @@ export default function FullApplicationView({
     jobTitle,
     dateApplied,
     roleType,
-    url,
+    job_post_url,
     applicationStatus,
   } = query.data
 
@@ -105,7 +105,7 @@ export default function FullApplicationView({
       <CardFooter>
         <div className="grid w-full grid-cols-3">
           <div className="flex justify-self-start">
-            {url && (
+            {job_post_url && (
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button
@@ -113,7 +113,7 @@ export default function FullApplicationView({
                     className="border border-dashed"
                     size="icon"
                     onClick={() => {
-                      navigator.clipboard.writeText(url)
+                      navigator.clipboard.writeText(job_post_url)
                       setHasCopied(true)
                     }}
                   >

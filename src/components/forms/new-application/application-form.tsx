@@ -69,7 +69,7 @@ const ApplicationForm = ({
     ? {
         companyName: application.companyName,
         jobTitle: application.jobTitle,
-        url: application.url,
+        job_post_url: application.job_post_url,
         status: application.applicationStatus,
         roleType: application.roleType,
         appliedDate: application.dateApplied,
@@ -77,7 +77,7 @@ const ApplicationForm = ({
     : {
         companyName: '',
         jobTitle: '',
-        url: '',
+        job_post_url: '',
         status: 'applied',
         roleType: roleType ?? 'internship',
       }
@@ -87,7 +87,7 @@ const ApplicationForm = ({
     defaultValues: {
       companyName: application?.companyName ?? '',
       jobTitle: application?.jobTitle ?? '',
-      url: application?.url ?? '',
+      job_post_url: application?.job_post_url ?? '',
       status: application?.applicationStatus ?? 'applied',
       roleType: application?.roleType ?? roleType ?? 'internship',
       appliedDate: application?.dateApplied ?? new Date(),
@@ -202,7 +202,7 @@ const ApplicationForm = ({
           />
           <FormField
             control={form.control}
-            name="url"
+            name="job_post_url"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Job Post URL</FormLabel>

@@ -87,7 +87,7 @@ export const jobApplications = pgTable('job_applications', {
   jobDescriptionRichText: text('job_description_rich_text'),
   jobDescriptionPlainText: text('job_description_plain_text'),
 
-  url: text('url'),
+  job_post_url: text('job_post_url'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')

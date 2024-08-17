@@ -9,7 +9,7 @@ export const insertJobApplication = async (
   applicationStatus: statusEnum,
   companyName: string,
   jobTitle: string,
-  url: string | undefined,
+  job_post_url: string | undefined,
   roleType: roleTypeEnum,
   dateApplied: Date,
 ) => {
@@ -24,7 +24,7 @@ export const insertJobApplication = async (
         dateApplied,
         jobTitle,
         roleType,
-        url,
+        job_post_url,
       })
       .returning()
   } catch (e) {
