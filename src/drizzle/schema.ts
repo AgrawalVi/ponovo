@@ -6,7 +6,7 @@ import {
   timestamp,
   uuid,
 } from 'drizzle-orm/pg-core'
-import { relations } from 'drizzle-orm'
+import { relations, sql } from 'drizzle-orm'
 import { v4 as uuidv4 } from 'uuid'
 
 export const applicationStatusEnum = pgEnum('application_status', [
@@ -88,6 +88,9 @@ export const jobApplications = pgTable('job_applications', {
   jobDescriptionPlainText: text('job_description_plain_text'),
 
   job_post_url: text('job_post_url'),
+  locations: text('locations')
+    .array()
+    .default(sql`ARRAY[]::text[]`),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
@@ -134,7 +137,7 @@ export const jobApplicationTimelineUpdates = pgTable(
 
 export const jobApplicationTimelineUpdatesRelations = relations(
   jobApplicationTimelineUpdates,
-  ({ one }) => ({
+  ({ one, many }) => ({
     jobApplication: one(jobApplications, {
       fields: [jobApplicationTimelineUpdates.jobApplicationId],
       references: [jobApplications.id],
@@ -142,6 +145,26 @@ export const jobApplicationTimelineUpdatesRelations = relations(
     user: one(users, {
       fields: [jobApplicationTimelineUpdates.userId],
       references: [users.id],
+    }),
+    timelineUpdateURLs: many(timelineUpdateURLs),
+  }),
+)
+
+export const timelineUpdateURLs = pgTable('timeline_update_urls', {
+  id: uuid('id'),
+  timelineUpdateId: uuid('timeline_update_id').references(
+    () => jobApplicationTimelineUpdates.id,
+  ),
+  url_description: text('url_description'),
+  url: text('url'),
+})
+
+export const timelineUpdateURLsRelations = relations(
+  timelineUpdateURLs,
+  ({ one }) => ({
+    timelineUpdate: one(jobApplicationTimelineUpdates, {
+      fields: [timelineUpdateURLs.timelineUpdateId],
+      references: [jobApplicationTimelineUpdates.id],
     }),
   }),
 )
