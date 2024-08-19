@@ -5,7 +5,6 @@ import { z } from 'zod'
 import { savedJobPostSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { newApplication } from '@/actions/applications/new-application'
 
 import { useToast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
@@ -26,11 +25,9 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { dbSavedJobPost, roleTypeEnum } from '@/types'
-import { editApplication } from '@/actions/applications/edit-application'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
-import StatusFormElement from '../status-form-element'
 import DatePickerFormElement from "@/components/forms/date-picker-form-element";
 import { editSavedJobPost } from "@/actions/saved-job-posts/edit-saved-job-post";
 import { newSavedJobPost } from "@/actions/saved-job-posts/new-saved-job-post";
@@ -53,7 +50,7 @@ interface SavedJobPostFormPropsNotEditing {
 
 type SavedJobPostFormProps = SavedJobPostFormPropsEditing | SavedJobPostFormPropsNotEditing;
 
-const ApplicationForm = ({
+const SavedJobPostForm = ({
   jobPost,
   setIsChanged,
   setOpen,
@@ -133,6 +130,9 @@ const ApplicationForm = ({
             if (response.success) {
               form.reset()
               setOpen(false)
+              queryClient.invalidateQueries({
+                queryKey,
+              })
               toast({ title: 'Application logged successfully' })
             } else {
               toast({
@@ -261,4 +261,4 @@ const ApplicationForm = ({
   )
 }
 
-export default ApplicationForm
+export default SavedJobPostForm

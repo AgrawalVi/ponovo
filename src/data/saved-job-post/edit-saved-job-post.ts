@@ -3,7 +3,7 @@ import { savedJobPosts } from "@/drizzle/schema";
 import { roleTypeEnum } from "@/types";
 import { and, eq } from "drizzle-orm";
 
-export const editSavedForLaterApplicationByIdAndUserId = async (id: string, userId: string, companyName: string, jobTitle: string, url: string, roleType: roleTypeEnum) => {
+export const editSavedJobPostByIdAndUserId = async (id: string, userId: string, companyName: string, jobTitle: string, url: string, roleType: roleTypeEnum) => {
   let application
   try {
     application = await db.update(savedJobPosts).set({

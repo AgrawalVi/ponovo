@@ -6,7 +6,7 @@ import { auth } from '@clerk/nextjs/server'
 import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { editSavedForLaterApplicationByIdAndUserId } from "@/data/saved-job-post/edit-saved-job-post";
+import { editSavedJobPostByIdAndUserId } from "@/data/saved-job-post/edit-saved-job-post";
 
 export const editSavedJobPost = async (
   values: z.infer<typeof savedJobPostSchema>,
@@ -33,7 +33,7 @@ export const editSavedJobPost = async (
     return { error: 'User not found' }
   }
 
-  const updatedApplication = await editSavedForLaterApplicationByIdAndUserId(
+  const updatedApplication = await editSavedJobPostByIdAndUserId(
     applicationId,
     existingUser.id,
     companyName,

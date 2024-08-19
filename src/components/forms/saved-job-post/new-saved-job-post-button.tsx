@@ -13,8 +13,6 @@ import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import SavedJobPostForm from './saved-job-post-form'
 import { useUser } from '@clerk/nextjs'
 import { roleTypeEnum } from '@/types'
-import { Button } from '@/components/ui/button'
-import { PlusIcon } from 'lucide-react'
 
 export default function NewSavedJobPostButton({
   children,
@@ -57,10 +55,10 @@ export default function NewSavedJobPostButton({
             roleType={
               user?.publicMetadata?.roleType as roleTypeEnum | undefined
             }
+            editing={false}
           />
         </DialogContent>
       </Dialog>
-
       <ConfirmCloseDialog
         open={confirmExitOpen}
         setOpen={setConfirmExitOpen}

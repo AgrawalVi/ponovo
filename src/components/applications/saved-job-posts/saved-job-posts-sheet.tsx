@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { Bookmark } from 'lucide-react'
 import { api } from '@/trpc/react'
+import NewSavedJobPostButton from "@/components/forms/saved-job-post/new-saved-job-post-button";
 
 export default function SavedJobPostsSheet() {
   const query = api.savedForLater.getAllSavedForLaterByUserId.useQuery()
@@ -31,7 +32,9 @@ export default function SavedJobPostsSheet() {
         </SheetHeader>
         <div className="py-4">
           <div className="flex justify-center">
-            <Button>Add Application</Button>
+            <NewSavedJobPostButton>
+              <Button>Add Application</Button>
+            </NewSavedJobPostButton>
           </div>
           <div className="py-3">
             {query.isPending ? (
@@ -41,7 +44,17 @@ export default function SavedJobPostsSheet() {
                 An error has occurred
               </div>
             ) : (
-              <>{query.data.length > 0 ? query.data : 'No saved for later'}</>
+              <>{query.data.length > 0 ? (
+                <>
+                  {
+                    query.data.map((savedJobPost) => (
+                      <div key={savedJobPost.id}>
+                        {JSON.stringify(savedJobPost)}
+                      </div>
+                    ))
+                  }
+                </>
+              ) : 'No saved for later'}</>
             )}
           </div>
         </div>
