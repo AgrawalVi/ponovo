@@ -155,8 +155,9 @@ export const savedJobApplications = pgTable('saved_job_applications', {
 
   companyName: text('company_name').notNull(),
   jobTitle: text('job_title').notNull(),
-  job_post_url: text('job_post_url'),
-  comments: text('comments'),
+  url: text('url'),
+  addedDate: timestamp('added_date').notNull(),
+  roleType: jobRoleTypeEnum('role_type').notNull(),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')

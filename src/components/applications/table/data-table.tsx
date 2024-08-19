@@ -31,6 +31,7 @@ import FullApplicationView from '../full-application-panel/full-application-view
 import { dbJobApplication } from '@/types'
 import { cn } from '@/lib/utils'
 import { PlusIcon } from 'lucide-react'
+import SavedForLaterSheet from '../saved-for-later-applications/saved-for-later-sheet'
 
 interface DataTableProps {
   columns: ColumnDef<dbJobApplication>[]
@@ -107,22 +108,15 @@ export function ApplicationDataTable({
                   />
                 )}
               </div>
-              <div>
-                <NewApplicationButton>
-                  <Button className="hidden xl:block">New Application</Button>
-                </NewApplicationButton>
-                <NewApplicationButton>
-                  <Button className="w-12 items-center xl:hidden" size="icon">
-                    <PlusIcon size={20} />
-                  </Button>
-                </NewApplicationButton>
-              </div>
             </div>
             <div className="rounded-md border">
               <Table className="w-full">
                 <TableHeader>
                   {table.getHeaderGroups().map((headerGroup) => (
-                    <TableRow key={headerGroup.id}>
+                    <TableRow
+                      key={headerGroup.id}
+                      className="hover:bg-background hover:dark:bg-background"
+                    >
                       {headerGroup.headers.map((header) => {
                         return (
                           <TableHead key={header.id}>
@@ -175,7 +169,20 @@ export function ApplicationDataTable({
             </div>
             <DataTablePagination table={table} />
           </div>
-          <FullApplicationView applicationId={selectedRow?.id || ''} />
+          <div className="flex flex-col gap-2 lg:w-[30rem] xl:w-[35rem]">
+            <div className="flex justify-end gap-2">
+              <NewApplicationButton>
+                <Button className="hidden xl:block">New Application</Button>
+              </NewApplicationButton>
+              <NewApplicationButton>
+                <Button className="w-12 items-center xl:hidden" size="icon">
+                  <PlusIcon size={20} />
+                </Button>
+              </NewApplicationButton>
+              <SavedForLaterSheet />
+            </div>
+            <FullApplicationView applicationId={selectedRow?.id || ''} />
+          </div>
         </div>
       </div>
     </div>
