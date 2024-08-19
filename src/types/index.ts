@@ -1,7 +1,7 @@
 import {
   jobApplications,
   jobApplicationTimelineUpdates,
-  savedJobApplications,
+  savedJobPosts,
   users,
 } from '@/drizzle/schema'
 
@@ -23,7 +23,7 @@ export type dbJobApplicationTimelineUpdate =
   typeof jobApplicationTimelineUpdates.$inferSelect
 
 export type dbSavedForLaterApplication =
-  typeof savedJobApplications.$inferSelect
+  typeof savedJobPosts.$inferSelect
 
 export type statusEnum =
   | 'applied'

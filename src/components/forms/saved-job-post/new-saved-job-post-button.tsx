@@ -10,13 +10,13 @@ import {
 } from '@/components/ui/dialog'
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
-import SavedForLaterForm from './saved-for-later-form'
+import SavedJobPostForm from './saved-job-post-form'
 import { useUser } from '@clerk/nextjs'
 import { roleTypeEnum } from '@/types'
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
 
-export default function NewApplicationButton({
+export default function NewSavedJobPostButton({
   children,
 }: {
   children: React.ReactNode
@@ -46,12 +46,12 @@ export default function NewApplicationButton({
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>New Application</DialogTitle>
+            <DialogTitle>New Saved Job Post</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to log your new application
+            Fill out the form to save a job posting for later
           </DialogDescription>
-          <SavedForLaterForm
+          <SavedJobPostForm
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
             roleType={

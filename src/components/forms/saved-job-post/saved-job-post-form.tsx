@@ -47,7 +47,7 @@ interface SavedForLaterFormProps {
   roleType?: roleTypeEnum
 }
 
-const SavedForLaterForm = ({
+const SavedJobPostForm = ({
   savedForLaterApplication,
   setIsChanged,
   setOpen,
@@ -291,4 +291,4 @@ const SavedForLaterForm = ({
   )
 }
 
-export default SavedForLaterForm
+export default SavedJobPostForm

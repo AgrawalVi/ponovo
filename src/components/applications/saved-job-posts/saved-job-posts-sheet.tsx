@@ -12,7 +12,7 @@ import { Button } from '@/components/ui/button'
 import { Bookmark } from 'lucide-react'
 import { api } from '@/trpc/react'
 
-export default function SavedForLaterSheet() {
+export default function SavedJobPostsSheet() {
   const query = api.savedForLater.getAllSavedForLaterByUserId.useQuery()
 
   return (

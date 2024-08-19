@@ -31,7 +31,7 @@ import FullApplicationView from '../full-application-panel/full-application-view
 import { dbJobApplication } from '@/types'
 import { cn } from '@/lib/utils'
 import { PlusIcon } from 'lucide-react'
-import SavedForLaterSheet from '../saved-for-later-applications/saved-for-later-sheet'
+import SavedJobPostsSheet from '@/components/applications/saved-job-posts/saved-job-posts-sheet'
 
 interface DataTableProps {
   columns: ColumnDef<dbJobApplication>[]
@@ -179,7 +179,7 @@ export function ApplicationDataTable({
                   <PlusIcon size={20} />
                 </Button>
               </NewApplicationButton>
-              <SavedForLaterSheet />
+              <SavedJobPostsSheet />
             </div>
             <FullApplicationView applicationId={selectedRow?.id || ''} />
           </div>
