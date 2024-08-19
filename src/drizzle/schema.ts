@@ -39,6 +39,8 @@ export const jobRoleTypeEnum = pgEnum('job_role_type', [
   'internship',
 ])
 
+export const emailTypeEnum = pgEnum('email_type', ['personal', 'work', 'other'])
+
 export const users = pgTable('users', {
   id: uuid('id')
     .primaryKey()
@@ -173,3 +175,19 @@ export const savedJobApplicationsRelations = relations(
     }),
   }),
 )
+
+export const contacts = pgTable('contacts', {
+  id: uuid('id'),
+  userId: uuid('user_id').references(() => users.id),
+
+  contact_name: text('contact_name'),
+})
+
+export const contactEmail = pgTable('contact_email', {
+  id: uuid('id'),
+  contactId: uuid('contact_id').references(() => contacts.id),
+
+  email_type: emailTypeEnum('email_type').notNull(),
+  other_description: text('other_description'),
+  email: text('email').notNull(),
+})
