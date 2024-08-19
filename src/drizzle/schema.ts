@@ -39,6 +39,12 @@ export const jobRoleTypeEnum = pgEnum('job_role_type', [
   'internship',
 ])
 
+export const interestLevelEnum = pgEnum('interest_level', [
+  'low',
+  'medium',
+  'high',
+])
+
 export const users = pgTable('users', {
   id: uuid('id')
     .primaryKey()
@@ -91,6 +97,9 @@ export const jobApplications = pgTable('job_applications', {
   locations: text('locations')
     .array()
     .default(sql`ARRAY[]::text[]`),
+
+  comments: text('comments'),
+  interestLevel: interestLevelEnum('interest_level').notNull(),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
