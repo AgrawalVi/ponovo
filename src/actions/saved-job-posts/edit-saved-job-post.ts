@@ -1,18 +1,18 @@
 'use server'
 
 import { getUserByClerkId } from '@/data/users/get-users'
-import { applicationSchema } from '@/schemas'
+import { savedJobPostSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
 import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { editSavedForLaterApplicationByIdAndUserId } from "@/data/saved-for-later-applications/edit-saved-for-later";
+import { editSavedForLaterApplicationByIdAndUserId } from "@/data/saved-job-post/edit-saved-job-post";
 
-export const editSavedForLaterApplication = async (
-  values: z.infer<typeof applicationSchema>,
+export const editSavedJobPost = async (
+  values: z.infer<typeof savedJobPostSchema>,
   applicationId: string,
 ) => {
-  const validatedFields = applicationSchema.safeParse(values)
+  const validatedFields = savedJobPostSchema.safeParse(values)
 
   if (!validatedFields.success) {
     return { error: 'Invalid Fields' }

@@ -1,7 +1,7 @@
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc'
 import { auth } from '@clerk/nextjs/server'
 import { getUserByClerkId } from '@/data/users/get-users'
-import { getAllSavedForLaterByUserId } from '@/data/saved-for-later-applications/get-saved-for-later'
+import { getAllSavedForLaterByUserId } from '@/data/saved-job-post/get-saved-job-post'
 
 export const savedForLaterRouter = createTRPCRouter({
   getAllSavedForLaterByUserId: publicProcedure.query(async () => {

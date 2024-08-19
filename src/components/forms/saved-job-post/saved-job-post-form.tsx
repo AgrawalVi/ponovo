@@ -2,11 +2,9 @@
 
 import { useEffect, useTransition } from 'react'
 import { z } from 'zod'
-import { savedForLaterApplicationSchema } from '@/schemas'
+import { savedJobPostSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
-import { cn } from '@/lib/utils'
 import { newApplication } from '@/actions/applications/new-application'
 
 import { useToast } from '@/components/ui/use-toast'
@@ -27,86 +25,85 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { CalendarIcon } from 'lucide-react'
-import { dbSavedForLaterApplication, roleTypeEnum } from '@/types'
+import { dbSavedJobPost, roleTypeEnum } from '@/types'
 import { editApplication } from '@/actions/applications/edit-application'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
+import StatusFormElement from '../status-form-element'
+import DatePickerFormElement from "@/components/forms/date-picker-form-element";
+import { editSavedJobPost } from "@/actions/saved-job-posts/edit-saved-job-post";
+import { newSavedJobPost } from "@/actions/saved-job-posts/new-saved-job-post";
 
-interface SavedForLaterFormProps {
-  savedForLaterApplication?: dbSavedForLaterApplication
-  setIsChanged: (value: boolean) => void
-  setOpen: (value: boolean) => void
-  roleType?: roleTypeEnum
+interface SavedJobPostFormPropsEditing {
+  jobPost: dbSavedJobPost; // Required when editing is true
+  setIsChanged: (value: boolean) => void;
+  setOpen: (value: boolean) => void;
+  editing: true;  // Discriminator field
+  roleType?: roleTypeEnum;
 }
 
-const SavedJobPostForm = ({
-  savedForLaterApplication,
+interface SavedJobPostFormPropsNotEditing {
+  jobPost?: dbSavedJobPost; // Optional when editing is false
+  setIsChanged: (value: boolean) => void;
+  setOpen: (value: boolean) => void;
+  editing: false; // Discriminator field
+  roleType?: roleTypeEnum;
+}
+
+type SavedJobPostFormProps = SavedJobPostFormPropsEditing | SavedJobPostFormPropsNotEditing;
+
+const ApplicationForm = ({
+  jobPost,
   setIsChanged,
   setOpen,
+  editing,
   roleType,
-}: SavedForLaterFormProps) => {
+}: SavedJobPostFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
 
   let queryKey = undefined
-  if (savedForLaterApplication) {
-    queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
-      id: savedForLaterApplication.id,
-    })
+  if (editing) {
+    queryKey = getQueryKey(api.savedForLater.getAllSavedForLaterByUserId)
   }
 
-  const defaultValues = savedForLaterApplication
-    ? {
-        companyName: savedForLaterApplication.companyName,
-        jobTitle: savedForLaterApplication.jobTitle,
-        url: savedForLaterApplication.url,
-        roleType: savedForLaterApplication.roleType,
-        addedDate: savedForLaterApplication.addedDate,
-      }
-    : {
-        companyName: '',
-        jobTitle: '',
-        url: '',
-        status: 'applied',
-        roleType: roleType ?? 'internship',
-      }
+  const defaultValues = {
+    companyName: jobPost?.companyName ?? '',
+    jobTitle: jobPost?.jobTitle ?? '',
+    url: jobPost?.url ?? undefined,
+    roleType: jobPost?.roleType ?? roleType ?? 'internship',
+    addedDate: jobPost?.addedDate ?? new Date(),
+  }
 
-  const form = useForm<z.infer<typeof savedForLaterApplicationSchema>>({
-    resolver: zodResolver(savedForLaterApplicationSchema),
+  const form = useForm<z.infer<typeof savedJobPostSchema>>({
+    resolver: zodResolver(savedJobPostSchema),
     defaultValues: {
-      companyName: savedForLaterApplication?.companyName ?? '',
-      jobTitle: savedForLaterApplication?.jobTitle ?? '',
-      url: savedForLaterApplication?.url ?? '',
-      roleType: savedForLaterApplication?.roleType ?? roleType ?? 'internship',
-      addedDate: savedForLaterApplication?.addedDate ?? new Date(),
+      companyName: jobPost?.companyName ?? '',
+      jobTitle: jobPost?.jobTitle ?? '',
+      url: jobPost?.url ?? undefined,
+      roleType: jobPost?.roleType ?? roleType ?? 'internship',
+      addedDate: jobPost?.addedDate ?? new Date(),
     },
   })
 
   useEffect(() => {
     const subscription = form.watch((values) => {
-      if (savedForLaterApplication) {
+      if (editing) {
         setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
       } else {
-        const { roleType, addedDate, ...rest } = values
+        const { addedDate, ...rest } = values
         setIsChanged(JSON.stringify(rest) !== JSON.stringify(defaultValues))
       }
     })
     return () => subscription.unsubscribe()
   }, [form, setIsChanged])
 
-  const onSubmit = (data: z.infer<typeof savedForLaterApplicationSchema>) => {
+  const onSubmit = (data: z.infer<typeof savedJobPostSchema>) => {
     startTransition(() => {
-      if (savedForLaterApplication) {
-        editApplication(data, savedForLaterApplication.id)
+      if (editing) {
+        editSavedJobPost(data, jobPost.id)
           .then((response) => {
             if (response.success) {
               form.reset()
@@ -131,7 +128,7 @@ const SavedJobPostForm = ({
             })
           })
       } else {
-        newApplication(data)
+        newSavedJobPost(data)
           .then((response) => {
             if (response.success) {
               form.reset()
@@ -220,38 +217,11 @@ const SavedJobPostForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date Applied</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={'outline'}
-                        className={cn(
-                          'w-full pl-3 text-left font-normal',
-                          !field.value && 'text-muted-foreground',
-                        )}
-                        disabled={isPending}
-                      >
-                        {field.value ? (
-                          format(field.value, 'PPP')
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="center">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date('1900-01-01')
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <DatePickerFormElement
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={isPending}
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -291,4 +261,4 @@ const SavedJobPostForm = ({
   )
 }
 
-export default SavedJobPostForm
+export default ApplicationForm

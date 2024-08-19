@@ -23,3 +23,11 @@ export const userPreferenceSchema = z.object({
   roleType: z.enum(jobRoleTypeEnum.enumValues),
   timelineUpdateType: z.enum(applicationStatusEnum.enumValues),
 })
+
+export const savedJobPostSchema = z.object({
+  companyName: z.string().min(1, { message: 'Company name is required'}),
+  jobTitle: z.string().min(1, { message: 'Job title is required'}),
+  url: z.string().url({ message: 'Must be a valid URL' }).or(z.literal('')),
+  roleType: z.enum(jobRoleTypeEnum.enumValues).default('internship'),
+  addedDate: z.date()
+})
