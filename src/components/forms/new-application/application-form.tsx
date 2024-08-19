@@ -2,7 +2,7 @@
 
 import { useEffect, useTransition } from 'react'
 import { z } from 'zod'
-import { newApplicationSchema } from '@/schemas'
+import { applicationSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
@@ -82,8 +82,8 @@ const ApplicationForm = ({
         roleType: roleType ?? 'internship',
       }
 
-  const form = useForm<z.infer<typeof newApplicationSchema>>({
-    resolver: zodResolver(newApplicationSchema),
+  const form = useForm<z.infer<typeof applicationSchema>>({
+    resolver: zodResolver(applicationSchema),
     defaultValues: {
       companyName: application?.companyName ?? '',
       jobTitle: application?.jobTitle ?? '',
@@ -106,7 +106,7 @@ const ApplicationForm = ({
     return () => subscription.unsubscribe()
   }, [form, setIsChanged])
 
-  const onSubmit = (data: z.infer<typeof newApplicationSchema>) => {
+  const onSubmit = (data: z.infer<typeof applicationSchema>) => {
     startTransition(() => {
       if (application) {
         editApplication(data, application.id)

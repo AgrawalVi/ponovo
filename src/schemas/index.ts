@@ -1,7 +1,7 @@
 import { applicationStatusEnum, jobRoleTypeEnum } from '@/drizzle/schema'
 import { z } from 'zod'
 
-export const newApplicationSchema = z.object({
+export const applicationSchema = z.object({
   companyName: z.string().min(1, { message: 'Company name is required' }),
   jobTitle: z.string().min(1, { message: 'Job title is required' }),
   url: z.string().url({ message: 'Must be a valid URL' }).or(z.literal('')),
