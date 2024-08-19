@@ -5,27 +5,16 @@ import { z } from 'zod'
 import { applicationTimelineUpdateSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
-import { cn } from '@/lib/utils'
-
 import { useToast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
 import {
   Form,
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { CalendarIcon } from 'lucide-react'
 import { dbJobApplicationTimelineUpdate, statusEnum } from '@/types'
 import { Textarea } from '@/components/ui/textarea'
 import editTimelineUpdate from '@/actions/timeline-updates/edit-timeline-update'
@@ -34,19 +23,33 @@ import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 import { newTimelineUpdate } from '@/actions/timeline-updates/new-timeline-update'
 import StatusFormElement from '../status-form-element'
+import DatePickerFormElement from "@/components/forms/date-picker-form-element";
 
-interface TimelineUpdateFormProps {
-  timelineUpdate?: dbJobApplicationTimelineUpdate
+interface TimelineUpdateFormPropsEditing {
+  timelineUpdate: dbJobApplicationTimelineUpdate
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
+  editing: true
   applicationId: string
   timelineUpdateType?: statusEnum
 }
+
+interface TimelineUpdateFormPropsNotEditing {
+  timelineUpdate?: dbJobApplicationTimelineUpdate
+  setIsChanged: (value: boolean) => void
+  setOpen: (value: boolean) => void
+  editing: false
+  applicationId: string
+  timelineUpdateType?: statusEnum
+}
+
+type TimelineUpdateFormProps = TimelineUpdateFormPropsEditing | TimelineUpdateFormPropsNotEditing
 
 const TimelineUpdateForm = ({
   timelineUpdate,
   setIsChanged,
   setOpen,
+  editing,
   applicationId,
   timelineUpdateType,
 }: TimelineUpdateFormProps) => {
@@ -61,15 +64,10 @@ const TimelineUpdateForm = ({
     })
   }
 
-  const defaultValues = timelineUpdate
-    ? {
-        updateType: timelineUpdate.timeLineUpdate,
-        updateDate: timelineUpdate.timelineUpdateReceivedAt,
-        comments: timelineUpdate.comments,
-      }
-    : {
-        comments: '',
-        updateType: timelineUpdateType ?? 'rejected',
+  const defaultValues = {
+        updateType: timelineUpdate?.timeLineUpdate ?? timelineUpdateType ?? 'rejected',
+        updateDate: timelineUpdate?.timelineUpdateReceivedAt ?? new Date(),
+        comments: timelineUpdate?.comments ?? undefined,
       }
 
   const form = useForm<z.infer<typeof applicationTimelineUpdateSchema>>({
@@ -78,7 +76,7 @@ const TimelineUpdateForm = ({
       updateType:
         timelineUpdate?.timeLineUpdate ?? timelineUpdateType ?? 'rejected',
       updateDate: timelineUpdate?.timelineUpdateReceivedAt ?? new Date(),
-      comments: timelineUpdate?.comments ?? '',
+      comments: timelineUpdate?.comments ?? undefined,
     },
   })
 
@@ -91,11 +89,10 @@ const TimelineUpdateForm = ({
 
   const onSubmit = (data: z.infer<typeof applicationTimelineUpdateSchema>) => {
     startTransition(() => {
-      if (timelineUpdate) {
+      if (editing) {
         editTimelineUpdate(
           data,
           timelineUpdate.id,
-          timelineUpdate.jobApplicationId,
         )
           .then((response) => {
             if (response.success) {
@@ -177,38 +174,11 @@ const TimelineUpdateForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Update Date</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={'outline'}
-                        className={cn(
-                          'w-full pl-3 text-left font-normal',
-                          !field.value && 'text-muted-foreground',
-                        )}
-                        disabled={isPending}
-                      >
-                        {field.value ? (
-                          format(field.value, 'PPP')
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="center">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date('1900-01-01')
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <DatePickerFormElement
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={isPending}
+                />
                 <FormMessage />
               </FormItem>
             )}
