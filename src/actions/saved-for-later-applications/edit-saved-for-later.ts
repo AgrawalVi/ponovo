@@ -1,23 +1,24 @@
 'use server'
 
 import { getUserByClerkId } from '@/data/users/get-users'
-import { savedForLaterApplicationSchema } from '@/schemas'
+import { applicationSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
 import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
+import { editSavedForLaterApplicationByIdAndUserId } from "@/data/saved-for-later-applications/edit-saved-for-later";
 
 export const editSavedForLaterApplication = async (
-  values: z.infer<typeof savedForLaterApplicationSchema>,
+  values: z.infer<typeof applicationSchema>,
   applicationId: string,
 ) => {
-  const validatedFields = savedForLaterApplicationSchema.safeParse(values)
+  const validatedFields = applicationSchema.safeParse(values)
 
   if (!validatedFields.success) {
     return { error: 'Invalid Fields' }
   }
 
-  const { companyName, jobTitle, url, roleType, addedDate } =
+  const { companyName, jobTitle, url, roleType} =
     validatedFields.data
 
   const currentUser = auth()
@@ -32,23 +33,20 @@ export const editSavedForLaterApplication = async (
     return { error: 'User not found' }
   }
 
-  const updatedTimelineUpdate = await editTimelineUpdateByIdAndUserId(
-    timelineUpdateId,
+  const updatedApplication = await editSavedForLaterApplicationByIdAndUserId(
+    applicationId,
     existingUser.id,
-    updateType,
-    updateDate,
-    comments,
+    companyName,
+    jobTitle,
+    url,
+    roleType
   )
 
-  if (!updatedTimelineUpdate) {
+  if (!updatedApplication) {
     return { error: 'Timeline update not found' }
   }
 
-  if (!application) {
-    return { error: 'Database failed to update application status' }
-  }
-
-  track('Timeline Update Updated', { timelineUpdateId: timelineUpdateId })
+  track('Application updated', { applicationId: applicationId })
 
   revalidatePath('/dashboard')
   return { success: 'Timeline update updated successfully' }
