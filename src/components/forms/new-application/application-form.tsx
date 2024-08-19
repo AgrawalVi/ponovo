@@ -5,8 +5,6 @@ import { z } from 'zod'
 import { applicationSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
-import { cn } from '@/lib/utils'
 import { newApplication } from '@/actions/applications/new-application'
 
 import { useToast } from '@/components/ui/use-toast'
@@ -27,31 +25,37 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
-import { Calendar } from '@/components/ui/calendar'
-import { CalendarIcon } from 'lucide-react'
 import { dbJobApplication, roleTypeEnum } from '@/types'
 import { editApplication } from '@/actions/applications/edit-application'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 import StatusFormElement from '../status-form-element'
+import DatePickerFormElement from "@/components/forms/date-picker-form-element";
 
-interface ApplicationFormProps {
-  application?: dbJobApplication
-  setIsChanged: (value: boolean) => void
-  setOpen: (value: boolean) => void
-  roleType?: roleTypeEnum
+interface ApplicationFormPropsEditing {
+  application: dbJobApplication; // Required when editing is true
+  setIsChanged: (value: boolean) => void;
+  setOpen: (value: boolean) => void;
+  editing: true;  // Discriminator field
+  roleType?: roleTypeEnum;
 }
+
+interface ApplicationFormPropsNotEditing {
+  application?: dbJobApplication; // Optional when editing is false
+  setIsChanged: (value: boolean) => void;
+  setOpen: (value: boolean) => void;
+  editing: false; // Discriminator field
+  roleType?: roleTypeEnum;
+}
+
+type ApplicationFormProps = ApplicationFormPropsEditing | ApplicationFormPropsNotEditing;
 
 const ApplicationForm = ({
   application,
   setIsChanged,
   setOpen,
+  editing,
   roleType,
 }: ApplicationFormProps) => {
   const queryClient = useQueryClient()
@@ -65,21 +69,13 @@ const ApplicationForm = ({
     })
   }
 
-  const defaultValues = application
-    ? {
-        companyName: application.companyName,
-        jobTitle: application.jobTitle,
-        url: application.url,
-        status: application.applicationStatus,
-        roleType: application.roleType,
-        appliedDate: application.dateApplied,
-      }
-    : {
-        companyName: '',
-        jobTitle: '',
-        url: '',
-        status: 'applied',
-        roleType: roleType ?? 'internship',
+  const defaultValues = {
+        companyName: application?.companyName ?? '',
+        jobTitle: application?.jobTitle ?? '',
+        url: application?.url ?? undefined,
+        status: application?.applicationStatus ?? 'applied',
+        roleType: application?.roleType ?? roleType ?? 'internship',
+        appliedDate: application?.dateApplied ?? new Date(),
       }
 
   const form = useForm<z.infer<typeof applicationSchema>>({
@@ -87,7 +83,7 @@ const ApplicationForm = ({
     defaultValues: {
       companyName: application?.companyName ?? '',
       jobTitle: application?.jobTitle ?? '',
-      url: application?.url ?? '',
+      url: application?.url ?? undefined,
       status: application?.applicationStatus ?? 'applied',
       roleType: application?.roleType ?? roleType ?? 'internship',
       appliedDate: application?.dateApplied ?? new Date(),
@@ -96,10 +92,10 @@ const ApplicationForm = ({
 
   useEffect(() => {
     const subscription = form.watch((values) => {
-      if (application) {
+      if (editing) {
         setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
       } else {
-        const { roleType, appliedDate, ...rest } = values
+        const { appliedDate, ...rest } = values
         setIsChanged(JSON.stringify(rest) !== JSON.stringify(defaultValues))
       }
     })
@@ -108,7 +104,7 @@ const ApplicationForm = ({
 
   const onSubmit = (data: z.infer<typeof applicationSchema>) => {
     startTransition(() => {
-      if (application) {
+      if (editing) {
         editApplication(data, application.id)
           .then((response) => {
             if (response.success) {
@@ -223,38 +219,11 @@ const ApplicationForm = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date Applied</FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={'outline'}
-                        className={cn(
-                          'w-full pl-3 text-left font-normal',
-                          !field.value && 'text-muted-foreground',
-                        )}
-                        disabled={isPending}
-                      >
-                        {field.value ? (
-                          format(field.value, 'PPP')
-                        ) : (
-                          <span>Pick a date</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="center">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date('1900-01-01')
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
+                <DatePickerFormElement
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={isPending}
+                />
                 <FormMessage />
               </FormItem>
             )}
