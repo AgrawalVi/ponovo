@@ -58,7 +58,7 @@ const TimelineUpdateForm = ({
   const { toast } = useToast()
 
   let queryKey = undefined
-  if (timelineUpdate) {
+  if (editing) {
     queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
       id: timelineUpdate.jobApplicationId,
     })

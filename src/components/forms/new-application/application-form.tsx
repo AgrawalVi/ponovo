@@ -63,7 +63,7 @@ const ApplicationForm = ({
   const { toast } = useToast()
 
   let queryKey = undefined
-  if (application) {
+  if (editing) {
     queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
       id: application.id,
     })
