@@ -198,7 +198,7 @@ const SavedJobPostForm = ({
             control={form.control}
             name="url"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="sm:col-span-2">
                 <FormLabel>Job Post URL</FormLabel>
                 <FormControl>
                   <Input
