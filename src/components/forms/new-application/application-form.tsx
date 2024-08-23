@@ -145,7 +145,6 @@ const ApplicationForm = ({
             if (response.success) {
               if (savedJobPostId) {
                 deleteSavedJobPost(savedJobPostId)
-                  .then((response) => {})
                   .then(() => {
                     queryClient.invalidateQueries({
                       queryKey: getQueryKey(

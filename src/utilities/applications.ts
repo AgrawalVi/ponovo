@@ -1,6 +1,5 @@
 import {
   dbCreateApplicationType,
-  dbJobApplication,
   dbJobApplicationWithTimelineUpdates,
   dbSavedJobPost,
   statusEnum,

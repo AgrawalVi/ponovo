@@ -14,11 +14,8 @@ import ApplicationForm from './application-form'
 import { useUser } from '@clerk/nextjs'
 import {
   dbCreateApplicationType,
-  dbJobApplication,
   roleTypeEnum,
 } from '@/types'
-import { Button } from '@/components/ui/button'
-import { PlusIcon } from 'lucide-react'
 
 interface NewApplicationButtonProps {
   children: React.ReactNode

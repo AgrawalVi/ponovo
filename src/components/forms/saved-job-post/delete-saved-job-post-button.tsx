@@ -21,7 +21,6 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden'
-import { deleteTimelineUpdate } from '@/actions/timeline-updates/delete-timeline-update'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
