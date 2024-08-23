@@ -25,7 +25,7 @@ import { deleteTimelineUpdate } from '@/actions/timeline-updates/delete-timeline
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
-import { deleteSavedJobPost } from "@/actions/saved-job-posts/delete-saved-job-post";
+import { deleteSavedJobPost } from '@/actions/saved-job-posts/delete-saved-job-post'
 
 export default function DeleteSavedJobPostButton({
   savedJobPostId,
@@ -76,15 +76,15 @@ export default function DeleteSavedJobPostButton({
           </DialogTitle>
           <DialogDescription>
             <VisuallyHidden.Root>
-              This will delete the selected job post. This action cannot
-              be undone.
+              This will delete the selected job post. This action cannot be
+              undone.
             </VisuallyHidden.Root>
           </DialogDescription>
           <Alert variant="destructive">
             <AlertCircle className="h-4 w-4" />
             <AlertDescription>
-              This will delete the selected job post. This action cannot
-              be undone.
+              This will delete the selected job post. This action cannot be
+              undone.
             </AlertDescription>
           </Alert>
         </DialogHeader>

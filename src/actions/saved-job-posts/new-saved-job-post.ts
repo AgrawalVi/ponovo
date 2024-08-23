@@ -5,7 +5,7 @@ import { savedJobPostSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
 import { getUserByClerkId } from '@/data/users/get-users'
 import { track } from '@vercel/analytics/server'
-import { insertSavedJobPost } from "@/data/saved-job-post/insert-saved-job-post";
+import { insertSavedJobPost } from '@/data/saved-job-post/insert-saved-job-post'
 
 export async function newSavedJobPost(
   values: z.infer<typeof savedJobPostSchema>,
@@ -16,7 +16,8 @@ export async function newSavedJobPost(
     return { error: 'Invalid Fields' }
   }
 
-  const { companyName, jobTitle, url, roleType, addedDate } = validatedFields.data
+  const { companyName, jobTitle, url, roleType, addedDate } =
+    validatedFields.data
 
   const currentUser = auth()
 
@@ -36,7 +37,7 @@ export async function newSavedJobPost(
     jobTitle,
     addedDate,
     roleType,
-    url
+    url,
   )
 
   if (!savedJobPost) {

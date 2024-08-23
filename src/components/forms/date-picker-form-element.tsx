@@ -1,10 +1,14 @@
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { FormControl } from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { FormControl } from '@/components/ui/form'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
+import { format } from 'date-fns'
+import { CalendarIcon } from 'lucide-react'
+import { Calendar } from '@/components/ui/calendar'
 
 interface DatePickerFormElementProps {
   onValueChange: (value: Date | undefined) => void
@@ -29,11 +33,7 @@ export default function DatePickerFormElement({
             )}
             disabled={disabled}
           >
-            {value ? (
-              format(value, 'PPP')
-            ) : (
-              <span>Pick a date</span>
-            )}
+            {value ? format(value, 'PPP') : <span>Pick a date</span>}
             <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
           </Button>
         </FormControl>

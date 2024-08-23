@@ -11,12 +11,7 @@ export const deleteSavedJobPostByIdAndUserId = async (
   try {
     await db
       .delete(savedJobPosts)
-      .where(
-        and(
-          eq(savedJobPosts.id, id),
-          eq(savedJobPosts.userId, userId),
-        ),
-      )
+      .where(and(eq(savedJobPosts.id, id), eq(savedJobPosts.userId, userId)))
   } catch (e) {
     console.error(e)
     return null

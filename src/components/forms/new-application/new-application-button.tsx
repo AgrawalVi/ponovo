@@ -12,7 +12,11 @@ import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import ApplicationForm from './application-form'
 import { useUser } from '@clerk/nextjs'
-import { dbCreateApplicationType, dbJobApplication, roleTypeEnum } from '@/types'
+import {
+  dbCreateApplicationType,
+  dbJobApplication,
+  roleTypeEnum,
+} from '@/types'
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
 
@@ -25,7 +29,7 @@ interface NewApplicationButtonProps {
 export default function NewApplicationButton({
   children,
   application,
-  savedJobPostId
+  savedJobPostId,
 }: NewApplicationButtonProps) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)

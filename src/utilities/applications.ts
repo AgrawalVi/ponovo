@@ -3,7 +3,7 @@ import {
   dbJobApplication,
   dbJobApplicationWithTimelineUpdates,
   dbSavedJobPost,
-  statusEnum
+  statusEnum,
 } from '@/types'
 
 export const getFurthestStatusByJobApplicationStatus = (status: statusEnum) => {

@@ -25,34 +25,40 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { dbCreateApplicationType, dbJobApplication, roleTypeEnum } from '@/types'
+import {
+  dbCreateApplicationType,
+  dbJobApplication,
+  roleTypeEnum,
+} from '@/types'
 import { editApplication } from '@/actions/applications/edit-application'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 import StatusFormElement from '../status-form-element'
-import DatePickerFormElement from "@/components/forms/date-picker-form-element";
-import { deleteSavedJobPost } from "@/actions/saved-job-posts/delete-saved-job-post";
+import DatePickerFormElement from '@/components/forms/date-picker-form-element'
+import { deleteSavedJobPost } from '@/actions/saved-job-posts/delete-saved-job-post'
 
 interface ApplicationFormPropsEditing {
-  application: dbJobApplication; // Required when editing is true
-  setIsChanged: (value: boolean) => void;
-  setOpen: (value: boolean) => void;
-  editing: true;  // Discriminator field
-  roleType?: roleTypeEnum;
-  savedJobPostId?: string;
+  application: dbJobApplication // Required when editing is true
+  setIsChanged: (value: boolean) => void
+  setOpen: (value: boolean) => void
+  editing: true // Discriminator field
+  roleType?: roleTypeEnum
+  savedJobPostId?: string
 }
 
 interface ApplicationFormPropsNotEditing {
-  application?: dbCreateApplicationType; // Optional when editing is false
-  setIsChanged: (value: boolean) => void;
-  setOpen: (value: boolean) => void;
-  editing: false; // Discriminator field
-  roleType?: roleTypeEnum;
-  savedJobPostId?: string;
+  application?: dbCreateApplicationType // Optional when editing is false
+  setIsChanged: (value: boolean) => void
+  setOpen: (value: boolean) => void
+  editing: false // Discriminator field
+  roleType?: roleTypeEnum
+  savedJobPostId?: string
 }
 
-type ApplicationFormProps = ApplicationFormPropsEditing | ApplicationFormPropsNotEditing;
+type ApplicationFormProps =
+  | ApplicationFormPropsEditing
+  | ApplicationFormPropsNotEditing
 
 const ApplicationForm = ({
   application,
@@ -74,13 +80,13 @@ const ApplicationForm = ({
   }
 
   const defaultValues = {
-        companyName: application?.companyName ?? '',
-        jobTitle: application?.jobTitle ?? '',
-        url: application?.url ?? undefined,
-        status: application?.applicationStatus ?? 'applied',
-        roleType: application?.roleType ?? roleType ?? 'internship',
-        appliedDate: application?.dateApplied ?? new Date(),
-      }
+    companyName: application?.companyName ?? '',
+    jobTitle: application?.jobTitle ?? '',
+    url: application?.url ?? undefined,
+    status: application?.applicationStatus ?? 'applied',
+    roleType: application?.roleType ?? roleType ?? 'internship',
+    appliedDate: application?.dateApplied ?? new Date(),
+  }
 
   const form = useForm<z.infer<typeof applicationSchema>>({
     resolver: zodResolver(applicationSchema),
@@ -138,15 +144,18 @@ const ApplicationForm = ({
           .then((response) => {
             if (response.success) {
               if (savedJobPostId) {
-                deleteSavedJobPost(savedJobPostId).then((response) => {
-                }).then(() => {
-                  queryClient.invalidateQueries({
-                    queryKey: getQueryKey(api.savedForLater.getAllSavedJobPostsByUserId),
+                deleteSavedJobPost(savedJobPostId)
+                  .then((response) => {})
+                  .then(() => {
+                    queryClient.invalidateQueries({
+                      queryKey: getQueryKey(
+                        api.savedForLater.getAllSavedJobPostsByUserId,
+                      ),
+                    })
+                    form.reset()
+                    setOpen(false)
+                    toast({ title: 'Application logged successfully' })
                   })
-                  form.reset()
-                  setOpen(false)
-                  toast({title: 'Application logged successfully'})
-                })
               }
             } else {
               toast({

@@ -23,7 +23,7 @@ import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 import { newTimelineUpdate } from '@/actions/timeline-updates/new-timeline-update'
 import StatusFormElement from '../status-form-element'
-import DatePickerFormElement from "@/components/forms/date-picker-form-element";
+import DatePickerFormElement from '@/components/forms/date-picker-form-element'
 
 interface TimelineUpdateFormPropsEditing {
   timelineUpdate: dbJobApplicationTimelineUpdate
@@ -43,7 +43,9 @@ interface TimelineUpdateFormPropsNotEditing {
   timelineUpdateType?: statusEnum
 }
 
-type TimelineUpdateFormProps = TimelineUpdateFormPropsEditing | TimelineUpdateFormPropsNotEditing
+type TimelineUpdateFormProps =
+  | TimelineUpdateFormPropsEditing
+  | TimelineUpdateFormPropsNotEditing
 
 const TimelineUpdateForm = ({
   timelineUpdate,
@@ -65,10 +67,11 @@ const TimelineUpdateForm = ({
   }
 
   const defaultValues = {
-        updateType: timelineUpdate?.timeLineUpdate ?? timelineUpdateType ?? 'rejected',
-        updateDate: timelineUpdate?.timelineUpdateReceivedAt ?? new Date(),
-        comments: timelineUpdate?.comments ?? undefined,
-      }
+    updateType:
+      timelineUpdate?.timeLineUpdate ?? timelineUpdateType ?? 'rejected',
+    updateDate: timelineUpdate?.timelineUpdateReceivedAt ?? new Date(),
+    comments: timelineUpdate?.comments ?? undefined,
+  }
 
   const form = useForm<z.infer<typeof applicationTimelineUpdateSchema>>({
     resolver: zodResolver(applicationTimelineUpdateSchema),
@@ -90,10 +93,7 @@ const TimelineUpdateForm = ({
   const onSubmit = (data: z.infer<typeof applicationTimelineUpdateSchema>) => {
     startTransition(() => {
       if (editing) {
-        editTimelineUpdate(
-          data,
-          timelineUpdate.id,
-        )
+        editTimelineUpdate(data, timelineUpdate.id)
           .then((response) => {
             if (response.success) {
               form.reset()

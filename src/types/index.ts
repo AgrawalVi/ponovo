@@ -23,9 +23,7 @@ export type dbJobApplicationWithTimelineUpdates =
 export type dbJobApplicationTimelineUpdate =
   typeof jobApplicationTimelineUpdates.$inferSelect
 
-export type dbSavedJobPost =
-  typeof savedJobPosts.$inferSelect
-
+export type dbSavedJobPost = typeof savedJobPosts.$inferSelect
 
 export type statusEnum =
   | 'applied'

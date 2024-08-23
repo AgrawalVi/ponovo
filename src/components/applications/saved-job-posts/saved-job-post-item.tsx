@@ -1,20 +1,26 @@
-import { dbSavedJobPost } from "@/types";
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { format } from "date-fns";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRightFromCircle, PlusCircle } from "lucide-react";
-import Link from "next/link";
-import EditJobPostButton from "@/components/forms/saved-job-post/edit-job-post-button";
-import DeleteSavedJobPostButton from "@/components/forms/saved-job-post/delete-saved-job-post-button";
-import NewApplicationButton from "@/components/forms/new-application/new-application-button";
-import { createDummyApplicationFromJobPost } from "@/utilities/applications";
+import { dbSavedJobPost } from '@/types'
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
+import { format } from 'date-fns'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import { Button } from '@/components/ui/button'
+import { ArrowUpRightFromCircle, PlusCircle } from 'lucide-react'
+import Link from 'next/link'
+import EditJobPostButton from '@/components/forms/saved-job-post/edit-job-post-button'
+import DeleteSavedJobPostButton from '@/components/forms/saved-job-post/delete-saved-job-post-button'
+import NewApplicationButton from '@/components/forms/new-application/new-application-button'
+import { createDummyApplicationFromJobPost } from '@/utilities/applications'
 
-const SavedJobPostItem = ({
-  jobPost,
-} : {
-  jobPost: dbSavedJobPost
-}) => {
+const SavedJobPostItem = ({ jobPost }: { jobPost: dbSavedJobPost }) => {
   return (
     <Card>
       <CardHeader>
@@ -31,31 +37,31 @@ const SavedJobPostItem = ({
       </CardHeader>
       <CardFooter className="grid grid-cols-3 gap-2">
         <div className="flex justify-start">
-        {jobPost.url && (
-          <Link href={jobPost.url} target="_blank" rel="noreferrer noopener">
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="border border-dashed"
-                  size="icon"
-                >
-                  <ArrowUpRightFromCircle size="20" />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>Go to job post</TooltipContent>
-            </Tooltip>
-          </Link>
-        )}
+          {jobPost.url && (
+            <Link href={jobPost.url} target="_blank" rel="noreferrer noopener">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    className="border border-dashed"
+                    size="icon"
+                  >
+                    <ArrowUpRightFromCircle size="20" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Go to job post</TooltipContent>
+              </Tooltip>
+            </Link>
+          )}
         </div>
         <div className="flex justify-center">
           <NewApplicationButton
             application={createDummyApplicationFromJobPost(jobPost)}
             savedJobPostId={jobPost.id}
           >
-              <Button size="icon">
-                <PlusCircle size={20} />
-              </Button>
+            <Button size="icon">
+              <PlusCircle size={20} />
+            </Button>
           </NewApplicationButton>
         </div>
         <div className="flex justify-end gap-2">

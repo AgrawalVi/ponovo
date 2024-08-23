@@ -28,27 +28,29 @@ import { dbSavedJobPost, roleTypeEnum } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
-import DatePickerFormElement from "@/components/forms/date-picker-form-element";
-import { editSavedJobPost } from "@/actions/saved-job-posts/edit-saved-job-post";
-import { newSavedJobPost } from "@/actions/saved-job-posts/new-saved-job-post";
+import DatePickerFormElement from '@/components/forms/date-picker-form-element'
+import { editSavedJobPost } from '@/actions/saved-job-posts/edit-saved-job-post'
+import { newSavedJobPost } from '@/actions/saved-job-posts/new-saved-job-post'
 
 interface SavedJobPostFormPropsEditing {
-  jobPost: dbSavedJobPost; // Required when editing is true
-  setIsChanged: (value: boolean) => void;
-  setOpen: (value: boolean) => void;
-  editing: true;  // Discriminator field
-  roleType?: roleTypeEnum;
+  jobPost: dbSavedJobPost // Required when editing is true
+  setIsChanged: (value: boolean) => void
+  setOpen: (value: boolean) => void
+  editing: true // Discriminator field
+  roleType?: roleTypeEnum
 }
 
 interface SavedJobPostFormPropsNotEditing {
-  jobPost?: dbSavedJobPost; // Optional when editing is false
-  setIsChanged: (value: boolean) => void;
-  setOpen: (value: boolean) => void;
-  editing: false; // Discriminator field
-  roleType?: roleTypeEnum;
+  jobPost?: dbSavedJobPost // Optional when editing is false
+  setIsChanged: (value: boolean) => void
+  setOpen: (value: boolean) => void
+  editing: false // Discriminator field
+  roleType?: roleTypeEnum
 }
 
-type SavedJobPostFormProps = SavedJobPostFormPropsEditing | SavedJobPostFormPropsNotEditing;
+type SavedJobPostFormProps =
+  | SavedJobPostFormPropsEditing
+  | SavedJobPostFormPropsNotEditing
 
 const SavedJobPostForm = ({
   jobPost,

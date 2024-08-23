@@ -24,9 +24,7 @@ interface EditJobPostButtonProps {
   jobPost: dbSavedJobPost
 }
 
-export default function EditJobPostButton({
-  jobPost,
-}: EditJobPostButtonProps) {
+export default function EditJobPostButton({ jobPost }: EditJobPostButtonProps) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)

@@ -6,7 +6,7 @@ import { auth } from '@clerk/nextjs/server'
 import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
-import { editSavedJobPostByIdAndUserId } from "@/data/saved-job-post/edit-saved-job-post";
+import { editSavedJobPostByIdAndUserId } from '@/data/saved-job-post/edit-saved-job-post'
 
 export const editSavedJobPost = async (
   values: z.infer<typeof savedJobPostSchema>,
@@ -18,8 +18,7 @@ export const editSavedJobPost = async (
     return { error: 'Invalid Fields' }
   }
 
-  const { companyName, jobTitle, url, roleType} =
-    validatedFields.data
+  const { companyName, jobTitle, url, roleType } = validatedFields.data
 
   const currentUser = auth()
 
@@ -39,7 +38,7 @@ export const editSavedJobPost = async (
     companyName,
     jobTitle,
     url,
-    roleType
+    roleType,
   )
 
   if (!updatedApplication) {
