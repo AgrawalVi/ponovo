@@ -12,15 +12,21 @@ import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import ApplicationForm from './application-form'
 import { useUser } from '@clerk/nextjs'
-import { roleTypeEnum } from '@/types'
+import { dbCreateApplicationType, dbJobApplication, roleTypeEnum } from '@/types'
 import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
 
+interface NewApplicationButtonProps {
+  children: React.ReactNode
+  application?: dbCreateApplicationType
+  savedJobPostId?: string
+}
+
 export default function NewApplicationButton({
   children,
-}: {
-  children: React.ReactNode
-}) {
+  application,
+  savedJobPostId
+}: NewApplicationButtonProps) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -54,13 +60,15 @@ export default function NewApplicationButton({
           <ApplicationForm
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
+            editing={false}
             roleType={
               user?.publicMetadata?.roleType as roleTypeEnum | undefined
             }
+            application={application}
+            savedJobPostId={savedJobPostId}
           />
         </DialogContent>
       </Dialog>
-
       <ConfirmCloseDialog
         open={confirmExitOpen}
         setOpen={setConfirmExitOpen}

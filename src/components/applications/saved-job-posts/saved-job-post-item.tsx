@@ -3,11 +3,12 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import { format } from "date-fns";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRightFromCircle } from "lucide-react";
+import { ArrowUpRightFromCircle, PlusCircle } from "lucide-react";
 import Link from "next/link";
 import EditJobPostButton from "@/components/forms/saved-job-post/edit-job-post-button";
 import DeleteSavedJobPostButton from "@/components/forms/saved-job-post/delete-saved-job-post-button";
-
+import NewApplicationButton from "@/components/forms/new-application/new-application-button";
+import { createDummyApplicationFromJobPost } from "@/utilities/applications";
 
 const SavedJobPostItem = ({
   jobPost,
@@ -39,7 +40,7 @@ const SavedJobPostItem = ({
                   className="border border-dashed"
                   size="icon"
                 >
-                  <ArrowUpRightFromCircle size="17" />
+                  <ArrowUpRightFromCircle size="20" />
                 </Button>
               </TooltipTrigger>
               <TooltipContent>Go to job post</TooltipContent>
@@ -48,7 +49,14 @@ const SavedJobPostItem = ({
         )}
         </div>
         <div className="flex justify-center">
-          asdf
+          <NewApplicationButton
+            application={createDummyApplicationFromJobPost(jobPost)}
+            savedJobPostId={jobPost.id}
+          >
+              <Button size="icon">
+                <PlusCircle size={20} />
+              </Button>
+          </NewApplicationButton>
         </div>
         <div className="flex justify-end gap-2">
           <EditJobPostButton jobPost={jobPost} />

@@ -25,13 +25,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { dbJobApplication, roleTypeEnum } from '@/types'
+import { dbCreateApplicationType, dbJobApplication, roleTypeEnum } from '@/types'
 import { editApplication } from '@/actions/applications/edit-application'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
 import StatusFormElement from '../status-form-element'
 import DatePickerFormElement from "@/components/forms/date-picker-form-element";
+import { deleteSavedJobPost } from "@/actions/saved-job-posts/delete-saved-job-post";
 
 interface ApplicationFormPropsEditing {
   application: dbJobApplication; // Required when editing is true
@@ -39,14 +40,16 @@ interface ApplicationFormPropsEditing {
   setOpen: (value: boolean) => void;
   editing: true;  // Discriminator field
   roleType?: roleTypeEnum;
+  savedJobPostId?: string;
 }
 
 interface ApplicationFormPropsNotEditing {
-  application?: dbJobApplication; // Optional when editing is false
+  application?: dbCreateApplicationType; // Optional when editing is false
   setIsChanged: (value: boolean) => void;
   setOpen: (value: boolean) => void;
   editing: false; // Discriminator field
   roleType?: roleTypeEnum;
+  savedJobPostId?: string;
 }
 
 type ApplicationFormProps = ApplicationFormPropsEditing | ApplicationFormPropsNotEditing;
@@ -57,6 +60,7 @@ const ApplicationForm = ({
   setOpen,
   editing,
   roleType,
+  savedJobPostId,
 }: ApplicationFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
@@ -133,9 +137,17 @@ const ApplicationForm = ({
         newApplication(data)
           .then((response) => {
             if (response.success) {
-              form.reset()
-              setOpen(false)
-              toast({ title: 'Application logged successfully' })
+              if (savedJobPostId) {
+                deleteSavedJobPost(savedJobPostId).then((response) => {
+                }).then(() => {
+                  queryClient.invalidateQueries({
+                    queryKey: getQueryKey(api.savedForLater.getAllSavedJobPostsByUserId),
+                  })
+                  form.reset()
+                  setOpen(false)
+                  toast({title: 'Application logged successfully'})
+                })
+              }
             } else {
               toast({
                 title: 'Something went wrong!',

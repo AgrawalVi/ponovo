@@ -1,4 +1,10 @@
-import { dbJobApplicationWithTimelineUpdates, statusEnum } from '@/types'
+import {
+  dbCreateApplicationType,
+  dbJobApplication,
+  dbJobApplicationWithTimelineUpdates,
+  dbSavedJobPost,
+  statusEnum
+} from '@/types'
 
 export const getFurthestStatusByJobApplicationStatus = (status: statusEnum) => {
   switch (status) {
@@ -41,4 +47,18 @@ export const getFurthestStatusByApplication = (
   } else {
     return getFurthestStatusByJobApplicationStatus(updates[0].timeLineUpdate)
   }
+}
+
+export const createDummyApplicationFromJobPost = (jobPost: dbSavedJobPost) => {
+  const application: dbCreateApplicationType = {
+    companyName: jobPost.companyName,
+    jobTitle: jobPost.jobTitle,
+    url: jobPost.url,
+    applicationStatus: 'applied',
+    roleType: jobPost.roleType,
+    dateApplied: new Date(),
+    userId: jobPost.userId,
+  }
+
+  return application
 }

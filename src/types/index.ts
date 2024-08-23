@@ -7,6 +7,7 @@ import {
 
 // DRIZZLE
 export type dbJobApplication = typeof jobApplications.$inferSelect
+export type dbCreateApplicationType = typeof jobApplications.$inferInsert
 
 export type dbUser = typeof users.$inferSelect
 
@@ -24,6 +25,7 @@ export type dbJobApplicationTimelineUpdate =
 
 export type dbSavedJobPost =
   typeof savedJobPosts.$inferSelect
+
 
 export type statusEnum =
   | 'applied'

@@ -72,6 +72,7 @@ export default function EditApplicationButton({
             application={application}
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
+            editing={false}
           />
         </DialogContent>
       </Dialog>
