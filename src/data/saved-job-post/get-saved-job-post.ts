@@ -2,7 +2,7 @@ import { savedJobPosts } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { eq } from 'drizzle-orm'
 
-export const getAllSavedForLaterByUserId = async (userId: string) => {
+export const getAllSavedJobPostsByUserId = async (userId: string) => {
   let savedForLater
   try {
     savedForLater = await db

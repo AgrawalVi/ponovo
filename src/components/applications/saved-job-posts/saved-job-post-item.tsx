@@ -3,8 +3,10 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/comp
 import { format } from "date-fns";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { Button } from "@/components/ui/button";
-import { Copy } from "lucide-react";
+import { ArrowUpRightFromCircle } from "lucide-react";
 import Link from "next/link";
+import EditJobPostButton from "@/components/forms/saved-job-post/edit-job-post-button";
+import DeleteSavedJobPostButton from "@/components/forms/saved-job-post/delete-saved-job-post-button";
 
 
 const SavedJobPostItem = ({
@@ -30,28 +32,27 @@ const SavedJobPostItem = ({
         <div className="flex justify-start">
         {jobPost.url && (
           <Link href={jobPost.url} target="_blank" rel="noreferrer noopener">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant="ghost"
-                className="border border-dashed"
-                size="icon"
-              >
-                <Copy size="20" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>Copy Job Post URL</TooltipContent>
-          </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="border border-dashed"
+                  size="icon"
+                >
+                  <ArrowUpRightFromCircle size="17" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent>Go to job post</TooltipContent>
+            </Tooltip>
           </Link>
         )}
         </div>
         <div className="flex justify-center">
           asdf
         </div>
-        <div className="flex justify-end">
-          asdf
-          {/*<EditApplicationButton application={rest} />*/}
-          {/*<DeleteApplicationButton applicationId={applicationId} />*/}
+        <div className="flex justify-end gap-2">
+          <EditJobPostButton jobPost={jobPost} />
+          <DeleteSavedJobPostButton savedJobPostId={jobPost.id} />
         </div>
       </CardFooter>
     </Card>

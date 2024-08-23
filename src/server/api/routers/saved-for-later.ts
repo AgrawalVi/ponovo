@@ -1,10 +1,10 @@
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc'
 import { auth } from '@clerk/nextjs/server'
 import { getUserByClerkId } from '@/data/users/get-users'
-import { getAllSavedForLaterByUserId } from '@/data/saved-job-post/get-saved-job-post'
+import { getAllSavedJobPostsByUserId } from '@/data/saved-job-post/get-saved-job-post'
 
-export const savedForLaterRouter = createTRPCRouter({
-  getAllSavedForLaterByUserId: publicProcedure.query(async () => {
+export const savedJobPostsRouter = createTRPCRouter({
+  getAllSavedJobPostsByUserId: publicProcedure.query(async () => {
     const clerkUser = auth()
     if (!clerkUser.userId) {
       throw new Error('Unauthorized')
@@ -13,7 +13,7 @@ export const savedForLaterRouter = createTRPCRouter({
     if (!user) {
       throw new Error('User not found')
     }
-    const savedForLater = await getAllSavedForLaterByUserId(user.id)
+    const savedForLater = await getAllSavedJobPostsByUserId(user.id)
 
     if (savedForLater === null) {
       throw new Error('No saved for later applications')

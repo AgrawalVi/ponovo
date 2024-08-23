@@ -11,22 +11,22 @@ import {
 } from '@/components/ui/dialog'
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
-import { dbJobApplicationTimelineUpdate } from '@/types'
+import { dbSavedJobPost } from '@/types'
 import { PencilIcon } from 'lucide-react'
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
-import TimelineUpdateForm from './timeline-update-form'
+import SavedJobPostForm from './saved-job-post-form'
 
-interface EditApplicationButtonProps {
-  timelineUpdate: dbJobApplicationTimelineUpdate
+interface EditJobPostButtonProps {
+  jobPost: dbSavedJobPost
 }
 
-export default function EditTimelineUpdateButton({
-  timelineUpdate,
-}: EditApplicationButtonProps) {
+export default function EditJobPostButton({
+  jobPost,
+}: EditJobPostButtonProps) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -58,26 +58,24 @@ export default function EditTimelineUpdateButton({
             </Button>
           </TooltipTrigger>
           <TooltipContent align="center" avoidCollisions={false}>
-            Edit Timeline Update
+            Edit Saved Job Post
           </TooltipContent>
         </Tooltip>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>Edit Timeline Update</DialogTitle>
+            <DialogTitle>Edit Saved Job Post</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to edit your timeline update
+            Fill out the form to edit your saved job post
           </DialogDescription>
-          <TimelineUpdateForm
-            timelineUpdate={timelineUpdate}
+          <SavedJobPostForm
+            jobPost={jobPost}
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
             editing={true}
-            applicationId={timelineUpdate.jobApplicationId}
           />
         </DialogContent>
       </Dialog>
-
       <ConfirmCloseDialog
         open={confirmExitOpen}
         setOpen={setConfirmExitOpen}

@@ -63,7 +63,7 @@ const SavedJobPostForm = ({
 
   let queryKey = undefined
   if (editing) {
-    queryKey = getQueryKey(api.savedForLater.getAllSavedForLaterByUserId)
+    queryKey = getQueryKey(api.savedForLater.getAllSavedJobPostsByUserId)
   }
 
   const defaultValues = {

@@ -15,7 +15,7 @@ import NewSavedJobPostButton from "@/components/forms/saved-job-post/new-saved-j
 import SavedJobPostItem from "@/components/applications/saved-job-posts/saved-job-post-item";
 
 export default function SavedJobPostsSheet() {
-  const query = api.savedForLater.getAllSavedForLaterByUserId.useQuery()
+  const query = api.savedForLater.getAllSavedJobPostsByUserId.useQuery()
 
   return (
     <Sheet>
