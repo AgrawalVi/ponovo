@@ -13,7 +13,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { Button } from '@/components/ui/button'
-import { ArrowUpRightFromCircle, PlusCircle } from 'lucide-react'
+import { ArrowUpRightFromCircle, Check } from 'lucide-react'
 import Link from 'next/link'
 import EditJobPostButton from '@/components/forms/saved-job-post/edit-job-post-button'
 import DeleteSavedJobPostButton from '@/components/forms/saved-job-post/delete-saved-job-post-button'
@@ -60,7 +60,7 @@ const SavedJobPostItem = ({ jobPost }: { jobPost: dbSavedJobPost }) => {
             savedJobPostId={jobPost.id}
           >
             <Button size="icon">
-              <PlusCircle size={20} />
+              <Check size={20} />
             </Button>
           </NewApplicationButton>
         </div>
