@@ -76,6 +76,7 @@ export default function NewTimelineUpdateButton({
             timelineUpdateType={
               user?.publicMetadata?.timelineUpdateType as statusEnum
             }
+            editing={false}
           />
         </DialogContent>
       </Dialog>

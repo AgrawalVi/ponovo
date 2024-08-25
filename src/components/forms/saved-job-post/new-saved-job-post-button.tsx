@@ -10,24 +10,15 @@ import {
 } from '@/components/ui/dialog'
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
-import ApplicationForm from './application-form'
+import SavedJobPostForm from './saved-job-post-form'
 import { useUser } from '@clerk/nextjs'
-import {
-  dbCreateApplicationType,
-  roleTypeEnum,
-} from '@/types'
+import { roleTypeEnum } from '@/types'
 
-interface NewApplicationButtonProps {
-  children: React.ReactNode
-  application?: dbCreateApplicationType
-  savedJobPostId?: string
-}
-
-export default function NewApplicationButton({
+export default function NewSavedJobPostButton({
   children,
-  application,
-  savedJobPostId,
-}: NewApplicationButtonProps) {
+}: {
+  children: React.ReactNode
+}) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -53,20 +44,18 @@ export default function NewApplicationButton({
         <DialogTrigger asChild>{children}</DialogTrigger>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>New Application</DialogTitle>
+            <DialogTitle>New Saved Job Post</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to log your new application
+            Fill out the form to save a job posting for later
           </DialogDescription>
-          <ApplicationForm
+          <SavedJobPostForm
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
-            editing={false}
             roleType={
               user?.publicMetadata?.roleType as roleTypeEnum | undefined
             }
-            application={application}
-            savedJobPostId={savedJobPostId}
+            editing={false}
           />
         </DialogContent>
       </Dialog>

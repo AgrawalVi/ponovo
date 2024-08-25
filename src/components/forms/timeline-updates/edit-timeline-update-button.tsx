@@ -72,6 +72,7 @@ export default function EditTimelineUpdateButton({
             timelineUpdate={timelineUpdate}
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
+            editing={true}
             applicationId={timelineUpdate.jobApplicationId}
           />
         </DialogContent>

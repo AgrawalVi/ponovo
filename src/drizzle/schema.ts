@@ -59,7 +59,7 @@ export const users = pgTable('users', {
   ),
   defaultTimelineUpdateType: applicationStatusEnum(
     'default-timeline-update-type',
-  ).default('applied'),
+  ).default('rejected'),
 
   clerkId: text('clerk_id').notNull().unique(),
 
@@ -72,6 +72,7 @@ export const users = pgTable('users', {
 export const usersRelations = relations(users, ({ many }) => ({
   jobApplications: many(jobApplications),
   jobApplicationTimelineUpdates: many(jobApplicationTimelineUpdates),
+  savedJobApplications: many(savedJobPosts),
 }))
 
 export const jobApplications = pgTable('job_applications', {
@@ -99,7 +100,7 @@ export const jobApplications = pgTable('job_applications', {
     .default(sql`ARRAY[]::text[]`),
 
   comments: text('comments'),
-  interestLevel: interestLevelEnum('interest_level').notNull(),
+  interestLevel: interestLevelEnum('interest_level'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')
@@ -124,7 +125,9 @@ export const jobApplicationTimelineUpdates = pgTable(
     id: uuid('id')
       .primaryKey()
       .$defaultFn(() => uuidv4()),
-    userId: uuid('user_id').references(() => users.id),
+    userId: uuid('user_id')
+      .notNull()
+      .references(() => users.id),
     jobApplicationId: uuid('job_application_id')
       .notNull()
       .references(() => jobApplications.id, { onDelete: 'cascade' }),
@@ -174,6 +177,36 @@ export const timelineUpdateURLsRelations = relations(
     timelineUpdate: one(jobApplicationTimelineUpdates, {
       fields: [timelineUpdateURLs.timelineUpdateId],
       references: [jobApplicationTimelineUpdates.id],
+    }),
+  }),
+)
+
+export const savedJobPosts = pgTable('saved_job_applications', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id),
+
+  companyName: text('company_name').notNull(),
+  jobTitle: text('job_title').notNull(),
+  url: text('url'),
+  addedDate: timestamp('added_date').notNull(),
+  roleType: jobRoleTypeEnum('role_type').notNull(),
+
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+})
+
+export const savedJobApplicationsRelations = relations(
+  savedJobPosts,
+  ({ one }) => ({
+    user: one(users, {
+      fields: [savedJobPosts.userId],
+      references: [users.id],
     }),
   }),
 )

@@ -71,7 +71,7 @@ export default function FullApplicationView({
   const { jobApplicationTimelineUpdates, ...rest } = query.data
 
   return (
-    <Card className="relative h-fit w-full lg:w-[30rem] xl:w-[35rem]">
+    <Card className="relative h-fit w-full">
       <CardHeader className="pb-[18px]">
         <StatusBadge
           className="absolute right-2 top-2"

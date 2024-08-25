@@ -3,7 +3,6 @@ import 'server-only'
 import { jobApplications } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { and, eq } from 'drizzle-orm'
-import { statusEnum } from '@/types'
 
 export const getJobApplicationByIdAndUserId = async (
   id: string,

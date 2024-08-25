@@ -11,22 +11,20 @@ import {
 } from '@/components/ui/dialog'
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
-import { dbJobApplication } from '@/types'
+import { dbSavedJobPost } from '@/types'
 import { PencilIcon } from 'lucide-react'
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
 } from '@/components/ui/tooltip'
-import ApplicationForm from './application-form'
+import SavedJobPostForm from './saved-job-post-form'
 
-interface EditApplicationButtonProps {
-  application: dbJobApplication
+interface EditJobPostButtonProps {
+  jobPost: dbSavedJobPost
 }
 
-export default function EditApplicationButton({
-  application,
-}: EditApplicationButtonProps) {
+export default function EditJobPostButton({ jobPost }: EditJobPostButtonProps) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
@@ -58,25 +56,24 @@ export default function EditApplicationButton({
             </Button>
           </TooltipTrigger>
           <TooltipContent align="center" avoidCollisions={false}>
-            Edit Application
+            Edit Saved Job Post
           </TooltipContent>
         </Tooltip>
         <DialogContent onEscapeKeyDown={onExit} onInteractOutside={onExit}>
           <DialogHeader>
-            <DialogTitle>Edit Application</DialogTitle>
+            <DialogTitle>Edit Saved Job Post</DialogTitle>
           </DialogHeader>
           <DialogDescription>
-            Fill out the form to edit your application
+            Fill out the form to edit your saved job post
           </DialogDescription>
-          <ApplicationForm
-            application={application}
+          <SavedJobPostForm
+            jobPost={jobPost}
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
-            editing={false}
+            editing={true}
           />
         </DialogContent>
       </Dialog>
-
       <ConfirmCloseDialog
         open={confirmExitOpen}
         setOpen={setConfirmExitOpen}

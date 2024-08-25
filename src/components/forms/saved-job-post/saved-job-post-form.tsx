@@ -2,10 +2,9 @@
 
 import { useEffect, useTransition } from 'react'
 import { z } from 'zod'
-import { applicationSchema } from '@/schemas'
+import { savedJobPostSchema } from '@/schemas'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { newApplication } from '@/actions/applications/new-application'
 
 import { useToast } from '@/components/ui/use-toast'
 import { Button } from '@/components/ui/button'
@@ -25,78 +24,66 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import {
-  dbCreateApplicationType,
-  dbJobApplication,
-  roleTypeEnum,
-} from '@/types'
-import { editApplication } from '@/actions/applications/edit-application'
+import { dbSavedJobPost, roleTypeEnum } from '@/types'
 import { useQueryClient } from '@tanstack/react-query'
 import { getQueryKey } from '@trpc/react-query'
 import { api } from '@/trpc/react'
-import StatusFormElement from '../status-form-element'
 import DatePickerFormElement from '@/components/forms/date-picker-form-element'
-import { deleteSavedJobPost } from '@/actions/saved-job-posts/delete-saved-job-post'
+import { editSavedJobPost } from '@/actions/saved-job-posts/edit-saved-job-post'
+import { newSavedJobPost } from '@/actions/saved-job-posts/new-saved-job-post'
 
-interface ApplicationFormPropsEditing {
-  application: dbJobApplication
+interface SavedJobPostFormPropsEditing {
+  jobPost: dbSavedJobPost // Required when editing is true
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
   editing: true // Discriminator field
   roleType?: roleTypeEnum
-  savedJobPostId?: string
 }
 
-interface ApplicationFormPropsNotEditing {
-  application?: dbCreateApplicationType
+interface SavedJobPostFormPropsNotEditing {
+  jobPost?: dbSavedJobPost // Optional when editing is false
   setIsChanged: (value: boolean) => void
   setOpen: (value: boolean) => void
   editing: false // Discriminator field
   roleType?: roleTypeEnum
-  savedJobPostId?: string
 }
 
-type ApplicationFormProps =
-  | ApplicationFormPropsEditing
-  | ApplicationFormPropsNotEditing
+type SavedJobPostFormProps =
+  | SavedJobPostFormPropsEditing
+  | SavedJobPostFormPropsNotEditing
 
-const ApplicationForm = ({
-  application,
+const SavedJobPostForm = ({
+  jobPost,
   setIsChanged,
   setOpen,
   editing,
   roleType,
-  savedJobPostId,
-}: ApplicationFormProps) => {
+}: SavedJobPostFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
 
   let queryKey = undefined
   if (editing) {
-    queryKey = getQueryKey(api.timeLineUpdates.getAllByApplicationId, {
-      id: application.id,
-    })
+    queryKey = getQueryKey(api.savedForLater.getAllSavedJobPostsByUserId)
   }
 
   const defaultValues = {
-    companyName: application?.companyName ?? '',
-    jobTitle: application?.jobTitle ?? '',
-    url: application?.job_post_url ?? undefined,
-    status: application?.applicationStatus ?? 'applied',
-    roleType: application?.roleType ?? roleType ?? 'internship',
-    appliedDate: application?.dateApplied ?? new Date(),
+    companyName: jobPost?.companyName ?? '',
+    jobTitle: jobPost?.jobTitle ?? '',
+    url: jobPost?.url ?? undefined,
+    roleType: jobPost?.roleType ?? roleType ?? 'internship',
+    addedDate: jobPost?.addedDate ?? new Date(),
   }
 
-  const form = useForm<z.infer<typeof applicationSchema>>({
-    resolver: zodResolver(applicationSchema),
+  const form = useForm<z.infer<typeof savedJobPostSchema>>({
+    resolver: zodResolver(savedJobPostSchema),
     defaultValues: {
-      companyName: application?.companyName ?? '',
-      jobTitle: application?.jobTitle ?? '',
-      job_post_url: application?.job_post_url ?? '',
-      status: application?.applicationStatus ?? 'applied',
-      roleType: application?.roleType ?? roleType ?? 'internship',
-      appliedDate: application?.dateApplied ?? new Date(),
+      companyName: jobPost?.companyName ?? '',
+      jobTitle: jobPost?.jobTitle ?? '',
+      url: jobPost?.url ?? undefined,
+      roleType: jobPost?.roleType ?? roleType ?? 'internship',
+      addedDate: jobPost?.addedDate ?? new Date(),
     },
   })
 
@@ -105,17 +92,17 @@ const ApplicationForm = ({
       if (editing) {
         setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
       } else {
-        const { appliedDate, ...rest } = values
+        const { addedDate, ...rest } = values
         setIsChanged(JSON.stringify(rest) !== JSON.stringify(defaultValues))
       }
     })
     return () => subscription.unsubscribe()
   }, [form, setIsChanged])
 
-  const onSubmit = (data: z.infer<typeof applicationSchema>) => {
+  const onSubmit = (data: z.infer<typeof savedJobPostSchema>) => {
     startTransition(() => {
       if (editing) {
-        editApplication(data, application.id)
+        editSavedJobPost(data, jobPost.id)
           .then((response) => {
             if (response.success) {
               form.reset()
@@ -140,22 +127,15 @@ const ApplicationForm = ({
             })
           })
       } else {
-        newApplication(data)
+        newSavedJobPost(data)
           .then((response) => {
             if (response.success) {
-              if (savedJobPostId) {
-                deleteSavedJobPost(savedJobPostId)
-                  .then(() => {
-                    queryClient.invalidateQueries({
-                      queryKey: getQueryKey(
-                        api.savedForLater.getAllSavedJobPostsByUserId,
-                      ),
-                    })
-                    form.reset()
-                    setOpen(false)
-                    toast({ title: 'Application logged successfully' })
-                  })
-              }
+              form.reset()
+              setOpen(false)
+              queryClient.invalidateQueries({
+                queryKey,
+              })
+              toast({ title: 'Application logged successfully' })
             } else {
               toast({
                 title: 'Something went wrong!',
@@ -218,9 +198,9 @@ const ApplicationForm = ({
           />
           <FormField
             control={form.control}
-            name="job_post_url"
+            name="url"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="sm:col-span-2">
                 <FormLabel>Job Post URL</FormLabel>
                 <FormControl>
                   <Input
@@ -235,7 +215,7 @@ const ApplicationForm = ({
           />
           <FormField
             control={form.control}
-            name="appliedDate"
+            name="addedDate"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date Applied</FormLabel>
@@ -274,21 +254,6 @@ const ApplicationForm = ({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="status"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Application Status</FormLabel>
-                <StatusFormElement
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  disabled={isPending}
-                />
-                <FormMessage />
-              </FormItem>
-            )}
-          />
         </div>
         <Button type="submit" className="w-2/3" disabled={isPending}>
           Save
@@ -298,4 +263,4 @@ const ApplicationForm = ({
   )
 }
 
-export default ApplicationForm
+export default SavedJobPostForm

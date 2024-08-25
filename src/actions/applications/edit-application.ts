@@ -1,7 +1,7 @@
 'use server'
 
 import { z } from 'zod'
-import { newApplicationSchema } from '@/schemas'
+import { applicationSchema } from '@/schemas'
 import { auth } from '@clerk/nextjs/server'
 import { revalidatePath } from 'next/cache'
 import { getUserByClerkId } from '@/data/users/get-users'
@@ -9,10 +9,10 @@ import { editApplicationByIdAndUserId } from '@/data/job-applications/edit-job-a
 import { track } from '@vercel/analytics/server'
 
 export async function editApplication(
-  values: z.infer<typeof newApplicationSchema>,
+  values: z.infer<typeof applicationSchema>,
   applicationId: string,
 ) {
-  const validatedFields = newApplicationSchema.safeParse(values)
+  const validatedFields = applicationSchema.safeParse(values)
 
   if (!validatedFields.success) {
     return { error: 'Invalid Fields' }

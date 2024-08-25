@@ -12,7 +12,6 @@ import { track } from '@vercel/analytics/server'
 export default async function editTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
   timelineUpdateId: string,
-  applicationId: string,
 ) {
   const validatedFields = applicationTimelineUpdateSchema.safeParse(values)
 
@@ -47,7 +46,7 @@ export default async function editTimelineUpdate(
   }
 
   const application = await autoUpdateJobApplicationStatusByIdAndUserId(
-    applicationId,
+    updatedTimelineUpdate.jobApplicationId,
     existingUser.id,
   )
 
