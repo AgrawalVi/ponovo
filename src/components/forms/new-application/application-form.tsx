@@ -151,11 +151,11 @@ const ApplicationForm = ({
                         api.savedForLater.getAllSavedJobPostsByUserId,
                       ),
                     })
-                    form.reset()
-                    setOpen(false)
-                    toast({ title: 'Application logged successfully' })
                   })
               }
+              form.reset()
+              setOpen(false)
+              toast({title: 'Application logged successfully'})
             } else {
               toast({
                 title: 'Something went wrong!',
