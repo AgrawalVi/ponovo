@@ -70,7 +70,7 @@ const ApplicationForm = ({
 }: ApplicationFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
-  const { toast } = useToast()
+  const {toast} = useToast()
 
   let queryKey = undefined
   if (editing) {
@@ -82,7 +82,7 @@ const ApplicationForm = ({
   const defaultValues = {
     companyName: application?.companyName ?? '',
     jobTitle: application?.jobTitle ?? '',
-    url: application?.url ?? undefined,
+    url: application?.url ?? '',
     status: application?.applicationStatus ?? 'applied',
     roleType: application?.roleType ?? roleType ?? 'internship',
     appliedDate: application?.dateApplied ?? new Date(),
@@ -93,7 +93,7 @@ const ApplicationForm = ({
     defaultValues: {
       companyName: application?.companyName ?? '',
       jobTitle: application?.jobTitle ?? '',
-      url: application?.url ?? undefined,
+      url: application?.url ?? '',
       status: application?.applicationStatus ?? 'applied',
       roleType: application?.roleType ?? roleType ?? 'internship',
       appliedDate: application?.dateApplied ?? new Date(),
@@ -105,7 +105,7 @@ const ApplicationForm = ({
       if (editing) {
         setIsChanged(JSON.stringify(values) !== JSON.stringify(defaultValues))
       } else {
-        const { appliedDate, ...rest } = values
+        const {appliedDate, ...rest} = values
         setIsChanged(JSON.stringify(rest) !== JSON.stringify(defaultValues))
       }
     })
@@ -123,7 +123,7 @@ const ApplicationForm = ({
               queryClient.invalidateQueries({
                 queryKey,
               })
-              toast({ title: 'Application edited successfully' })
+              toast({title: 'Application edited successfully'})
             } else {
               toast({
                 title: 'Something went wrong!',
@@ -151,11 +151,11 @@ const ApplicationForm = ({
                         api.savedForLater.getAllSavedJobPostsByUserId,
                       ),
                     })
-                    form.reset()
-                    setOpen(false)
-                    toast({ title: 'Application logged successfully' })
                   })
               }
+              form.reset()
+              setOpen(false)
+              toast({title: 'Application logged successfully'})
             } else {
               toast({
                 title: 'Something went wrong!',
@@ -163,6 +163,9 @@ const ApplicationForm = ({
                 variant: 'destructive',
               })
             }
+          })
+          .then(() => {
+
           })
           .catch(() => {
             toast({
@@ -185,7 +188,7 @@ const ApplicationForm = ({
           <FormField
             control={form.control}
             name="companyName"
-            render={({ field }) => (
+            render={({field}) => (
               <FormItem>
                 <FormLabel>Company Name</FormLabel>
                 <FormControl>
@@ -195,14 +198,14 @@ const ApplicationForm = ({
                     disabled={isPending}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage/>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="jobTitle"
-            render={({ field }) => (
+            render={({field}) => (
               <FormItem>
                 <FormLabel>Job Title</FormLabel>
                 <FormControl>
@@ -212,14 +215,14 @@ const ApplicationForm = ({
                     disabled={isPending}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage/>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="url"
-            render={({ field }) => (
+            render={({field}) => (
               <FormItem>
                 <FormLabel>Job Post URL</FormLabel>
                 <FormControl>
@@ -229,14 +232,14 @@ const ApplicationForm = ({
                     disabled={isPending}
                   />
                 </FormControl>
-                <FormMessage />
+                <FormMessage/>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="appliedDate"
-            render={({ field }) => (
+            render={({field}) => (
               <FormItem>
                 <FormLabel>Date Applied</FormLabel>
                 <DatePickerFormElement
@@ -244,14 +247,14 @@ const ApplicationForm = ({
                   value={field.value}
                   disabled={isPending}
                 />
-                <FormMessage />
+                <FormMessage/>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="roleType"
-            render={({ field }) => (
+            render={({field}) => (
               <FormItem>
                 <FormLabel>Role Type</FormLabel>
                 <Select
@@ -261,7 +264,7 @@ const ApplicationForm = ({
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select a role type" />
+                      <SelectValue placeholder="Select a role type"/>
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -270,14 +273,14 @@ const ApplicationForm = ({
                     <SelectItem value="full-time">Full Time</SelectItem>
                   </SelectContent>
                 </Select>
-                <FormMessage />
+                <FormMessage/>
               </FormItem>
             )}
           />
           <FormField
             control={form.control}
             name="status"
-            render={({ field }) => (
+            render={({field}) => (
               <FormItem>
                 <FormLabel>Application Status</FormLabel>
                 <StatusFormElement
@@ -285,7 +288,7 @@ const ApplicationForm = ({
                   value={field.value}
                   disabled={isPending}
                 />
-                <FormMessage />
+                <FormMessage/>
               </FormItem>
             )}
           />
