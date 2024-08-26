@@ -164,9 +164,6 @@ const ApplicationForm = ({
               })
             }
           })
-          .then(() => {
-
-          })
           .catch(() => {
             toast({
               title: 'Something went wrong!',
