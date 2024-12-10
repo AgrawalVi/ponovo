@@ -12,10 +12,7 @@ import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import ApplicationForm from './application-form'
 import { useUser } from '@clerk/nextjs'
-import {
-  dbCreateApplicationType,
-  roleTypeEnum,
-} from '@/types'
+import { dbCreateApplicationType, roleTypeEnum } from '@/types'
 
 interface NewApplicationButtonProps {
   children: React.ReactNode

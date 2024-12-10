@@ -45,7 +45,7 @@ export function ApplicationDataTable({
   initialSelectedRowId,
 }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
-    {id: 'companyName', desc: false},
+    { id: 'companyName', desc: false },
   ])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
@@ -113,15 +113,14 @@ export function ApplicationDataTable({
               </NewApplicationButton>
               <NewApplicationButton>
                 <Button className="w-12 items-center xl:hidden" size="icon">
-                  <PlusIcon size={20}/>
+                  <PlusIcon size={20} />
                 </Button>
               </NewApplicationButton>
-              <SavedJobPostsSheet/>
+              <SavedJobPostsSheet />
             </div>
           </div>
-          <div
-            className="flex flex-col items-center gap-4 lg:flex-row lg:items-start lg:justify-center w-full overflow-x-auto">
-            <div className="w-full flex flex-col gap-2">
+          <div className="flex w-full flex-col items-center gap-4 overflow-x-auto lg:flex-row lg:items-start lg:justify-center">
+            <div className="flex w-full flex-col gap-2">
               <div className="rounded-md border">
                 <Table className="w-full">
                   <TableHeader>
@@ -136,9 +135,9 @@ export function ApplicationDataTable({
                               {header.isPlaceholder
                                 ? null
                                 : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext(),
-                                )}
+                                    header.column.columnDef.header,
+                                    header.getContext(),
+                                  )}
                             </TableHead>
                           )
                         })}
@@ -180,10 +179,10 @@ export function ApplicationDataTable({
                   </TableBody>
                 </Table>
               </div>
-              <DataTablePagination table={table}/>
+              <DataTablePagination table={table} />
             </div>
             <div className="flex flex-col gap-2 lg:w-[30rem] xl:w-[35rem]">
-              <FullApplicationView applicationId={selectedRow?.id || ''}/>
+              <FullApplicationView applicationId={selectedRow?.id || ''} />
             </div>
           </div>
         </div>
