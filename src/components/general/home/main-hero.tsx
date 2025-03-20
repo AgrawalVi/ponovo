@@ -15,13 +15,8 @@ export default function MainHero() {
       <div className="relative my-10 flex h-full justify-center space-y-20 align-middle">
         <div className="flex max-w-6xl flex-col space-y-20 text-center">
           <div className="flex flex-col items-center justify-center space-y-4 sm:space-y-8">
-            <div>
-              <button className="w-fit cursor-default rounded-full border px-4 py-1">
-                Currently in Beta
-              </button>
-              <div className="bg-gradient-to-b from-foreground to-neutral-600 bg-clip-text py-4 font-maven text-3xl font-bold text-transparent dark:to-neutral-500 sm:text-8xl">
-                Make Job Application Tracking Easy
-              </div>
+            <div className="bg-gradient-to-b from-foreground to-neutral-600 bg-clip-text py-4 font-maven text-3xl font-bold text-transparent dark:to-neutral-500 sm:text-8xl">
+              Make Job Application Tracking Easy
             </div>
             <div className="flex justify-center">
               <div className="max-w-3xl text-base text-muted-foreground sm:text-2xl">
