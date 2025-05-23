@@ -19,7 +19,7 @@ export async function newSavedJobPost(
   const { companyName, jobTitle, url, roleType, addedDate } =
     validatedFields.data
 
-  const currentUser = auth()
+  const currentUser = await auth()
 
   if (!currentUser.userId) {
     return { error: 'Unauthorized' }

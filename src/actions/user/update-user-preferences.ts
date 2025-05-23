@@ -16,7 +16,7 @@ export const updateUserPreferences = async (
     return { error: 'Invalid Fields' }
   }
 
-  const user = auth()
+  const user = await auth()
 
   if (!user.userId) {
     return { error: 'Unauthorized' }

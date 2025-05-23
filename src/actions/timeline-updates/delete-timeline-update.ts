@@ -11,7 +11,7 @@ export async function deleteTimelineUpdate(
   timelineUpdateId: string,
   applicationId: string,
 ) {
-  const currentUser = auth()
+  const currentUser = await auth()
 
   if (!currentUser.userId) {
     return { error: 'Unauthorized' }

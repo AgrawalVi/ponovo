@@ -21,7 +21,7 @@ export async function editApplication(
   const { companyName, jobTitle, url, status, roleType, appliedDate } =
     validatedFields.data
 
-  const currentUser = auth()
+  const currentUser = await auth()
 
   if (!currentUser.userId) {
     return { error: 'Unauthorized' }

@@ -7,7 +7,7 @@ import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
 export default async function ApplicationsPage() {
-  const user = auth()
+  const user = await auth()
   if (!user.userId) {
     redirect('/')
   }

@@ -7,7 +7,7 @@ import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteApplication(applicationId: string) {
-  const currentUser = auth()
+  const currentUser = await auth()
 
   if (!currentUser.userId) {
     return { error: 'Unauthorized' }

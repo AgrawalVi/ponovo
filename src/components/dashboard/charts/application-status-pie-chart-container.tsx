@@ -4,7 +4,7 @@ import { ApplicationStatusPieChart } from './application-status-pie-chart'
 import ApplicationStatusPieChartSkeleton from '@/components/skeletons/charts/application-status-pie-chart-skeleton'
 
 export default async function ApplicationStatusPieChartContainer() {
-  const user = auth()
+  const user = await auth()
 
   if (!user.userId) {
     return <div>Unauthorized</div>

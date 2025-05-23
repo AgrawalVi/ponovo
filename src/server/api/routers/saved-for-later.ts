@@ -5,7 +5,7 @@ import { getAllSavedJobPostsByUserId } from '@/data/saved-job-post/get-saved-job
 
 export const savedJobPostsRouter = createTRPCRouter({
   getAllSavedJobPostsByUserId: publicProcedure.query(async () => {
-    const clerkUser = auth()
+    const clerkUser = await auth()
     if (!clerkUser.userId) {
       throw new Error('Unauthorized')
     }

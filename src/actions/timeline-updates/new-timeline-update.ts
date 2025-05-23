@@ -22,7 +22,7 @@ export async function newTimelineUpdate(
 
   const { updateType, updateDate, comments } = validatedFields.data
 
-  const currentUser = auth()
+  const currentUser = await auth()
 
   if (!currentUser.userId) {
     return { error: 'Unauthorized' }

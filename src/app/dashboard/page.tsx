@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
-  const user = auth()
+  const user = await auth()
   if (!user.userId) {
     redirect('/')
   }

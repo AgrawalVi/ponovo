@@ -8,7 +8,7 @@ export const timeLineUpdatesRouter = createTRPCRouter({
   getAllByApplicationId: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async ({ input }) => {
-      const clerkUser = auth()
+      const clerkUser = await auth()
       if (!clerkUser.userId) {
         throw new Error('Unauthorized')
       }

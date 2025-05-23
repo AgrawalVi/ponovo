@@ -20,7 +20,7 @@ export const editSavedJobPost = async (
 
   const { companyName, jobTitle, url, roleType } = validatedFields.data
 
-  const currentUser = auth()
+  const currentUser = await auth()
 
   if (!currentUser.userId) {
     return { error: 'Unauthorized' }

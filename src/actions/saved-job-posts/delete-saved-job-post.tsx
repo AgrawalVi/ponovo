@@ -7,7 +7,7 @@ import { revalidatePath } from 'next/cache'
 import { deleteSavedJobPostByIdAndUserId } from '@/data/saved-job-post/delete-saved-job-post'
 
 export async function deleteSavedJobPost(savedJobPostId: string) {
-  const currentUser = auth()
+  const currentUser = await auth()
 
   if (!currentUser.userId) {
     return { error: 'Unauthorized' }
