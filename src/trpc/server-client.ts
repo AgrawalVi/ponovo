@@ -1,7 +1,7 @@
 import 'server-only'
 
 import { createHydrationHelpers } from '@trpc/react-query/rsc'
-import { headers } from 'next/headers'
+import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
 import { cache } from 'react'
 
 import { createCaller, type AppRouter } from '@/server/api/root'
@@ -13,7 +13,7 @@ import { createQueryClient } from './query-client'
  * handling a tRPC call from a React Server Component.
  */
 const createContext = cache(() => {
-  const heads = new Headers(headers())
+  const heads = new Headers((headers() as unknown as UnsafeUnwrappedHeaders))
   heads.set('x-trpc-source', 'rsc')
 
   return createTRPCContext({
