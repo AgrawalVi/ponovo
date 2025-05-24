@@ -1,4 +1,5 @@
 import {
+  boolean,
   integer,
   pgEnum,
   pgTable,
@@ -43,9 +44,16 @@ export const users = pgTable('users', {
   id: uuid('id')
     .primaryKey()
     .$default(() => uuidv4()),
+
   email: text('email').notNull().unique(),
-  firstName: text('first_name'),
-  lastName: text('last_name'),
+
+  name: text('name'), // need to switch to not null
+
+  firstName: text('first_name'), // need to delete
+  lastName: text('last_name'), // need to delete
+
+  emailVerified: boolean('email_verified').$defaultFn(() => !1),
+  image: text('image'),
 
   applicationGoal: integer('application_goal').default(0),
   preferredJobType: jobRoleTypeEnum('user_role_preference').default(
@@ -57,17 +65,75 @@ export const users = pgTable('users', {
 
   clerkId: text('clerk_id').notNull().unique(),
 
-  createdAt: timestamp('created_at').notNull().defaultNow(),
+  createdAt: timestamp('created_at')
+    .$defaultFn(() => new Date())
+    .notNull(),
   updatedAt: timestamp('updated_at')
-    .notNull()
-    .$onUpdate(() => new Date()),
+    .$defaultFn(() => new Date())
+    .notNull(),
 })
 
 export const usersRelations = relations(users, ({ many }) => ({
   jobApplications: many(jobApplications),
   jobApplicationTimelineUpdates: many(jobApplicationTimelineUpdates),
   savedJobApplications: many(savedJobPosts),
+  sessions: many(sessions),
+  accounts: many(accounts),
 }))
+
+export const sessions = pgTable('sessions', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  expiresAt: timestamp('expires_at').notNull(),
+  token: text('token').notNull().unique(),
+  createdAt: timestamp('created_at').notNull(),
+  updatedAt: timestamp('updated_at').notNull(),
+  ipAddress: text('ip_address'),
+  userAgent: text('user_agent'),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+})
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+  user: one(users, { fields: [sessions.userId], references: [users.id] }),
+}))
+
+export const accounts = pgTable('accounts', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  accountId: text('account_id').notNull(),
+  providerId: text('provider_id').notNull(),
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  accessToken: text('access_token'),
+  refreshToken: text('refresh_token'),
+  idToken: text('id_token'),
+  accessTokenExpiresAt: timestamp('access_token_expires_at'),
+  refreshTokenExpiresAt: timestamp('refresh_token_expires_at'),
+  scope: text('scope'),
+  password: text('password'),
+  createdAt: timestamp('created_at').notNull(),
+  updatedAt: timestamp('updated_at').notNull(),
+})
+
+export const accountsRelations = relations(accounts, ({ one }) => ({
+  user: one(users, { fields: [accounts.userId], references: [users.id] }),
+}))
+
+export const verifications = pgTable('verifications', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+  identifier: text('identifier').notNull(),
+  value: text('value').notNull(),
+  expiresAt: timestamp('expires_at').notNull(),
+  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
+  updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
+})
 
 export const jobApplications = pgTable('job_applications', {
   id: uuid('id')
