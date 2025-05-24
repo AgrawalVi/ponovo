@@ -11,6 +11,7 @@ export const updateUserPreferences = async (
   values: z.infer<typeof userPreferenceSchema>,
 ) => {
   const validatedFields = userPreferenceSchema.safeParse(values)
+  const client = await clerkClient()
 
   if (!validatedFields.success) {
     return { error: 'Invalid Fields' }
@@ -24,12 +25,8 @@ export const updateUserPreferences = async (
 
   const { applicationGoal, roleType, timelineUpdateType } = validatedFields.data
 
-  await clerkClient.users.updateUserMetadata(user.userId, {
-    publicMetadata: {
-      applicationGoal,
-      roleType,
-      timelineUpdateType,
-    },
+  await client.users.updateUserMetadata(user.userId, {
+    publicMetadata: { applicationGoal, roleType, timelineUpdateType },
   })
 
   const updatedUser = await updateUserPreferencesByClerkId(

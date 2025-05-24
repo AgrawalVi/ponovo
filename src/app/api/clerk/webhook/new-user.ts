@@ -8,20 +8,24 @@ export const newUser = async (user: UserJSON) => {
     (email) => email.id === user.primary_email_address_id,
   )
 
+  const client = await clerkClient()
+
   try {
-    await db.insert(users).values({
-      email: userEmail[0].email_address,
-      firstName: user.first_name,
-      lastName: user.last_name,
-      clerkId: user.id,
-    })
+    await db
+      .insert(users)
+      .values({
+        email: userEmail[0].email_address,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        clerkId: user.id,
+      })
   } catch (e) {
     console.error(e)
     return { error: 'unable to create user' + e }
   }
 
   try {
-    await clerkClient.users.updateUserMetadata(user.id, {
+    await client.users.updateUserMetadata(user.id, {
       publicMetadata: {
         applicationGoal: 0,
         roleType: 'internship',
