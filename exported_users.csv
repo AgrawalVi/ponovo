@@ -1,0 +1,3 @@
+id,first_name,last_name,username,primary_email_address,primary_phone_number,verified_email_addresses,unverified_email_addresses,verified_phone_numbers,unverified_phone_numbers,totp_secret,password_digest,password_hasher
+user_2jfZem1OFzxggitNGPI1wMMlTd3,Vishrut,Agrawal,,zvishrut@gmail.com,,zvishrut@gmail.com,,,,,,
+user_2kgOzQM1iy4dnnZl81P6Kc4mNg9,test,agrawal,,proscidcoc@gmail.com,,proscidcoc@gmail.com,,,,,$2a$10$nNQRTUPgOgmJi4yEG6seFOONjaM3KYCWCr0EdqlJqcAcIa2PsoDIa,bcrypt

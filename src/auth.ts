@@ -16,4 +16,8 @@ export const auth = betterAuth({
     },
   },
   advanced: { database: { generateId: false } },
+  user: { modelName: 'users' },
+  session: { modelName: 'sessions' },
+  verification: { modelName: 'verifications' },
+  account: { modelName: 'accounts' },
 })
