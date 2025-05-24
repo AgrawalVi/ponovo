@@ -89,7 +89,7 @@ const UserPreferencesForm = ({
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="flex w-full flex-col items-center space-y-8 sm:w-[25rem]"
+            className="flex w-full flex-col items-center space-y-8 sm:w-100"
           >
             <div className="flex flex-col items-center space-y-4">
               <FormField

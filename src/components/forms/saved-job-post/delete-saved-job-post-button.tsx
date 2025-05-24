@@ -88,7 +88,7 @@ export default function DeleteSavedJobPostButton({
           </Alert>
         </DialogHeader>
         <DialogFooter className="gap-2">
-          <DialogClose className={cn(buttonVariants({ variant: 'outline' }))}>
+          <DialogClose className={cn(buttonVariants({ variant: 'outline-solid' }))}>
             Cancel
           </DialogClose>
           <DialogClose

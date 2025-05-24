@@ -127,7 +127,7 @@ export function ApplicationDataTable({
                     {table.getHeaderGroups().map((headerGroup) => (
                       <TableRow
                         key={headerGroup.id}
-                        className="hover:bg-background hover:dark:bg-background"
+                        className="hover:bg-background dark:hover:bg-background"
                       >
                         {headerGroup.headers.map((header) => {
                           return (
@@ -181,7 +181,7 @@ export function ApplicationDataTable({
               </div>
               <DataTablePagination table={table} />
             </div>
-            <div className="flex flex-col gap-2 lg:w-[30rem] xl:w-[35rem]">
+            <div className="flex flex-col gap-2 lg:w-120 xl:w-140">
               <FullApplicationView applicationId={selectedRow?.id || ''} />
             </div>
           </div>

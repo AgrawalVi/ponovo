@@ -15,7 +15,7 @@ export default async function DashboardPage() {
 
   return (
     <div className="flex w-full flex-col items-center space-y-8">
-      <div className="mb-2 mt-10 bg-gradient-to-b from-foreground from-50% to-neutral-600 bg-clip-text pt-2 text-6xl font-semibold text-transparent dark:to-neutral-400">
+      <div className="mb-2 mt-10 bg-linear-to-b from-foreground from-50% to-neutral-600 bg-clip-text pt-2 text-6xl font-semibold text-transparent dark:to-neutral-400">
         Dashboard
       </div>
       <div>

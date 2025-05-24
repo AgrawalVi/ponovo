@@ -34,19 +34,19 @@ export function ApplicationStatusPieChart({
     },
     applied: {
       label: 'Applied',
-      color: 'hsl(var(--chart-1))',
+      color: 'var(--chart-1)',
     },
     interview: {
       label: 'Interview',
-      color: 'hsl(var(--chart-2))',
+      color: 'var(--chart-2)',
     },
     offer: {
       label: 'Offer',
-      color: 'hsl(var(--chart-3))',
+      color: 'var(--chart-3)',
     },
     'online-assessment': {
       label: 'Online Assessment',
-      color: 'hsl(var(--chart-4))',
+      color: 'var(--chart-4)',
     },
   } satisfies ChartConfig
 
