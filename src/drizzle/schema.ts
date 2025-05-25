@@ -63,8 +63,6 @@ export const users = pgTable('users', {
     'default-timeline-update-type',
   ).default('rejected'),
 
-  clerkId: text('clerk_id').notNull().unique(),
-
   createdAt: timestamp('created_at')
     .$defaultFn(() => new Date())
     .notNull(),

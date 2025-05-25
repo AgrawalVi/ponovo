@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "pretty": "prettier --write ."
+    "pretty": "prettier --write .",
+    "studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.20.0",
@@ -35,7 +36,7 @@
     "@trpc/react-query": "11.0.0-rc.466",
     "@trpc/server": "11.0.0-rc.466",
     "@vercel/analytics": "^1.5.0",
-    "better-auth": "^1.2.8",
+    "better-auth": "^1.2.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
@@ -43,6 +44,7 @@
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
     "framer-motion": "^11.18.2",
+    "ldrs": "^1.1.7",
     "lucide-react": "^0.407.0",
     "mini-svg-data-uri": "^1.4.4",
     "next": "15.2.4",
