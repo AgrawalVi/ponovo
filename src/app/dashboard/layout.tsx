@@ -4,14 +4,7 @@ import {
   MobileNav,
   SidebarNav,
 } from '@/components/general/navigation/protected-nav'
-import {
-  Breadcrumb,
-  BreadcrumbPage,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+import HeaderBreadcrumbs from '@/components/header-breadcrumbs'
 import { Separator } from '@/components/ui/separator'
 import {
   SidebarInset,
@@ -49,19 +42,7 @@ export default async function DashboardLayout({
               <div className="flex items-center gap-2 px-4">
                 <SidebarTrigger className="-ml-1" />
                 <Separator orientation="vertical" className="mr-2 h-4" />
-                <Breadcrumb>
-                  <BreadcrumbList>
-                    <BreadcrumbItem className="hidden md:block">
-                      <BreadcrumbLink href="#">
-                        Building Your Application
-                      </BreadcrumbLink>
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator className="hidden md:block" />
-                    <BreadcrumbItem>
-                      <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                    </BreadcrumbItem>
-                  </BreadcrumbList>
-                </Breadcrumb>
+                <HeaderBreadcrumbs />
               </div>
             </header>
             <div className="w-full flex-1 overflow-x-hidden p-4">
