@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { EyeIcon } from 'lucide-react'
+import { EyeIcon, EyeOffIcon } from 'lucide-react'
 
 import { Button } from '../button'
 import { Input } from '../input'
@@ -22,7 +22,11 @@ export default function PasswordInput({
         onClick={() => setShowPassword(!showPassword)}
         aria-label={showPassword ? 'Hide password' : 'Show password'}
       >
-        <EyeIcon />
+        {showPassword ? (
+          <EyeOffIcon className="size-4" />
+        ) : (
+          <EyeIcon className="size-4" />
+        )}
       </Button>
     </div>
   )
