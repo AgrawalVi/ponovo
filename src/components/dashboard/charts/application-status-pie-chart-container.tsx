@@ -1,16 +1,16 @@
 import getApplicationStatusPieChartData from '@/data/charts/application-status-pie-chart'
-import { auth } from '@clerk/nextjs/server'
 import { ApplicationStatusPieChart } from './application-status-pie-chart'
 import ApplicationStatusPieChartSkeleton from '@/components/skeletons/charts/application-status-pie-chart-skeleton'
+import { currentUserId } from '@/lib/auth'
 
 export default async function ApplicationStatusPieChartContainer() {
-  const user = await auth()
+  const userId = await currentUserId()
 
-  if (!user.userId) {
+  if (!userId) {
     return <div>Unauthorized</div>
   }
 
-  const data = await getApplicationStatusPieChartData(user.userId)
+  const data = await getApplicationStatusPieChartData(userId)
 
   if (!data) {
     return (

@@ -31,6 +31,7 @@ import { api } from '@/trpc/react'
 import DatePickerFormElement from '@/components/forms/date-picker-form-element'
 import { editSavedJobPost } from '@/actions/saved-job-posts/edit-saved-job-post'
 import { newSavedJobPost } from '@/actions/saved-job-posts/new-saved-job-post'
+import { useCurrentPreferences } from '@/components/hooks/use-current-preferences'
 
 interface SavedJobPostFormPropsEditing {
   jobPost: dbSavedJobPost // Required when editing is true

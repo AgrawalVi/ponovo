@@ -18,8 +18,8 @@ import {
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import TimelineUpdateForm from './timeline-update-form'
-import { useUser } from '@clerk/nextjs'
 import { statusEnum } from '@/types'
+import { useCurrentPreferences } from '@/components/hooks/use-current-preferences'
 
 export default function NewTimelineUpdateButton({
   applicationId,
@@ -30,9 +30,9 @@ export default function NewTimelineUpdateButton({
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
-  const { user, isLoaded } = useUser()
+  const { preferences, isLoading } = useCurrentPreferences()
 
-  if (!isLoaded || !user) {
+  if (!preferences || isLoading) {
     return null
   }
 
@@ -74,7 +74,7 @@ export default function NewTimelineUpdateButton({
             setOpen={setMainOpen}
             applicationId={applicationId}
             timelineUpdateType={
-              user?.publicMetadata?.timelineUpdateType as statusEnum
+              preferences.defaultTimelineUpdateType ?? 'applied'
             }
             editing={false}
           />

@@ -3,6 +3,7 @@ import 'server-only'
 import { jobApplicationTimelineUpdates } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { statusEnum } from '@/types'
+import { DbOrTx } from '@/types/drizzle'
 
 export const insertTimelineUpdate = async (
   jobApplicationId: string,
@@ -10,25 +11,18 @@ export const insertTimelineUpdate = async (
   timeLineUpdate: statusEnum,
   timelineUpdateReceivedAt: Date,
   comments: string | undefined,
+  tx: DbOrTx = db,
 ) => {
-  let timelineUpdate
-  try {
-    timelineUpdate = await db
-      .insert(jobApplicationTimelineUpdates)
-      .values({
-        jobApplicationId,
-        timeLineUpdate,
-        timelineUpdateReceivedAt,
-        comments,
-        userId,
-      })
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  if (timelineUpdate.length !== 1) {
-    return null
-  }
-  return timelineUpdate[0]
+  const timelineUpdate = await tx
+    .insert(jobApplicationTimelineUpdates)
+    .values({
+      jobApplicationId,
+      timeLineUpdate,
+      timelineUpdateReceivedAt,
+      comments,
+      userId,
+    })
+    .returning()
+
+  return timelineUpdate[0] ?? null
 }

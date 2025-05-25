@@ -1,25 +1,20 @@
 'use client'
 
-import { useUser } from '@clerk/nextjs'
+import { useCurrentPreferences } from '../hooks/use-current-preferences'
 import UserPreferencesForm from './user-preference-form'
-import { roleTypeEnum, statusEnum } from '@/types'
 
 const UserPreferencesFormContainer = () => {
-  const { user, isLoaded } = useUser()
+  const { preferences, isLoading } = useCurrentPreferences()
 
-  if (!isLoaded) {
-    return null
-  }
-
-  if (!user) {
+  if (!preferences || isLoading) {
     return null
   }
 
   return (
     <UserPreferencesForm
-      applicationGoal={user.publicMetadata.applicationGoal as number}
-      roleType={user.publicMetadata.roleType as roleTypeEnum}
-      timelineUpdateType={user.publicMetadata.timelineUpdateType as statusEnum}
+      applicationGoal={preferences.applicationGoal ?? undefined}
+      roleType={preferences.preferredJobType ?? undefined}
+      timelineUpdateType={preferences.defaultTimelineUpdateType ?? undefined}
     />
   )
 }

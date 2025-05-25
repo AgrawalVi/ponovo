@@ -3,6 +3,7 @@ import 'server-only'
 import { jobApplications } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { and, eq } from 'drizzle-orm'
+import { DbOrTx } from '@/types/drizzle'
 
 export const getJobApplicationByIdAndUserId = async (
   id: string,
@@ -28,15 +29,10 @@ export const getJobApplicationByIdAndUserId = async (
 
 export const getAllJobApplicationsByUserId = async (userId: string) => {
   let applications
-  try {
-    applications = await db
-      .select()
-      .from(jobApplications)
-      .where(eq(jobApplications.userId, userId))
-  } catch (e) {
-    console.error(e)
-    return null
-  }
+  applications = await db
+    .select()
+    .from(jobApplications)
+    .where(eq(jobApplications.userId, userId))
   return applications
 }
 
@@ -88,26 +84,18 @@ export const getJobApplicationWithTimelineUpdatesAscendingByIdAndUserId =
   }
 
 export const getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId =
-  async (id: string, userId: string) => {
-    let jobApplicationWithTimelineUpdates
-    try {
-      jobApplicationWithTimelineUpdates =
-        await db.query.jobApplications.findFirst({
-          where: and(
-            eq(jobApplications.id, id),
-            eq(jobApplications.userId, userId),
-          ),
-          with: {
-            jobApplicationTimelineUpdates: {
-              orderBy: (jobApplicationTimelineUpdates, { desc }) => [
-                desc(jobApplicationTimelineUpdates.timelineUpdateReceivedAt),
-              ],
-            },
-          },
-        })
-    } catch (e) {
-      console.error(e)
-      return null
-    }
-    return jobApplicationWithTimelineUpdates
+  async (id: string, userId: string, tx: DbOrTx = db) => {
+    return await tx.query.jobApplications.findFirst({
+      where: and(
+        eq(jobApplications.id, id),
+        eq(jobApplications.userId, userId),
+      ),
+      with: {
+        jobApplicationTimelineUpdates: {
+          orderBy: (jobApplicationTimelineUpdates, { desc }) => [
+            desc(jobApplicationTimelineUpdates.timelineUpdateReceivedAt),
+          ],
+        },
+      },
+    })
   }

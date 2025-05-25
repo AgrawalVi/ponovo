@@ -10,22 +10,17 @@ export const insertSavedJobPost = async (
   roleType: roleTypeEnum,
   url: string | undefined,
 ) => {
-  let newJobPost
-  try {
-    newJobPost = await db
-      .insert(savedJobPosts)
-      .values({
-        userId,
-        companyName,
-        jobTitle,
-        addedDate,
-        url,
-        roleType,
-      })
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  return newJobPost[0]
+  const newJobPost = await db
+    .insert(savedJobPosts)
+    .values({
+      userId,
+      companyName,
+      jobTitle,
+      addedDate,
+      url,
+      roleType,
+    })
+    .returning()
+
+  return newJobPost[0] ?? null
 }

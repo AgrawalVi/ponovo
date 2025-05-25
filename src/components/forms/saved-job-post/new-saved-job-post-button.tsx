@@ -11,8 +11,8 @@ import {
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import SavedJobPostForm from './saved-job-post-form'
-import { useUser } from '@clerk/nextjs'
 import { roleTypeEnum } from '@/types'
+import { useCurrentPreferences } from '@/components/hooks/use-current-preferences'
 
 export default function NewSavedJobPostButton({
   children,
@@ -23,7 +23,7 @@ export default function NewSavedJobPostButton({
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
-  const { user, isLoaded } = useUser()
+  const { preferences, isLoading } = useCurrentPreferences()
 
   const onExit = (event: any) => {
     event.preventDefault() // prevent the default form closure
@@ -34,7 +34,7 @@ export default function NewSavedJobPostButton({
     }
   }
 
-  if (!user || !isLoaded) {
+  if (!preferences || isLoading) {
     return null
   }
 
@@ -52,9 +52,7 @@ export default function NewSavedJobPostButton({
           <SavedJobPostForm
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
-            roleType={
-              user?.publicMetadata?.roleType as roleTypeEnum | undefined
-            }
+            roleType={preferences.preferredJobType ?? 'full-time'}
             editing={false}
           />
         </DialogContent>

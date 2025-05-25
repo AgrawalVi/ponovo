@@ -2,14 +2,20 @@
 
 import { z } from 'zod'
 import { savedJobPostSchema } from '@/schemas'
-import { auth } from '@clerk/nextjs/server'
-import { getUserByClerkId } from '@/data/users/get-users'
 import { track } from '@vercel/analytics/server'
 import { insertSavedJobPost } from '@/data/saved-job-post/insert-saved-job-post'
+import { currentUserId } from '@/lib/auth'
+import { revalidatePath } from 'next/cache'
 
 export async function newSavedJobPost(
   values: z.infer<typeof savedJobPostSchema>,
 ) {
+  const userId = await currentUserId()
+
+  if (!userId) {
+    return { error: 'Unauthorized' }
+  }
+
   const validatedFields = savedJobPostSchema.safeParse(values)
 
   if (!validatedFields.success) {
@@ -19,32 +25,26 @@ export async function newSavedJobPost(
   const { companyName, jobTitle, url, roleType, addedDate } =
     validatedFields.data
 
-  const currentUser = await auth()
+  try {
+    const savedJobPost = await insertSavedJobPost(
+      userId,
+      companyName,
+      jobTitle,
+      addedDate,
+      roleType,
+      url,
+    )
 
-  if (!currentUser.userId) {
-    return { error: 'Unauthorized' }
+    if (!savedJobPost) {
+      return { error: 'Database failed to insert saved job post' }
+    }
+  } catch (e) {
+    console.error(e)
+    return { error: 'Database failed to insert saved job post' }
   }
 
-  const existingUser = await getUserByClerkId(currentUser.userId)
+  track('Saved Job Post Created')
 
-  if (!existingUser) {
-    return { error: 'User not found' }
-  }
-
-  const savedJobPost = await insertSavedJobPost(
-    existingUser.id,
-    companyName,
-    jobTitle,
-    addedDate,
-    roleType,
-    url,
-  )
-
-  if (!savedJobPost) {
-    return { error: 'Database failed to insert timeline update' }
-  }
-
-  track('Saved Job Post Created', { savedJobPostId: savedJobPost.id })
-
+  revalidatePath('/dashboard')
   return { success: 'Saved Job Post created successfully' }
 }

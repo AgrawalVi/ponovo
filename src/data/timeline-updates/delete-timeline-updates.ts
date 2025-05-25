@@ -3,23 +3,19 @@ import 'server-only'
 import { jobApplicationTimelineUpdates } from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { and, eq } from 'drizzle-orm'
+import { DbOrTx } from '@/types/drizzle'
 
 export const deleteTimelineUpdateByIdAndUserId = async (
   id: string,
   userId: string,
+  tx: DbOrTx = db,
 ) => {
-  try {
-    await db
-      .delete(jobApplicationTimelineUpdates)
-      .where(
-        and(
-          eq(jobApplicationTimelineUpdates.id, id),
-          eq(jobApplicationTimelineUpdates.userId, userId),
-        ),
-      )
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  return true
+  await tx
+    .delete(jobApplicationTimelineUpdates)
+    .where(
+      and(
+        eq(jobApplicationTimelineUpdates.id, id),
+        eq(jobApplicationTimelineUpdates.userId, userId),
+      ),
+    )
 }

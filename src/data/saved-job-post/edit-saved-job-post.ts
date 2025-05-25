@@ -11,21 +11,16 @@ export const editSavedJobPostByIdAndUserId = async (
   url: string,
   roleType: roleTypeEnum,
 ) => {
-  let application
-  try {
-    application = await db
-      .update(savedJobPosts)
-      .set({
-        companyName,
-        jobTitle,
-        url,
-        roleType,
-      })
-      .where(and(eq(savedJobPosts.userId, userId), eq(savedJobPosts.id, id)))
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  return application
+  const application = await db
+    .update(savedJobPosts)
+    .set({
+      companyName,
+      jobTitle,
+      url,
+      roleType,
+    })
+    .where(and(eq(savedJobPosts.userId, userId), eq(savedJobPosts.id, id)))
+    .returning()
+
+  return application[0] ?? null
 }

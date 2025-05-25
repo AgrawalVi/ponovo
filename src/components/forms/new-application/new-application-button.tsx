@@ -11,8 +11,8 @@ import {
 import { useState } from 'react'
 import ConfirmCloseDialog from '@/components/custom/confirm-close-dialog'
 import ApplicationForm from './application-form'
-import { useUser } from '@clerk/nextjs'
 import { dbCreateApplicationType, roleTypeEnum } from '@/types'
+import { useCurrentPreferences } from '@/components/hooks/use-current-preferences'
 
 interface NewApplicationButtonProps {
   children: React.ReactNode
@@ -29,7 +29,7 @@ export default function NewApplicationButton({
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
   const [isChanged, setIsChanged] = useState(false)
 
-  const { user, isLoaded } = useUser()
+  const { preferences, isLoading } = useCurrentPreferences()
 
   const onExit = (event: any) => {
     event.preventDefault() // prevent the default form closure
@@ -40,7 +40,7 @@ export default function NewApplicationButton({
     }
   }
 
-  if (!user || !isLoaded) {
+  if (!preferences || isLoading) {
     return null
   }
 
@@ -59,9 +59,7 @@ export default function NewApplicationButton({
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
             editing={false}
-            roleType={
-              user?.publicMetadata?.roleType as roleTypeEnum | undefined
-            }
+            roleType={preferences.preferredJobType ?? 'full-time'}
             application={application}
             savedJobPostId={savedJobPostId}
           />

@@ -5,22 +5,19 @@ import { statusEnum, dbJobApplication, roleTypeEnum } from '@/types'
 import { db } from '@/lib/db'
 import { jobApplications } from '@/drizzle/schema'
 import { and, eq } from 'drizzle-orm'
+import { DbOrTx } from '@/types/drizzle'
 
 export const autoUpdateJobApplicationStatusByIdAndUserId = async (
   id: string,
   userId: string,
+  tx: DbOrTx = db,
 ) => {
-  let application
-  try {
-    application =
-      await getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId(
-        id,
-        userId,
-      )
-  } catch (e) {
-    console.error(e)
-    return null
-  }
+  const application =
+    await getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId(
+      id,
+      userId,
+      tx,
+    )
 
   if (!application) {
     return null
@@ -129,26 +126,16 @@ export const changeApplicationStatusByIdAndUserId = async (
   id: string,
   userId: string,
   status: statusEnum,
+  tx: DbOrTx = db,
 ) => {
-  let application
-  try {
-    application = await db
-      .update(jobApplications)
-      .set({
-        applicationStatus: status,
-      })
-      .where(
-        and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)),
-      )
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  if (application.length !== 1) {
-    return null
-  }
-  return application[0]
+  const application = await tx
+    .update(jobApplications)
+    .set({
+      applicationStatus: status,
+    })
+    .where(and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)))
+    .returning()
+  return application[0] ?? null
 }
 
 export const editApplicationByIdAndUserId = async (
@@ -161,28 +148,16 @@ export const editApplicationByIdAndUserId = async (
   appliedDate: Date,
   url: string | undefined,
 ) => {
-  let application
-  try {
-    application = await db
-      .update(jobApplications)
-      .set({
-        companyName,
-        jobTitle,
-        applicationStatus,
-        roleType,
-        dateApplied: appliedDate,
-        url,
-      })
-      .where(
-        and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)),
-      )
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  if (application.length !== 1) {
-    return null
-  }
-  return application[0]
+  return await db
+    .update(jobApplications)
+    .set({
+      companyName,
+      jobTitle,
+      applicationStatus,
+      roleType,
+      dateApplied: appliedDate,
+      url,
+    })
+    .where(and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)))
+    .returning()
 }

@@ -2,17 +2,23 @@
 
 import { z } from 'zod'
 import { applicationTimelineUpdateSchema } from '@/schemas'
-import { auth } from '@clerk/nextjs/server'
 import { revalidatePath } from 'next/cache'
-import { getUserByClerkId } from '@/data/users/get-users'
 import { editTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/edit-timeline-updates'
 import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
 import { track } from '@vercel/analytics/server'
+import { currentUserId } from '@/lib/auth'
+import { db } from '@/lib/db'
 
 export default async function editTimelineUpdate(
   values: z.infer<typeof applicationTimelineUpdateSchema>,
   timelineUpdateId: string,
 ) {
+  const userId = await currentUserId()
+
+  if (!userId) {
+    return { error: 'Unauthorized' }
+  }
+
   const validatedFields = applicationTimelineUpdateSchema.safeParse(values)
 
   if (!validatedFields.success) {
@@ -21,40 +27,48 @@ export default async function editTimelineUpdate(
 
   const { updateType, updateDate, comments } = validatedFields.data
 
-  const currentUser = await auth()
-
-  if (!currentUser.userId) {
-    return { error: 'Unauthorized' }
+  let updatedTimelineUpdate
+  try {
+    updatedTimelineUpdate = await editTimelineUpdateByIdAndUserId(
+      timelineUpdateId,
+      userId,
+      updateType,
+      updateDate,
+      comments,
+    )
+    if (!updatedTimelineUpdate) {
+      return { error: 'Timeline update not found' }
+    }
+  } catch (e) {
+    console.error(e)
+    return { error: 'Database failed to update timeline update' }
   }
 
-  const existingUser = await getUserByClerkId(currentUser.userId)
-
-  if (!existingUser) {
-    return { error: 'User not found' }
+  // transaction to do the auto update of the application status. OK to do this separate from timeline update deletion
+  let application
+  try {
+    await db.transaction(async (tx) => {
+      application = await autoUpdateJobApplicationStatusByIdAndUserId(
+        updatedTimelineUpdate.jobApplicationId,
+        userId,
+        tx,
+      )
+    })
+  } catch (e) {
+    return {
+      warning:
+        'Something went wrong when trying to auto-update application status',
+    } // TODO: implement "warning" on the frontend
   }
-
-  const updatedTimelineUpdate = await editTimelineUpdateByIdAndUserId(
-    timelineUpdateId,
-    existingUser.id,
-    updateType,
-    updateDate,
-    comments,
-  )
-
-  if (!updatedTimelineUpdate) {
-    return { error: 'Timeline update not found' }
-  }
-
-  const application = await autoUpdateJobApplicationStatusByIdAndUserId(
-    updatedTimelineUpdate.jobApplicationId,
-    existingUser.id,
-  )
 
   if (!application) {
-    return { error: 'Database failed to update application status' }
+    return {
+      warning:
+        'Something went wrong when trying to auto-update application status',
+    } // TODO: implement "warning" on the frontend
   }
 
-  track('Timeline Update Updated', { timelineUpdateId: timelineUpdateId })
+  track('Timeline Update Updated')
 
   revalidatePath('/dashboard')
   return { success: 'Timeline update updated successfully' }

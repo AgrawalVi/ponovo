@@ -5,29 +5,20 @@ import { db } from '@/lib/db'
 import { eq } from 'drizzle-orm'
 import { roleTypeEnum, statusEnum } from '@/types'
 
-export const updateUserPreferencesByClerkId = async (
-  clerkId: string,
+export const updateUserPreferencesByUserId = async (
+  userId: string,
   applicationGoal: number,
   preferredJobType: roleTypeEnum,
   defaultTimelineUpdateType: statusEnum,
 ) => {
-  let user
-  try {
-    user = await db
-      .update(users)
-      .set({
-        applicationGoal: applicationGoal,
-        preferredJobType: preferredJobType,
-        defaultTimelineUpdateType: defaultTimelineUpdateType,
-      })
-      .where(eq(users.clerkId, clerkId))
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  if (user.length !== 1) {
-    return null
-  }
-  return user[0]
+  const user = await db
+    .update(users)
+    .set({
+      applicationGoal: applicationGoal,
+      preferredJobType: preferredJobType,
+      defaultTimelineUpdateType: defaultTimelineUpdateType,
+    })
+    .where(eq(users.id, userId))
+    .returning()
+  return user[0] ?? null
 }

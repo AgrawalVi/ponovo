@@ -1,26 +1,11 @@
 import 'server-only'
 
-import {
-  getAllJobApplicationsByUserId,
-  getAllJobApplicationsWithTimelineUpdatesDescendingByUserId,
-} from '../job-applications/get-job-applications'
-import { getUserByClerkId } from '../users/get-users'
-import { statusEnum } from '@/types'
+import { getAllJobApplicationsWithTimelineUpdatesDescendingByUserId } from '../job-applications/get-job-applications'
 import { getFurthestStatusByApplication } from '@/utilities/applications'
 
-export default async function getApplicationStatusPieChartData(
-  clerkId: string,
-) {
-  const existingUser = await getUserByClerkId(clerkId)
-
-  if (!existingUser) {
-    return null
-  }
-
+export default async function getApplicationStatusPieChartData(userId: string) {
   const jobApplications =
-    await getAllJobApplicationsWithTimelineUpdatesDescendingByUserId(
-      existingUser.id,
-    )
+    await getAllJobApplicationsWithTimelineUpdatesDescendingByUserId(userId)
 
   if (!jobApplications) {
     return null

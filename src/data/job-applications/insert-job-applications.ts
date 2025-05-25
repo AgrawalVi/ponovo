@@ -3,6 +3,7 @@ import 'server-only'
 import { db } from '@/lib/db'
 import { statusEnum, roleTypeEnum } from '@/types'
 import { jobApplications } from '@/drizzle/schema'
+import { DbOrTx } from '@/types/drizzle'
 
 export const insertJobApplication = async (
   userId: string,
@@ -12,27 +13,20 @@ export const insertJobApplication = async (
   url: string | undefined,
   roleType: roleTypeEnum,
   dateApplied: Date,
+  tx: DbOrTx = db,
 ) => {
-  let jobApplication
-  try {
-    jobApplication = await db
-      .insert(jobApplications)
-      .values({
-        userId,
-        applicationStatus,
-        companyName,
-        dateApplied,
-        jobTitle,
-        roleType,
-        url,
-      })
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  if (jobApplication.length !== 1) {
-    return null
-  }
-  return jobApplication[0]
+  const addedApplication = await tx
+    .insert(jobApplications)
+    .values({
+      userId,
+      applicationStatus,
+      companyName,
+      dateApplied,
+      jobTitle,
+      roleType,
+      url,
+    })
+    .returning()
+
+  return addedApplication[0] ?? null
 }

@@ -8,15 +8,7 @@ export const deleteJobApplicationByIdAndUserId = async (
   id: string,
   userId: string,
 ) => {
-  try {
-    await db
-      .delete(jobApplications)
-      .where(
-        and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)),
-      )
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  return true
+  await db
+    .delete(jobApplications)
+    .where(and(eq(jobApplications.id, id), eq(jobApplications.userId, userId)))
 }

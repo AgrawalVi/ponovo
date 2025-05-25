@@ -12,28 +12,19 @@ export const editTimelineUpdateByIdAndUserId = async (
   updateDate: Date,
   comments: string | undefined,
 ) => {
-  let timelineUpdate
-  try {
-    timelineUpdate = await db
-      .update(jobApplicationTimelineUpdates)
-      .set({
-        timeLineUpdate: updateType,
-        timelineUpdateReceivedAt: updateDate,
-        comments: comments,
-      })
-      .where(
-        and(
-          eq(jobApplicationTimelineUpdates.id, id),
-          eq(jobApplicationTimelineUpdates.userId, userId),
-        ),
-      )
-      .returning()
-  } catch (e) {
-    console.error(e)
-    return null
-  }
-  if (timelineUpdate.length !== 1) {
-    return null
-  }
-  return timelineUpdate[0]
+  const timelineUpdate = await db
+    .update(jobApplicationTimelineUpdates)
+    .set({
+      timeLineUpdate: updateType,
+      timelineUpdateReceivedAt: updateDate,
+      comments: comments,
+    })
+    .where(
+      and(
+        eq(jobApplicationTimelineUpdates.id, id),
+        eq(jobApplicationTimelineUpdates.userId, userId),
+      ),
+    )
+    .returning()
+  return timelineUpdate[0] ?? null
 }

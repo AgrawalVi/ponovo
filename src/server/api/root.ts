@@ -1,6 +1,7 @@
 import { timeLineUpdatesRouter } from '@/server/api/routers/time-line-updates'
 import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc'
 import { savedJobPostsRouter } from '@/server/api/routers/saved-for-later'
+import { userPreferencesRouter } from '@/server/api/routers/user-preferences'
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { savedJobPostsRouter } from '@/server/api/routers/saved-for-later'
 export const appRouter = createTRPCRouter({
   timeLineUpdates: timeLineUpdatesRouter,
   savedForLater: savedJobPostsRouter,
+  userPreferences: userPreferencesRouter,
 })
 
 // export type definition of API

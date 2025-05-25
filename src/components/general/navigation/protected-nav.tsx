@@ -13,12 +13,10 @@ import {
   Sheet,
   SheetContent,
   SheetDescription,
-  SheetHeader,
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
-import { ClerkLoading, SignedIn, UserButton } from '@clerk/nextjs'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { ModeToggle } from '@/components/ui/mode-toggle'
@@ -45,6 +43,7 @@ export const navItems = [
 
 export function SidebarNav() {
   const pathname = usePathname()
+
   return (
     <>
       <aside className="sticky inset-y-0 left-0 z-10 hidden w-20 flex-col border-r bg-background sm:flex">
@@ -78,12 +77,12 @@ export function SidebarNav() {
           </div>
           <div className="flex w-full flex-col items-center space-y-4">
             <ModeToggle side="right" className="size-8 rounded-full" />
-            <ClerkLoading>
+            {/* <ClerkLoading>
               <Skeleton className="h-7 w-7 rounded-full" />
             </ClerkLoading>
-            <SignedIn>
+            <SignedIn> // TODO: add user button
               <UserButton />
-            </SignedIn>
+            </SignedIn> */}
           </div>
         </nav>
       </aside>
@@ -137,12 +136,12 @@ export function MobileNav() {
         </SheetContent>
       </Sheet>
       <div className="flex items-center space-x-2">
-        <ClerkLoading>
+        {/* <ClerkLoading>
           <Skeleton className="h-7 w-7 rounded-full" />
         </ClerkLoading>
         <SignedIn>
-          <UserButton />
-        </SignedIn>
+          <UserButton /> // TODO: add user button
+        </SignedIn> */}
         <ModeToggle className="size-8 rounded-full" />
       </div>
     </header>

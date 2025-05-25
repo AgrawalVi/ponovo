@@ -27,9 +27,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { userPreferenceSchema } from '@/schemas'
 import { updateUserPreferences } from '@/actions/user/update-user-preferences'
-import { useUser } from '@clerk/nextjs'
 import { roleTypeEnum, statusEnum } from '@/types'
 import StatusFormElement from './status-form-element'
+import { useCurrentPreferences } from '../hooks/use-current-preferences'
 
 interface UserPreferencesFormProps {
   applicationGoal?: number
@@ -44,7 +44,7 @@ const UserPreferencesForm = ({
 }: UserPreferencesFormProps) => {
   const [isPending, startTransition] = useTransition()
   const { toast } = useToast()
-  const { user } = useUser()
+  const { refetch } = useCurrentPreferences()
 
   const form = useForm<z.infer<typeof userPreferenceSchema>>({
     resolver: zodResolver(userPreferenceSchema),
@@ -61,7 +61,7 @@ const UserPreferencesForm = ({
         .then((response) => {
           if (response.success) {
             toast({ title: 'User preferences updated successfully' })
-            user?.reload()
+            refetch()
           } else {
             toast({
               title: 'Something went wrong!',

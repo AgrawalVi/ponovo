@@ -1,33 +1,25 @@
 'use server'
 
 import { deleteJobApplicationByIdAndUserId } from '@/data/job-applications/delete-job-application'
-import { getUserByClerkId } from '@/data/users/get-users'
-import { auth } from '@clerk/nextjs/server'
+import { currentUserId } from '@/lib/auth'
 import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 
 export async function deleteApplication(applicationId: string) {
-  const currentUser = await auth()
+  const userId = await currentUserId()
 
-  if (!currentUser.userId) {
+  if (!userId) {
     return { error: 'Unauthorized' }
   }
 
-  const existingUser = await getUserByClerkId(currentUser.userId)
-
-  if (!existingUser) {
-    return { error: 'User not found' }
+  try {
+    await deleteJobApplicationByIdAndUserId(applicationId, userId)
+  } catch (e) {
+    console.error(e)
+    return { error: 'Database failed to delete the application' }
   }
 
-  const response = await deleteJobApplicationByIdAndUserId(
-    applicationId,
-    existingUser.id,
-  )
-  if (!response) {
-    return { error: 'Database failed to delete job application' }
-  }
-
-  track('Application deleted', { applicationId: applicationId })
+  track('Application deleted')
 
   revalidatePath('/dashboard')
   return { success: 'Application deleted successfully' }

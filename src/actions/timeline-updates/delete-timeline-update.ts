@@ -2,8 +2,8 @@
 
 import { autoUpdateJobApplicationStatusByIdAndUserId } from '@/data/job-applications/edit-job-applications'
 import { deleteTimelineUpdateByIdAndUserId } from '@/data/timeline-updates/delete-timeline-updates'
-import { getUserByClerkId } from '@/data/users/get-users'
-import { auth } from '@clerk/nextjs/server'
+import { currentUserId } from '@/lib/auth'
+import { db } from '@/lib/db'
 import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 
@@ -11,36 +11,43 @@ export async function deleteTimelineUpdate(
   timelineUpdateId: string,
   applicationId: string,
 ) {
-  const currentUser = await auth()
+  const userId = await currentUserId()
 
-  if (!currentUser.userId) {
+  if (!userId) {
     return { error: 'Unauthorized' }
   }
 
-  const existingUser = await getUserByClerkId(currentUser.userId)
-
-  if (!existingUser) {
-    return { error: 'User not found' }
+  try {
+    await deleteTimelineUpdateByIdAndUserId(timelineUpdateId, userId)
+  } catch (e) {
+    throw new Error('Database failed to delete the timeline update')
   }
 
-  const result = await deleteTimelineUpdateByIdAndUserId(
-    timelineUpdateId,
-    existingUser.id,
-  )
-  if (!result) {
-    return { error: 'Database failed to delete timeline update' }
+  // transaction to do the auto update of the application status. OK to do this separate from timeline update deletion
+  let application
+  try {
+    await db.transaction(async (tx) => {
+      application = await autoUpdateJobApplicationStatusByIdAndUserId(
+        applicationId,
+        userId,
+        tx,
+      )
+    })
+  } catch (e) {
+    return {
+      warning:
+        'Something went wrong when trying to auto-update application status',
+    } // TODO: implement "warning" on the frontend
   }
-
-  const application = await autoUpdateJobApplicationStatusByIdAndUserId(
-    applicationId,
-    existingUser.id,
-  )
 
   if (!application) {
-    return { error: 'Database failed to update application status' }
+    return {
+      warning:
+        'Something went wrong when trying to auto-update application status',
+    } // TODO: implement "warning" on the frontend
   }
 
-  track('Timeline Update Deleted', { timelineUpdateId: timelineUpdateId })
+  track('Timeline Update Deleted')
 
   revalidatePath('/dashboard')
   return { success: 'Application deleted successfully' }

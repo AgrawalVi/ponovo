@@ -1,29 +1,26 @@
 import { applicationTableColumns } from '@/components/applications/table/columns'
 import { ApplicationDataTable } from '@/components/applications/table/data-table'
+import { getAllJobApplicationsByUserId } from '@/data/job-applications/get-job-applications'
 import { users } from '@/drizzle/schema'
+import { currentUserId } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { auth } from '@clerk/nextjs/server'
 import { eq } from 'drizzle-orm'
 import { redirect } from 'next/navigation'
 
 export default async function ApplicationsPage() {
-  const user = await auth()
-  if (!user.userId) {
+  const userId = await currentUserId()
+
+  if (!userId) {
     redirect('/')
   }
 
-  const userWithJobApplications = await db.query.users.findMany({
-    with: {
-      jobApplications: true,
-    },
-    where: eq(users.clerkId, user.userId),
-  })
-
-  if (userWithJobApplications.length !== 1) {
-    redirect('/')
+  let jobApplications
+  try {
+    jobApplications = await getAllJobApplicationsByUserId(userId)
+  } catch (e) {
+    console.error(e)
+    throw new Error('Database failed to get job applications')
   }
-
-  const jobApplications = userWithJobApplications[0].jobApplications
 
   return (
     <div className="flex w-full flex-col items-center">

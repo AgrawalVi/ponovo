@@ -1,15 +1,13 @@
 import ChartGrid from '@/components/dashboard/chart-grid'
 import { Button } from '@/components/ui/button'
-import { users } from '@/drizzle/schema'
-import { db } from '@/lib/db'
-import { auth } from '@clerk/nextjs/server'
-import { eq } from 'drizzle-orm'
+import { currentUserId } from '@/lib/auth'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 export default async function DashboardPage() {
-  const user = await auth()
-  if (!user.userId) {
+  const userId = await currentUserId()
+
+  if (!userId) {
     redirect('/')
   }
 

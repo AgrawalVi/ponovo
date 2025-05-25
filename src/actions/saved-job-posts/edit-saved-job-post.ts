@@ -1,17 +1,22 @@
 'use server'
 
-import { getUserByClerkId } from '@/data/users/get-users'
 import { savedJobPostSchema } from '@/schemas'
-import { auth } from '@clerk/nextjs/server'
 import { track } from '@vercel/analytics/server'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { editSavedJobPostByIdAndUserId } from '@/data/saved-job-post/edit-saved-job-post'
+import { currentUserId } from '@/lib/auth'
 
 export const editSavedJobPost = async (
   values: z.infer<typeof savedJobPostSchema>,
   applicationId: string,
 ) => {
+  const userId = await currentUserId()
+
+  if (!userId) {
+    return { error: 'Unauthorized' }
+  }
+
   const validatedFields = savedJobPostSchema.safeParse(values)
 
   if (!validatedFields.success) {
@@ -20,33 +25,26 @@ export const editSavedJobPost = async (
 
   const { companyName, jobTitle, url, roleType } = validatedFields.data
 
-  const currentUser = await auth()
+  try {
+    const updatedApplication = await editSavedJobPostByIdAndUserId(
+      applicationId,
+      userId,
+      companyName,
+      jobTitle,
+      url,
+      roleType,
+    )
 
-  if (!currentUser.userId) {
-    return { error: 'Unauthorized' }
+    if (!updatedApplication) {
+      return { error: 'Saved job post not found' }
+    }
+  } catch (e) {
+    console.error(e)
+    return { error: 'Database failed to update the saved job post' }
   }
 
-  const existingUser = await getUserByClerkId(currentUser.userId)
-
-  if (!existingUser) {
-    return { error: 'User not found' }
-  }
-
-  const updatedApplication = await editSavedJobPostByIdAndUserId(
-    applicationId,
-    existingUser.id,
-    companyName,
-    jobTitle,
-    url,
-    roleType,
-  )
-
-  if (!updatedApplication) {
-    return { error: 'Timeline update not found' }
-  }
-
-  track('Application updated', { applicationId: applicationId })
+  track('Saved Job Post Updated')
 
   revalidatePath('/dashboard')
-  return { success: 'Timeline update updated successfully' }
+  return { success: 'Saved Job Post updated successfully' }
 }
