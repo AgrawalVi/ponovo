@@ -55,6 +55,8 @@ export const users = pgTable('users', {
   emailVerified: boolean('email_verified').$defaultFn(() => !1),
   image: text('image'),
 
+  clerkId: text('clerk_id'),
+
   applicationGoal: integer('application_goal').default(0),
   preferredJobType: jobRoleTypeEnum('user_role_preference').default(
     'internship',
