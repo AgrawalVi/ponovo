@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc'
-import { getJobApplicationWithTimelineUpdatesAscendingByIdAndUserId } from '@/data/job-applications/get-job-applications'
+import { getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId } from '@/data/job-applications/get-job-applications'
 import { currentUserId } from '@/lib/auth'
 
 export const timeLineUpdatesRouter = createTRPCRouter({
@@ -13,7 +13,7 @@ export const timeLineUpdatesRouter = createTRPCRouter({
       }
 
       const jobApplicationsWithTimelineUpdates =
-        await getJobApplicationWithTimelineUpdatesAscendingByIdAndUserId(
+        await getJobApplicationWithTimelineUpdatesDescendingByIdAndUserId(
           input.id,
           userId,
         )

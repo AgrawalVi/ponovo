@@ -91,7 +91,7 @@ export default function FullApplicationView({
       <CardContent>
         <Separator orientation="horizontal" />
         {jobApplicationTimelineUpdates.length > 0 && (
-          <ul className="divide-y">
+          <ul className="space-y-2 py-2">
             {jobApplicationTimelineUpdates.map((timelineUpdate) => (
               <TimelineUpdateItem
                 key={timelineUpdate.id}

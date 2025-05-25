@@ -4,6 +4,18 @@ import StatusBadge from '../general/status-badge'
 import { Textarea } from '@/components/ui/textarea'
 import DeleteTimelineUpdateButton from '@/components/forms/timeline-updates/delete-timeline-update-button'
 import EditTimelineUpdateButton from '@/components/forms/timeline-updates/edit-timeline-update-button'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
+import { Button } from '@/components/ui/button'
+import { MessageSquare } from 'lucide-react'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible'
 
 export default function TimelineUpdateItem({
   timelineUpdate,
@@ -13,20 +25,28 @@ export default function TimelineUpdateItem({
   const { timeLineUpdate, timelineUpdateReceivedAt, comments } = timelineUpdate
 
   return (
-    <li className="space-y-4 py-6">
-      <div className="flex items-center justify-between gap-2">
+    <li className="flex items-center justify-between rounded-md bg-muted/80 p-2 transition-colors hover:bg-muted">
+      <div className="flex min-w-0 flex-nowrap items-center gap-2">
         <StatusBadge status={timeLineUpdate} />
-        <div className="text-end">
-          {format(new Date(timelineUpdateReceivedAt), 'PPP')}
-        </div>
+        <span className="whitespace-nowrap text-sm text-muted-foreground">
+          {format(new Date(timelineUpdateReceivedAt), 'MMM d')}
+        </span>
+        {comments && (
+          <div className="flex items-center">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <MessageSquare className="size-4" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <p className="text-sm">{comments}</p>
+              </PopoverContent>
+            </Popover>
+          </div>
+        )}
       </div>
-      {comments && (
-        <div className="space-y-1">
-          <div className="pl-1 text-sm">Comments</div>
-          <Textarea value={comments} className="disabled:opacity-80" disabled />
-        </div>
-      )}
-      <div className="flex w-full justify-end space-x-2">
+      <div className="flex items-center space-x-2">
         <EditTimelineUpdateButton timelineUpdate={timelineUpdate} />
         <DeleteTimelineUpdateButton
           applicationId={timelineUpdate.jobApplicationId}

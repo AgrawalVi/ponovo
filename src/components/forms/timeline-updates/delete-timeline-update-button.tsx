@@ -61,11 +61,11 @@ export default function DeleteTimelineUpdateButton({
           <Button
             variant="ghost"
             size="icon"
-            className="border border-dashed hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
+            className="size-8 border border-dashed hover:border-destructive/50 hover:bg-destructive/10 hover:text-destructive"
           >
             <DialogTrigger asChild>
               <span className="flex h-full w-full items-center justify-center">
-                <Trash2Icon size="20" />
+                <Trash2Icon size="16" />
               </span>
             </DialogTrigger>
           </Button>

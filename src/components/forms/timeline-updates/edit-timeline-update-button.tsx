@@ -47,12 +47,12 @@ export default function EditTimelineUpdateButton({
           <TooltipTrigger asChild>
             <Button
               variant="ghost"
-              className="border border-dashed"
+              className="size-8 border border-dashed"
               size="icon"
             >
               <DialogTrigger asChild>
                 <span className="flex h-full w-full items-center justify-center">
-                  <PencilIcon size="20" />
+                  <PencilIcon size="16" />
                 </span>
               </DialogTrigger>
             </Button>
