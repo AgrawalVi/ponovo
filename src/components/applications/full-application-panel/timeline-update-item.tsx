@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { MessageSquare } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
 
 export default function TimelineUpdateItem({
   timelineUpdate,
@@ -33,8 +34,12 @@ export default function TimelineUpdateItem({
                   <MessageSquare className="size-4" />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent>
-                <p className="text-sm">{comments}</p>
+              <PopoverContent className="p-0">
+                <Textarea
+                  disabled
+                  value={comments}
+                  className="h-32 disabled:cursor-auto disabled:opacity-100"
+                />
               </PopoverContent>
             </Popover>
           </div>
