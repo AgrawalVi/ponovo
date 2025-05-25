@@ -1,7 +1,6 @@
 import { dbJobApplicationTimelineUpdate } from '@/types'
 import { format } from 'date-fns'
 import StatusBadge from '../general/status-badge'
-import { Textarea } from '@/components/ui/textarea'
 import DeleteTimelineUpdateButton from '@/components/forms/timeline-updates/delete-timeline-update-button'
 import EditTimelineUpdateButton from '@/components/forms/timeline-updates/edit-timeline-update-button'
 import {
@@ -11,11 +10,6 @@ import {
 } from '@/components/ui/popover'
 import { Button } from '@/components/ui/button'
 import { MessageSquare } from 'lucide-react'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
 
 export default function TimelineUpdateItem({
   timelineUpdate,
@@ -25,7 +19,7 @@ export default function TimelineUpdateItem({
   const { timeLineUpdate, timelineUpdateReceivedAt, comments } = timelineUpdate
 
   return (
-    <li className="flex items-center justify-between rounded-md bg-muted/80 p-2 transition-colors hover:bg-muted">
+    <li className="flex items-center justify-between rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted">
       <div className="flex min-w-0 flex-nowrap items-center gap-2">
         <StatusBadge status={timeLineUpdate} />
         <span className="whitespace-nowrap text-sm text-muted-foreground">
