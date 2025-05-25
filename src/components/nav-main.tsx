@@ -1,23 +1,16 @@
 'use client'
 
-import { ChevronRight, type LucideIcon } from 'lucide-react'
+import { type LucideIcon } from 'lucide-react'
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
 import {
   SidebarGroup,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
 } from '@/components/ui/sidebar'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { cn } from '@/lib/utils'
 
 export function NavMain({
   items,
@@ -28,13 +21,22 @@ export function NavMain({
     icon: LucideIcon
   }[]
 }) {
+  const pathname = usePathname()
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Link href={item.url} key={item.title}>
-            <SidebarMenuButton tooltip={item.title}>
+            <SidebarMenuButton
+              className={cn(
+                'text-muted-foreground transition-colors hover:bg-inherit hover:text-foreground active:bg-inherit active:text-foreground',
+                pathname === item.url &&
+                  'bg-accent text-accent-foreground hover:bg-accent',
+              )}
+              tooltip={item.title}
+            >
               <item.icon />
               <span>{item.title}</span>
             </SidebarMenuButton>
