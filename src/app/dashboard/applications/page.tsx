@@ -24,7 +24,7 @@ export default async function ApplicationsPage() {
 
   return (
     <div className="flex w-full flex-col items-center">
-      <div className="my-10 bg-gradient-to-b from-foreground from-50% to-neutral-600 bg-clip-text pt-2 text-center text-6xl font-semibold text-transparent dark:to-neutral-400">
+      <div className="mb-3 bg-gradient-to-b from-foreground from-50% to-neutral-600 bg-clip-text pt-2 text-center text-5xl font-semibold text-transparent dark:to-neutral-400">
         Your Job Applications
       </div>
       <div className="w-full place-items-center overflow-x-auto">

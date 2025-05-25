@@ -24,7 +24,7 @@ export default function Footer() {
       </div>
       <div className="flex flex-col-reverse items-end space-x-2 sm:flex-row sm:items-center">
         <div>
-          © 2024{' '}
+          © 2025{' '}
           <Link
             href="https://vishrut.tech"
             target="_blank"

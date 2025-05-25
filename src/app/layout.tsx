@@ -17,8 +17,6 @@ export const metadata: Metadata = {
   description: 'Make Job Application Season a Breeze',
 }
 
-// TODO: Add maven pro for headers
-
 export default function RootLayout({
   children,
 }: Readonly<{
