@@ -47,15 +47,10 @@ export const users = pgTable('users', {
 
   email: text('email').notNull().unique(),
 
-  name: text('name'), // need to switch to not null
-
-  firstName: text('first_name'), // need to delete
-  lastName: text('last_name'), // need to delete
+  name: text('name').notNull(),
 
   emailVerified: boolean('email_verified').$defaultFn(() => !1),
   image: text('image'),
-
-  clerkId: text('clerk_id'),
 
   applicationGoal: integer('application_goal').default(0),
   preferredJobType: jobRoleTypeEnum('user_role_preference').default(
