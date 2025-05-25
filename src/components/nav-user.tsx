@@ -6,8 +6,10 @@ import {
   ChevronsUpDown,
   CreditCard,
   LogOut,
+  Moon,
   Settings2,
   Sparkles,
+  Sun,
 } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -28,6 +30,8 @@ import {
 } from '@/components/ui/sidebar'
 import { authClient } from '@/lib/auth-client'
 import { useRouter } from 'next/navigation'
+import { useTheme } from 'next-themes'
+import { Separator } from './ui/separator'
 
 export function NavUser({
   user,
@@ -39,6 +43,8 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { theme, setTheme } = useTheme()
+
   const nameFallback = user.name
     .split(' ')
     .map((n) => n[0].toUpperCase())
@@ -103,6 +109,16 @@ export function NavUser({
               <DropdownMenuItem>
                 <Sparkles />
                 Upgrade to Pro
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator /> */}
+            {/* <DropdownMenuGroup>
+              <DropdownMenuItem
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              >
+                <Sun className="mr-2 block size-4 dark:hidden" />
+                <Moon className="mr-2 hidden size-4 dark:block" />
+                Toggle Theme
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}

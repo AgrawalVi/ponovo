@@ -17,7 +17,7 @@ export default function UnprotectedNav() {
         <Link href="/dashboard">
           <Button>Dashboard</Button>
         </Link>
-        <ModeToggle />
+        {/* <ModeToggle /> */}
       </div>
     </header>
   )
