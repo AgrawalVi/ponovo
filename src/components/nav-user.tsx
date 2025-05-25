@@ -1,16 +1,6 @@
 'use client'
 
-import {
-  BadgeCheck,
-  Bell,
-  ChevronsUpDown,
-  CreditCard,
-  LogOut,
-  Moon,
-  Settings2,
-  Sparkles,
-  Sun,
-} from 'lucide-react'
+import { ChevronsUpDown, LogOut, Settings2 } from 'lucide-react'
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -30,8 +20,7 @@ import {
 } from '@/components/ui/sidebar'
 import { authClient } from '@/lib/auth-client'
 import { useRouter } from 'next/navigation'
-import { useTheme } from 'next-themes'
-import { Separator } from './ui/separator'
+import Link from 'next/link'
 
 export function NavUser({
   user,
@@ -43,7 +32,6 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
-  const { theme, setTheme } = useTheme()
 
   const nameFallback = user.name
     .split(' ')
@@ -123,10 +111,12 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Settings2 />
-                Account
-              </DropdownMenuItem>
+              <Link href="/dashboard/preferences">
+                <DropdownMenuItem>
+                  <Settings2 />
+                  Account
+                </DropdownMenuItem>
+              </Link>
               {/* <DropdownMenuItem>
                 <CreditCard />
                 Billing

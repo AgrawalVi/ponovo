@@ -28,7 +28,7 @@ export default async function DashboardLayout({
 
   return (
     <TRPCReactProvider>
-      <SidebarProvider>
+      <SidebarProvider defaultOpen={false}>
         <AppSidebar
           user={{
             name: user.user.name,

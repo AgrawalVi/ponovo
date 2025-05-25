@@ -4,7 +4,6 @@ import * as React from 'react'
 import { Contact, LayoutDashboard, ScrollText } from 'lucide-react'
 
 import { NavMain } from '@/components/nav-main'
-import { NavProjects } from '@/components/nav-projects'
 import { NavUser } from '@/components/nav-user'
 import { TeamSwitcher } from '@/components/sidebar-header'
 import {

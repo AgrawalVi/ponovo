@@ -116,7 +116,7 @@ export function ApplicationStatusPieChart({
       </CardContent>
       <CardFooter className="flex-col gap-2 text-sm">
         <div className="text-center leading-none text-muted-foreground">
-          Showing the furthest each application has gone in the process
+          Showing the furthest each application has gone
         </div>
       </CardFooter>
     </Card>
