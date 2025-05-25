@@ -27,4 +27,5 @@ export const auth = betterAuth({
   },
   advanced: { database: { generateId: false } },
   plugins: [nextCookies()],
+  trustedOrigins: ['https://www.ponovo.app'],
 })
