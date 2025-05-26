@@ -22,13 +22,14 @@ export function NavMain({
   }[]
 }) {
   const pathname = usePathname()
+  const parts = pathname.split('/') // ['', 'dashboard', '123'] ['', 'dashboard', '123', 'applications]
 
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Link href={item.url} key={item.title}>
+          <Link href={`/dashboard/${parts[2]}${item.url}`} key={item.title}>
             <SidebarMenuButton
               className={cn(
                 'text-muted-foreground transition-colors hover:bg-inherit hover:text-foreground active:bg-inherit active:text-foreground',

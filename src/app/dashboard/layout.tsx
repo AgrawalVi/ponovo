@@ -46,7 +46,7 @@ export default async function DashboardLayout({
                 <Separator orientation="vertical" className="mr-2 h-4" />
                 <HeaderBreadcrumbs />
               </div>
-              <div className="flex items-center gap-2 px-2">
+              <div className="flex items-center gap-2 px-4">
                 <ApplicationSeasonSelector
                   applicationSeasons={applicationSeasons}
                 />
