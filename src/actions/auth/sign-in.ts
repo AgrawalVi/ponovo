@@ -6,6 +6,7 @@ import { APIError } from 'better-auth/api'
 import { z } from 'zod'
 
 import { DEFAULT_LOGIN_REDIRECT_URL } from '@/constants/auth'
+import { redirect } from 'next/navigation'
 
 export const signIn = async (data: z.infer<typeof SignInSchema>) => {
   const validatedFields = SignInSchema.safeParse(data)
@@ -15,7 +16,6 @@ export const signIn = async (data: z.infer<typeof SignInSchema>) => {
   }
 
   const { email, password, callbackUrl } = validatedFields.data
-  console.log('data', validatedFields.data)
 
   try {
     await auth.api.signInEmail({
@@ -39,5 +39,5 @@ export const signIn = async (data: z.infer<typeof SignInSchema>) => {
     return { error: 'Something went wrong' }
   }
 
-  return { success: 'Login successful' }
+  redirect(callbackUrl ?? DEFAULT_LOGIN_REDIRECT_URL)
 }
