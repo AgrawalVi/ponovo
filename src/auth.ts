@@ -3,6 +3,10 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle'
 import { db } from './lib/db'
 import { users, sessions, accounts, verifications } from './drizzle/schema'
 import { nextCookies } from 'better-auth/next-js'
+import {
+  sendEmailVerificationEmail,
+  sendForgotPasswordEmail,
+} from './server/email/account'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -14,7 +18,18 @@ export const auth = betterAuth({
       verification: verifications,
     },
   }),
-  emailAndPassword: { enabled: true },
+  appName: 'Ponovo',
+  emailAndPassword: {
+    enabled: true,
+    requireEmailVerification: true,
+    sendResetPassword: async ({ user, url }) => {
+      await sendForgotPasswordEmail(
+        user.email,
+        user.name.split(' ')[0].replace(/^./, (c) => c.toUpperCase()),
+        url,
+      )
+    },
+  },
   socialProviders: {
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -27,5 +42,18 @@ export const auth = betterAuth({
   },
   advanced: { database: { generateId: false } },
   plugins: [nextCookies()],
-  trustedOrigins: ['https://www.ponovo.app'],
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url }) => {
+      const urlWithCorrectCallback = url.replace(
+        'callbackURL=/dashboard',
+        'callbackURL=/auth/verify-email',
+      )
+      await sendEmailVerificationEmail(
+        user.email,
+        user.name.split(' ')[0].replace(/^./, (c) => c.toUpperCase()),
+        urlWithCorrectCallback,
+      )
+    },
+    autoSignInAfterVerification: true,
+  },
 })

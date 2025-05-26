@@ -27,7 +27,7 @@ export const signUp = async (data: z.infer<typeof SignUpSchema>) => {
   } catch (error) {
     console.error(error)
     if (error instanceof APIError) {
-      if (error.statusCode === 409) {
+      if (error.statusCode === 409 || error.statusCode === 422) {
         return { error: 'User already exists, please login' }
       }
     }

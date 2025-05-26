@@ -10,7 +10,7 @@
     "pretty": "prettier --write .",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push",
-    "email:dev": "email dev"
+    "email:dev": "email dev --dir src/emails --port 3001"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -63,6 +63,7 @@
     "resend": "^4.5.1",
     "server-only": "^0.0.1",
     "sharp": "^0.33.5",
+    "sonner": "^2.0.3",
     "superjson": "^2.2.2",
     "svix": "^1.66.0",
     "tailwind-merge": "^2.6.0",

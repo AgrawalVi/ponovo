@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster'
 import { ThemeProvider } from '@/components/theme-provider'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { Analytics } from '@vercel/analytics/react'
+import { Toaster as Sonner } from '@/components/ui/sonner'
 
 const maven = Maven_Pro({
   subsets: ['latin'],
@@ -35,6 +36,7 @@ export default function RootLayout({
             <main>{children}</main>
             <Analytics />
             <Toaster />
+            <Sonner />
           </TooltipProvider>
         </ThemeProvider>
       </body>

@@ -14,11 +14,11 @@ import {
   Text,
 } from '@react-email/components'
 
-const EmailVerification = ({ name, url }: { name: string; url: string }) => {
+const ResetPassword = ({ name, url }: { name: string; url: string }) => {
   return (
     <Html>
       <Head />
-      <Preview>Verify your email address to get started with Ponovo</Preview>
+      <Preview>Reset your password for your Ponovo account</Preview>
       <Tailwind>
         <Body className="bg-gray-100 py-[40px] font-sans">
           <Container className="mx-auto max-w-[600px] rounded-[8px] bg-white p-[20px]">
@@ -97,9 +97,9 @@ const EmailVerification = ({ name, url }: { name: string; url: string }) => {
   )
 }
 
-EmailVerification.PreviewProps = {
+ResetPassword.PreviewProps = {
   name: 'Vish',
   url: 'https://example.com/verify?token=123456789abcdef',
 }
 
-export default EmailVerification
+export default ResetPassword

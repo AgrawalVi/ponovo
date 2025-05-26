@@ -31,7 +31,7 @@ export default function AuthCard({
     <Card className={className}>
       <CardHeader>
         <CardTitle>{title}</CardTitle>
-        <CardDescription>{description}</CardDescription>
+        <CardDescription className="text-start">{description}</CardDescription>
       </CardHeader>
       <CardContent>
         {children}

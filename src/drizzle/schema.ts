@@ -176,7 +176,7 @@ export const jobApplicationTimelineUpdates = pgTable(
       .$defaultFn(() => uuidv4()),
     userId: uuid('user_id')
       .notNull()
-      .references(() => users.id),
+      .references(() => users.id, { onDelete: 'cascade' }),
     jobApplicationId: uuid('job_application_id')
       .notNull()
       .references(() => jobApplications.id, { onDelete: 'cascade' }),
@@ -216,7 +216,7 @@ export const savedJobPosts = pgTable('saved_job_applications', {
     .$defaultFn(() => uuidv4()),
   userId: uuid('user_id')
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
 
   companyName: text('company_name').notNull(),
   jobTitle: text('job_title').notNull(),

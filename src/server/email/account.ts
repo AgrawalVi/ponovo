@@ -1,10 +1,29 @@
 import { resend } from '@/lib/resend'
+import EmailVerification from '@/emails/accounts/verify-email'
+import ResetPassword from '@/emails/accounts/reset-password'
 
-const accountVerificationEmail = async (email: string, token: string) => {
-  const { data, error } = await resend.emails.send({
-    from: 'Ponovo Accounts <accounts@ponovo.app>',
+export const sendEmailVerificationEmail = async (
+  email: string,
+  firstName: string,
+  url: string,
+) => {
+  await resend.emails.send({
+    from: 'Ponovo | Accounts <accounts@ponovo.app>',
     to: email,
-    subject: 'Ponovo - Verify your email',
-    text: 'Please verify your email address',
+    subject: 'Ponovo | Verify your email',
+    react: EmailVerification({ name: firstName, url }),
+  })
+}
+
+export const sendForgotPasswordEmail = async (
+  email: string,
+  firstName: string,
+  url: string,
+) => {
+  await resend.emails.send({
+    from: 'Ponovo | Accounts <accounts@ponovo.app>',
+    to: email,
+    subject: 'Ponovo | Reset your password',
+    react: ResetPassword({ name: firstName, url }),
   })
 }
