@@ -36,13 +36,16 @@ export const getAllJobApplicationsByUserId = async (userId: string) => {
   return applications
 }
 
-export const getAllJobApplicationsWithTimelineUpdatesDescendingByUserId =
-  async (userId: string) => {
+export const getAllJobApplicationsWithTimelineUpdatesDescendingByUserIdAndApplicationSeasonId =
+  async (userId: string, applicationSeasonId: string) => {
     let jobApplicationsWithTimelineUpdates
     try {
       jobApplicationsWithTimelineUpdates =
         await db.query.jobApplications.findMany({
-          where: eq(jobApplications.userId, userId),
+          where: and(
+            eq(jobApplications.userId, userId),
+            eq(jobApplications.applicationSeasonId, applicationSeasonId),
+          ),
           with: {
             jobApplicationTimelineUpdates: {
               orderBy: (jobApplicationTimelineUpdates, { desc }) => [

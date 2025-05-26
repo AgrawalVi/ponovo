@@ -1,4 +1,5 @@
 import {
+  applicationSeasons,
   jobApplications,
   jobApplicationTimelineUpdates,
   savedJobPosts,
@@ -24,6 +25,8 @@ export type dbJobApplicationTimelineUpdate =
   typeof jobApplicationTimelineUpdates.$inferSelect
 
 export type dbSavedJobPost = typeof savedJobPosts.$inferSelect
+
+export type dbApplicationSeason = typeof applicationSeasons.$inferSelect
 
 export type statusEnum =
   | 'applied'

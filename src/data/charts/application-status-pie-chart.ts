@@ -1,11 +1,17 @@
 import 'server-only'
 
-import { getAllJobApplicationsWithTimelineUpdatesDescendingByUserId } from '../job-applications/get-job-applications'
+import { getAllJobApplicationsWithTimelineUpdatesDescendingByUserIdAndApplicationSeasonId } from '../job-applications/get-job-applications'
 import { getFurthestStatusByApplication } from '@/utilities/applications'
 
-export default async function getApplicationStatusPieChartData(userId: string) {
+export default async function getApplicationStatusPieChartData(
+  userId: string,
+  applicationSeasonId: string,
+) {
   const jobApplications =
-    await getAllJobApplicationsWithTimelineUpdatesDescendingByUserId(userId)
+    await getAllJobApplicationsWithTimelineUpdatesDescendingByUserIdAndApplicationSeasonId(
+      userId,
+      applicationSeasonId,
+    )
 
   if (!jobApplications) {
     return null
