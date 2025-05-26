@@ -152,7 +152,9 @@ const ApplicationForm = ({
                 deleteSavedJobPost(savedJobPostId).then(() => {
                   queryClient.invalidateQueries({
                     queryKey: getQueryKey(
-                      api.savedForLater.getAllSavedJobPostsByUserId,
+                      api.savedForLater
+                        .getAllSavedJobPostsByApplicationSeasonId,
+                      applicationSeasonId,
                     ),
                   })
                 })
