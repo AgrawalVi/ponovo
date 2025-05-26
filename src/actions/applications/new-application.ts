@@ -24,13 +24,21 @@ export async function newApplication(
     return { error: 'Invalid Fields' }
   }
 
-  const { companyName, jobTitle, url, status, roleType, appliedDate } =
-    validatedFields.data
+  const {
+    companyName,
+    jobTitle,
+    url,
+    status,
+    roleType,
+    appliedDate,
+    applicationSeasonId,
+  } = validatedFields.data
 
   try {
     await db.transaction(async (tx) => {
       const jobApplication = await insertJobApplication(
         userId,
+        applicationSeasonId,
         status,
         companyName,
         jobTitle,

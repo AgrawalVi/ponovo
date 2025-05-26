@@ -45,6 +45,7 @@ interface ApplicationFormPropsEditing {
   editing: true // Discriminator field
   roleType?: roleTypeEnum
   savedJobPostId?: string
+  applicationSeasonId: string
 }
 
 interface ApplicationFormPropsNotEditing {
@@ -54,6 +55,7 @@ interface ApplicationFormPropsNotEditing {
   editing: false // Discriminator field
   roleType?: roleTypeEnum
   savedJobPostId?: string
+  applicationSeasonId: string
 }
 
 type ApplicationFormProps =
@@ -67,6 +69,7 @@ const ApplicationForm = ({
   editing,
   roleType,
   savedJobPostId,
+  applicationSeasonId,
 }: ApplicationFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
@@ -86,6 +89,7 @@ const ApplicationForm = ({
     status: application?.applicationStatus ?? 'applied',
     roleType: application?.roleType ?? roleType ?? 'internship',
     appliedDate: application?.dateApplied ?? new Date(),
+    applicationSeasonId,
   }
 
   const form = useForm<z.infer<typeof applicationSchema>>({
@@ -97,6 +101,7 @@ const ApplicationForm = ({
       status: application?.applicationStatus ?? 'applied',
       roleType: application?.roleType ?? roleType ?? 'internship',
       appliedDate: application?.dateApplied ?? new Date(),
+      applicationSeasonId,
     },
   })
 

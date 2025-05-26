@@ -40,6 +40,7 @@ export default async function ApplicationsPage({
         <ApplicationDataTable
           data={jobApplications}
           columns={applicationTableColumns}
+          applicationSeasonId={applicationSeasonId}
         />
       </div>
     </div>

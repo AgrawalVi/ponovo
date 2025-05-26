@@ -18,12 +18,14 @@ interface NewApplicationButtonProps {
   children: React.ReactNode
   application?: dbCreateApplicationType
   savedJobPostId?: string
+  applicationSeasonId: string
 }
 
 export default function NewApplicationButton({
   children,
   application,
   savedJobPostId,
+  applicationSeasonId,
 }: NewApplicationButtonProps) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
@@ -62,6 +64,7 @@ export default function NewApplicationButton({
             roleType={preferences.preferredJobType ?? 'full-time'}
             application={application}
             savedJobPostId={savedJobPostId}
+            applicationSeasonId={applicationSeasonId}
           />
         </DialogContent>
       </Dialog>

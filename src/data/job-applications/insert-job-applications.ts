@@ -7,6 +7,7 @@ import { DbOrTx } from '@/types/drizzle'
 
 export const insertJobApplication = async (
   userId: string,
+  applicationSeasonId: string,
   applicationStatus: statusEnum,
   companyName: string,
   jobTitle: string,
@@ -19,6 +20,7 @@ export const insertJobApplication = async (
     .insert(jobApplications)
     .values({
       userId,
+      applicationSeasonId,
       applicationStatus,
       companyName,
       dateApplied,

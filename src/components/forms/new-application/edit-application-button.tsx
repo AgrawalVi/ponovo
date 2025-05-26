@@ -73,6 +73,7 @@ export default function EditApplicationButton({
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
             editing={true}
+            applicationSeasonId={application.applicationSeasonId as string} // TODO: remove 'as string'
           />
         </DialogContent>
       </Dialog>

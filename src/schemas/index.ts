@@ -8,6 +8,7 @@ export const applicationSchema = z.object({
   status: z.enum(applicationStatusEnum.enumValues).default('applied'),
   roleType: z.enum(jobRoleTypeEnum.enumValues).default('internship'),
   appliedDate: z.date(),
+  applicationSeasonId: z.string(),
 })
 
 export const applicationTimelineUpdateSchema = z.object({

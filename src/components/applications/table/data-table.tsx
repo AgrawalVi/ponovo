@@ -37,12 +37,14 @@ interface DataTableProps {
   columns: ColumnDef<dbJobApplication>[]
   data: dbJobApplication[]
   initialSelectedRowId?: string
+  applicationSeasonId: string
 }
 
 export function ApplicationDataTable({
   columns,
   data,
   initialSelectedRowId,
+  applicationSeasonId,
 }: DataTableProps) {
   const [sorting, setSorting] = useState<SortingState>([
     { id: 'companyName', desc: false },
@@ -108,10 +110,10 @@ export function ApplicationDataTable({
               )}
             </div>
             <div className="flex justify-end gap-2">
-              <NewApplicationButton>
+              <NewApplicationButton applicationSeasonId={applicationSeasonId}>
                 <Button className="hidden xl:block">New Application</Button>
               </NewApplicationButton>
-              <NewApplicationButton>
+              <NewApplicationButton applicationSeasonId={applicationSeasonId}>
                 <Button className="w-12 items-center xl:hidden" size="icon">
                   <PlusIcon size={20} />
                 </Button>
