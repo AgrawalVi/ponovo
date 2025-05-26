@@ -27,12 +27,20 @@ export const getJobApplicationByIdAndUserId = async (
   return jobApplication[0]
 }
 
-export const getAllJobApplicationsByUserId = async (userId: string) => {
+export const getAllJobApplicationsByUserIdAndApplicationSeasonId = async (
+  userId: string,
+  applicationSeasonId: string,
+) => {
   let applications
   applications = await db
     .select()
     .from(jobApplications)
-    .where(eq(jobApplications.userId, userId))
+    .where(
+      and(
+        eq(jobApplications.userId, userId),
+        eq(jobApplications.applicationSeasonId, applicationSeasonId),
+      ),
+    )
   return applications
 }
 
