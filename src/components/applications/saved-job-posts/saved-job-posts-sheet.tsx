@@ -14,8 +14,15 @@ import { api } from '@/trpc/react'
 import NewSavedJobPostButton from '@/components/forms/saved-job-post/new-saved-job-post-button'
 import SavedJobPostItem from '@/components/applications/saved-job-posts/saved-job-post-item'
 
-export default function SavedJobPostsSheet() {
-  const query = api.savedForLater.getAllSavedJobPostsByUserId.useQuery()
+export default function SavedJobPostsSheet({
+  applicationSeasonId,
+}: {
+  applicationSeasonId: string
+}) {
+  const query =
+    api.savedForLater.getAllSavedJobPostsByApplicationSeasonId.useQuery(
+      applicationSeasonId,
+    )
 
   return (
     <Sheet>
@@ -33,7 +40,7 @@ export default function SavedJobPostsSheet() {
         </SheetHeader>
         <div className="py-4">
           <div className="flex justify-center">
-            <NewSavedJobPostButton>
+            <NewSavedJobPostButton applicationSeasonId={applicationSeasonId}>
               <Button>New Job Post</Button>
             </NewSavedJobPostButton>
           </div>

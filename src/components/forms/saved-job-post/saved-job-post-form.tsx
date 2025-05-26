@@ -39,6 +39,7 @@ interface SavedJobPostFormPropsEditing {
   setOpen: (value: boolean) => void
   editing: true // Discriminator field
   roleType?: roleTypeEnum
+  applicationSeasonId: string
 }
 
 interface SavedJobPostFormPropsNotEditing {
@@ -47,6 +48,7 @@ interface SavedJobPostFormPropsNotEditing {
   setOpen: (value: boolean) => void
   editing: false // Discriminator field
   roleType?: roleTypeEnum
+  applicationSeasonId: string
 }
 
 type SavedJobPostFormProps =
@@ -59,6 +61,7 @@ const SavedJobPostForm = ({
   setOpen,
   editing,
   roleType,
+  applicationSeasonId,
 }: SavedJobPostFormProps) => {
   const queryClient = useQueryClient()
   const [isPending, startTransition] = useTransition()
@@ -66,7 +69,9 @@ const SavedJobPostForm = ({
 
   let queryKey = undefined
   if (editing) {
-    queryKey = getQueryKey(api.savedForLater.getAllSavedJobPostsByUserId)
+    queryKey = getQueryKey(
+      api.savedForLater.getAllSavedJobPostsByApplicationSeasonId,
+    )
   }
 
   const defaultValues = {
@@ -75,6 +80,7 @@ const SavedJobPostForm = ({
     url: jobPost?.url ?? undefined,
     roleType: jobPost?.roleType ?? roleType ?? 'internship',
     addedDate: jobPost?.addedDate ?? new Date(),
+    applicationSeasonId,
   }
 
   const form = useForm<z.infer<typeof savedJobPostSchema>>({
@@ -85,6 +91,7 @@ const SavedJobPostForm = ({
       url: jobPost?.url ?? undefined,
       roleType: jobPost?.roleType ?? roleType ?? 'internship',
       addedDate: jobPost?.addedDate ?? new Date(),
+      applicationSeasonId,
     },
   })
 

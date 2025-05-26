@@ -1,14 +1,22 @@
 import { savedJobPosts } from '@/drizzle/schema'
 import { db } from '@/lib/db'
-import { eq } from 'drizzle-orm'
+import { eq, and } from 'drizzle-orm'
 
-export const getAllSavedJobPostsByUserId = async (userId: string) => {
+export const getAllSavedJobPostsByUserIdAndApplicationSeasonId = async (
+  userId: string,
+  applicationSeasonId: string,
+) => {
   let savedForLater
   try {
     savedForLater = await db
       .select()
       .from(savedJobPosts)
-      .where(eq(savedJobPosts.userId, userId))
+      .where(
+        and(
+          eq(savedJobPosts.userId, userId),
+          eq(savedJobPosts.applicationSeasonId, applicationSeasonId),
+        ),
+      )
   } catch (e) {
     console.error(e)
     return null

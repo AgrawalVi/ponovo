@@ -58,6 +58,7 @@ const SavedJobPostItem = ({ jobPost }: { jobPost: dbSavedJobPost }) => {
           <NewApplicationButton
             application={createDummyApplicationFromJobPost(jobPost)}
             savedJobPostId={jobPost.id}
+            applicationSeasonId={jobPost.applicationSeasonId as string} // TODO: remove 'as string'
           >
             <Button size="icon">
               <Check size={20} />

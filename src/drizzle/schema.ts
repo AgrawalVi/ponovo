@@ -156,6 +156,7 @@ export const applicationSeasonsRelations = relations(
       references: [users.id],
     }),
     jobApplications: many(jobApplications),
+    savedJobApplications: many(savedJobPosts),
   }),
 )
 
@@ -259,6 +260,11 @@ export const savedJobPosts = pgTable('saved_job_applications', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 
+  applicationSeasonId: uuid('application_season_id').references(
+    () => applicationSeasons.id,
+    { onDelete: 'cascade' },
+  ),
+
   companyName: text('company_name').notNull(),
   jobTitle: text('job_title').notNull(),
   url: text('url'),
@@ -277,6 +283,10 @@ export const savedJobApplicationsRelations = relations(
     user: one(users, {
       fields: [savedJobPosts.userId],
       references: [users.id],
+    }),
+    applicationSeason: one(applicationSeasons, {
+      fields: [savedJobPosts.applicationSeasonId],
+      references: [applicationSeasons.id],
     }),
   }),
 )

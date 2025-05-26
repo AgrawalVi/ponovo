@@ -22,12 +22,19 @@ export async function newSavedJobPost(
     return { error: 'Invalid Fields' }
   }
 
-  const { companyName, jobTitle, url, roleType, addedDate } =
-    validatedFields.data
+  const {
+    companyName,
+    jobTitle,
+    url,
+    roleType,
+    addedDate,
+    applicationSeasonId,
+  } = validatedFields.data
 
   try {
     const savedJobPost = await insertSavedJobPost(
       userId,
+      applicationSeasonId,
       companyName,
       jobTitle,
       addedDate,

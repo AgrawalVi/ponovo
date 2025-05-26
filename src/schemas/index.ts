@@ -31,4 +31,5 @@ export const savedJobPostSchema = z.object({
   url: z.string().url({ message: 'Must be a valid URL' }).or(z.literal('')),
   roleType: z.enum(jobRoleTypeEnum.enumValues).default('internship'),
   addedDate: z.date(),
+  applicationSeasonId: z.string(),
 })

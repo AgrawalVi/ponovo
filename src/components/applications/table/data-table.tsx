@@ -118,7 +118,7 @@ export function ApplicationDataTable({
                   <PlusIcon size={20} />
                 </Button>
               </NewApplicationButton>
-              <SavedJobPostsSheet />
+              <SavedJobPostsSheet applicationSeasonId={applicationSeasonId} />
             </div>
           </div>
           <div className="flex w-full flex-col items-center gap-4 overflow-x-auto lg:flex-row lg:items-start lg:justify-center">

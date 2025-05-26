@@ -4,6 +4,7 @@ import { roleTypeEnum } from '@/types'
 
 export const insertSavedJobPost = async (
   userId: string,
+  applicationSeasonId: string,
   companyName: string,
   jobTitle: string,
   addedDate: Date,
@@ -14,6 +15,7 @@ export const insertSavedJobPost = async (
     .insert(savedJobPosts)
     .values({
       userId,
+      applicationSeasonId,
       companyName,
       jobTitle,
       addedDate,

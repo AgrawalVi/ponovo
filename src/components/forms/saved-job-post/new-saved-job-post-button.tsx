@@ -16,8 +16,10 @@ import { useCurrentPreferences } from '@/components/hooks/use-current-preference
 
 export default function NewSavedJobPostButton({
   children,
+  applicationSeasonId,
 }: {
   children: React.ReactNode
+  applicationSeasonId: string
 }) {
   const [mainOpen, setMainOpen] = useState(false)
   const [confirmExitOpen, setConfirmExitOpen] = useState(false)
@@ -54,6 +56,7 @@ export default function NewSavedJobPostButton({
             setOpen={setMainOpen}
             roleType={preferences.preferredJobType ?? 'full-time'}
             editing={false}
+            applicationSeasonId={applicationSeasonId}
           />
         </DialogContent>
       </Dialog>
