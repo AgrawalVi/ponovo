@@ -9,7 +9,8 @@
     "lint": "next lint",
     "pretty": "prettier --write .",
     "db:studio": "drizzle-kit studio",
-    "db:push": "drizzle-kit push"
+    "db:push": "drizzle-kit push",
+    "email:dev": "email dev"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -28,6 +29,7 @@
     "@radix-ui/react-toast": "^1.2.14",
     "@radix-ui/react-tooltip": "^1.2.7",
     "@radix-ui/react-visually-hidden": "^1.2.3",
+    "@react-email/components": "0.0.41",
     "@tanstack/react-query": "^5.76.2",
     "@tanstack/react-table": "^8.21.3",
     "@tiptap/pm": "^2.12.0",
@@ -55,6 +57,7 @@
     "react": "19.1.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "19.1.0",
+    "react-email": "^4.0.15",
     "react-hook-form": "^7.56.4",
     "recharts": "^2.15.3",
     "resend": "^4.5.1",
