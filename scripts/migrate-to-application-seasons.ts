@@ -9,25 +9,31 @@ export const migrateToApplicationSeasons = async () => {
     },
   })
 
-  for (const user of retrievedUsers) {
-    const applicationSeason = await db
-      .insert(applicationSeasons)
-      .values({
-        userId: user.id,
-        name: 'Default',
-        description: 'Default application season. Rename if necessary.',
-      })
-      .returning()
-
-    for (const application of user.jobApplications) {
-      await db
-        .update(jobApplications)
-        .set({
-          applicationSeasonId: applicationSeason[0].id,
+  // Process all users in parallel
+  await Promise.all(
+    retrievedUsers.map(async (user) => {
+      const applicationSeason = await db
+        .insert(applicationSeasons)
+        .values({
+          userId: user.id,
+          name: 'Default',
+          description: 'Default application season.',
         })
-        .where(eq(jobApplications.id, application.id))
-    }
-  }
+        .returning()
+
+      // Update all job applications for this user in parallel
+      await Promise.all(
+        user.jobApplications.map((application) =>
+          db
+            .update(jobApplications)
+            .set({
+              applicationSeasonId: applicationSeason[0].id,
+            })
+            .where(eq(jobApplications.id, application.id)),
+        ),
+      )
+    }),
+  )
 }
 
 migrateToApplicationSeasons().then(() => {
