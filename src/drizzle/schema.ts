@@ -46,7 +46,6 @@ export const users = pgTable('users', {
     .$default(() => uuidv4()),
 
   email: text('email').notNull().unique(),
-
   name: text('name').notNull(),
 
   emailVerified: boolean('email_verified').$defaultFn(() => !1),
@@ -69,6 +68,7 @@ export const users = pgTable('users', {
 })
 
 export const usersRelations = relations(users, ({ many }) => ({
+  applicationSeasons: many(applicationSeasons),
   jobApplications: many(jobApplications),
   jobApplicationTimelineUpdates: many(jobApplicationTimelineUpdates),
   savedJobApplications: many(savedJobPosts),
@@ -130,16 +130,52 @@ export const verifications = pgTable('verifications', {
   updatedAt: timestamp('updated_at').$defaultFn(() => new Date()),
 })
 
+export const applicationSeasons = pgTable('application_seasons', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+
+  userId: uuid('user_id').references(() => users.id, { onDelete: 'cascade' }),
+
+  active: boolean('active').notNull().default(true),
+
+  name: text('name').notNull(),
+  description: text('description'),
+
+  createdAt: timestamp('created_at').$defaultFn(() => new Date()),
+  updatedAt: timestamp('updated_at')
+    .$defaultFn(() => new Date())
+    .$onUpdate(() => new Date()),
+})
+
+export const applicationSeasonsRelations = relations(
+  applicationSeasons,
+  ({ one, many }) => ({
+    user: one(users, {
+      fields: [applicationSeasons.userId],
+      references: [users.id],
+    }),
+    jobApplications: many(jobApplications),
+  }),
+)
+
 export const jobApplications = pgTable('job_applications', {
   id: uuid('id')
     .primaryKey()
     .$defaultFn(() => uuidv4()),
+
   userId: uuid('user_id')
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 
   applicationStatus: applicationStatusEnum('application_status').notNull(),
   roleType: jobRoleTypeEnum('role_type').notNull(),
+
+  applicationSeasonId: uuid('application_season_id').references(
+    // TODO: make this .notNull() when done adding features to codebase
+    () => applicationSeasons.id,
+    { onDelete: 'cascade' },
+  ),
 
   dateApplied: timestamp('date_applied').notNull(),
 
@@ -164,6 +200,10 @@ export const jobApplicationsRelations = relations(
       fields: [jobApplications.userId],
       references: [users.id],
     }),
+    applicationSeason: one(applicationSeasons, {
+      fields: [jobApplications.applicationSeasonId],
+      references: [applicationSeasons.id],
+    }),
     jobApplicationTimelineUpdates: many(jobApplicationTimelineUpdates),
   }),
 )
@@ -177,6 +217,7 @@ export const jobApplicationTimelineUpdates = pgTable(
     userId: uuid('user_id')
       .notNull()
       .references(() => users.id, { onDelete: 'cascade' }),
+
     jobApplicationId: uuid('job_application_id')
       .notNull()
       .references(() => jobApplications.id, { onDelete: 'cascade' }),
