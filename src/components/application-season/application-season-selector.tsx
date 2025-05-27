@@ -19,6 +19,7 @@ import {
 import { dbApplicationSeason } from '@/types'
 import { Button } from '../ui/button'
 import CreateApplicationSeasonFormDialog from './create-application-season-form-dialog'
+import { Badge } from '../ui/badge'
 
 export function ApplicationSeasonSelector({
   applicationSeasons,
@@ -47,10 +48,11 @@ export function ApplicationSeasonSelector({
             variant="outline"
             className="w-72 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
           >
-            <div className="grid flex-1 text-left text-sm leading-tight">
+            <div className="flex w-full items-center justify-between text-sm leading-tight">
               <span className="truncate font-medium">
                 {currentSeason?.name}
               </span>
+              {currentSeason?.active && <Badge className="mr-2">Active</Badge>}
             </div>
             <ChevronsUpDown className="ml-auto size-4" />
           </Button>
@@ -75,6 +77,7 @@ export function ApplicationSeasonSelector({
                 className="gap-2 p-2"
               >
                 {season.name}
+                {season.active && <Badge className="ml-2">Active</Badge>}
               </DropdownMenuItem>
             ))}
           <DropdownMenuSeparator />
