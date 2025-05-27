@@ -7,6 +7,8 @@ import {
   sendEmailVerificationEmail,
   sendForgotPasswordEmail,
 } from './server/email/account'
+import { createApplicationSeason } from './data/application-seasons/create-application-season'
+import { activateApplicationSeason } from './data/application-seasons/edit-application-season'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -55,5 +57,23 @@ export const auth = betterAuth({
       )
     },
     autoSignInAfterVerification: true,
+  },
+  databaseHooks: {
+    user: {
+      create: {
+        after: async (user) => {
+          const createdApplicationSeason = await createApplicationSeason({
+            userId: user.id,
+            name: 'Default Application Season',
+            description: 'Default application season. Edit if needed',
+          })
+
+          await activateApplicationSeason({
+            id: createdApplicationSeason.id,
+            userId: user.id,
+          })
+        },
+      },
+    },
   },
 })
