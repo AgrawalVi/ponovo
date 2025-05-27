@@ -71,6 +71,7 @@ export default function EditJobPostButton({ jobPost }: EditJobPostButtonProps) {
             setIsChanged={setIsChanged}
             setOpen={setMainOpen}
             editing={true}
+            applicationSeasonId={jobPost.applicationSeasonId as string} // TODO: remove 'as string'
           />
         </DialogContent>
       </Dialog>

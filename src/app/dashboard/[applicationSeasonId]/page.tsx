@@ -8,9 +8,9 @@ import { redirect } from 'next/navigation'
 export default async function DashboardPage({
   params,
 }: {
-  params: { applicationSeasonId: string }
+  params: Promise<{ applicationSeasonId: string }>
 }) {
-  const applicationSeasonId = params.applicationSeasonId
+  const { applicationSeasonId } = await params
 
   const guardResponse = await applicationSeasonGuard(applicationSeasonId)
 

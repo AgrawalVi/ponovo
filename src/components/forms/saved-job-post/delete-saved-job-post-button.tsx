@@ -28,8 +28,10 @@ import { deleteSavedJobPost } from '@/actions/saved-job-posts/delete-saved-job-p
 
 export default function DeleteSavedJobPostButton({
   savedJobPostId,
+  applicationSeasonId,
 }: {
   savedJobPostId: string
+  applicationSeasonId: string
 }) {
   const { toast } = useToast()
   const queryClient = useQueryClient()
@@ -38,9 +40,12 @@ export default function DeleteSavedJobPostButton({
     const response = await deleteSavedJobPost(savedJobPostId)
     if (response.success) {
       queryClient.invalidateQueries({
-        queryKey: getQueryKey(api.savedForLater.getAllSavedJobPostsByUserId),
+        queryKey: getQueryKey(
+          api.savedForLater.getAllSavedJobPostsByApplicationSeasonId,
+          applicationSeasonId,
+        ),
       })
-      toast({ title: 'Timeline update deleted successfully' })
+      toast({ title: 'Saved job post deleted successfully' })
     } else {
       toast({
         title: 'Something went wrong!',

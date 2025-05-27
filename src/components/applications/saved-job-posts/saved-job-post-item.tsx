@@ -67,7 +67,10 @@ const SavedJobPostItem = ({ jobPost }: { jobPost: dbSavedJobPost }) => {
         </div>
         <div className="flex justify-end gap-2">
           <EditJobPostButton jobPost={jobPost} />
-          <DeleteSavedJobPostButton savedJobPostId={jobPost.id} />
+          <DeleteSavedJobPostButton
+            savedJobPostId={jobPost.id}
+            applicationSeasonId={jobPost.applicationSeasonId as string} // TODO: remove 'as string'
+          />
         </div>
       </CardFooter>
     </Card>
