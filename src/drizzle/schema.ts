@@ -172,11 +172,9 @@ export const jobApplications = pgTable('job_applications', {
   applicationStatus: applicationStatusEnum('application_status').notNull(),
   roleType: jobRoleTypeEnum('role_type').notNull(),
 
-  applicationSeasonId: uuid('application_season_id').references(
-    // TODO: make this .notNull() when done adding features to codebase
-    () => applicationSeasons.id,
-    { onDelete: 'cascade' },
-  ),
+  applicationSeasonId: uuid('application_season_id')
+    .references(() => applicationSeasons.id, { onDelete: 'cascade' })
+    .notNull(),
 
   dateApplied: timestamp('date_applied').notNull(),
 
@@ -260,10 +258,9 @@ export const savedJobPosts = pgTable('saved_job_applications', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 
-  applicationSeasonId: uuid('application_season_id').references(
-    () => applicationSeasons.id,
-    { onDelete: 'cascade' },
-  ),
+  applicationSeasonId: uuid('application_season_id')
+    .references(() => applicationSeasons.id, { onDelete: 'cascade' })
+    .notNull(),
 
   companyName: text('company_name').notNull(),
   jobTitle: text('job_title').notNull(),
