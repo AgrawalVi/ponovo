@@ -1,4 +1,8 @@
-import { applicationSeasons, jobApplications, users } from '@/drizzle/schema'
+import {
+  applicationSeasons,
+  jobApplications,
+  savedJobPosts,
+} from '@/drizzle/schema'
 import { db } from '@/lib/db'
 import { eq } from 'drizzle-orm'
 
@@ -6,6 +10,7 @@ export const migrateToApplicationSeasons = async () => {
   const retrievedUsers = await db.query.users.findMany({
     with: {
       jobApplications: true,
+      savedJobApplications: true,
     },
   })
 
@@ -30,6 +35,18 @@ export const migrateToApplicationSeasons = async () => {
               applicationSeasonId: applicationSeason[0].id,
             })
             .where(eq(jobApplications.id, application.id)),
+        ),
+      )
+
+      // Update all saved job applications for this user in parallel
+      await Promise.all(
+        user.savedJobApplications.map((savedJobApplication) =>
+          db
+            .update(savedJobPosts)
+            .set({
+              applicationSeasonId: applicationSeason[0].id,
+            })
+            .where(eq(savedJobPosts.id, savedJobApplication.id)),
         ),
       )
     }),
