@@ -57,6 +57,7 @@ export const createDummyApplicationFromJobPost = (jobPost: dbSavedJobPost) => {
     roleType: jobPost.roleType,
     dateApplied: new Date(),
     userId: jobPost.userId,
+    applicationSeasonId: jobPost.applicationSeasonId,
   }
 
   return application
