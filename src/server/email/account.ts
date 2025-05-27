@@ -8,7 +8,7 @@ export const sendEmailVerificationEmail = async (
   url: string,
 ) => {
   await resend.emails.send({
-    from: 'Ponovo | Accounts <accounts@ponovo.app>',
+    from: 'Ponovo | Account <accounts@ponovo.app>',
     to: email,
     subject: 'Verify your email',
     react: EmailVerification({ name: firstName, url }),
@@ -21,7 +21,7 @@ export const sendForgotPasswordEmail = async (
   url: string,
 ) => {
   await resend.emails.send({
-    from: 'Ponovo | Accounts <accounts@ponovo.app>',
+    from: 'Ponovo | Account <accounts@ponovo.app>',
     to: email,
     subject: 'Reset your password',
     react: ResetPassword({ name: firstName, url }),
