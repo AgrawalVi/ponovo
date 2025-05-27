@@ -18,17 +18,17 @@ const data = {
   navMain: [
     {
       title: 'Dashboard',
-      url: '/',
+      url: '',
       icon: LayoutDashboard,
     },
     {
       title: 'Applications',
-      url: '/applications',
+      url: 'applications',
       icon: ScrollText,
     },
     {
       title: 'Contacts',
-      url: '/contacts',
+      url: 'contacts',
       icon: Contact,
     },
   ],

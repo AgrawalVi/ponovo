@@ -12,7 +12,10 @@ export default async function DashboardPage({
 }) {
   const { applicationSeasonId } = await params
 
-  const guardResponse = await applicationSeasonGuard(applicationSeasonId)
+  const guardResponse = await applicationSeasonGuard(
+    applicationSeasonId,
+    '/dashboard',
+  )
 
   if (guardResponse.redirect) {
     redirect(guardResponse.redirect)

@@ -14,21 +14,32 @@ export const currentUserId = async () => {
   return session?.user?.id ?? null
 }
 
-export const applicationSeasonGuard = async (applicationSeasonId: string) => {
-  const userIdPromise = currentUserId()
-  const applicationSeasonPromise = getApplicationSeasonById(applicationSeasonId)
+export const applicationSeasonGuard = async (
+  applicationSeasonId: string,
+  pathname: string,
+) => {
+  let userId
 
-  const [userId, applicationSeason] = await Promise.all([
-    userIdPromise,
-    applicationSeasonPromise,
-  ])
+  let applicationSeason
+
+  try {
+    userId = await currentUserId()
+  } catch {
+    return { redirect: '/' }
+  }
+
+  try {
+    applicationSeason = await getApplicationSeasonById(applicationSeasonId)
+  } catch {
+    return { redirect: pathname }
+  }
 
   if (!userId) {
     return { redirect: '/' }
   }
 
   if (!applicationSeason || applicationSeason.userId !== userId) {
-    return { redirect: '/dashboard' }
+    return { redirect: pathname }
   }
 
   return { userId: userId }

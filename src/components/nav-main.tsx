@@ -29,11 +29,12 @@ export function NavMain({
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <Link href={`/dashboard/${parts[2]}${item.url}`} key={item.title}>
+          <Link href={`/dashboard/${parts[2]}/${item.url}`} key={item.title}>
             <SidebarMenuButton
               className={cn(
                 'text-muted-foreground transition-colors hover:bg-inherit hover:text-foreground active:bg-inherit active:text-foreground',
-                pathname === item.url &&
+                ((parts.length === 3 && !item.url) ||
+                  parts[parts.length - 1] === item.url) &&
                   'bg-accent text-accent-foreground hover:bg-accent',
               )}
               tooltip={item.title}

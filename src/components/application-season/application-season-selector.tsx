@@ -43,6 +43,10 @@ export function ApplicationSeasonSelector() {
     (season) => pathname.split('/')[2] === season.id,
   )
 
+  if (pathname.includes('preferences')) {
+    return null
+  }
+
   return (
     <>
       <CreateApplicationSeasonFormDialog

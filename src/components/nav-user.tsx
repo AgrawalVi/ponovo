@@ -19,7 +19,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { authClient } from '@/lib/auth-client'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from 'next/link'
 
 export function NavUser({
@@ -39,6 +39,8 @@ export function NavUser({
     .join('')
     .slice(0, 2)
   const router = useRouter()
+  const pathname = usePathname()
+  const parts = pathname.split('/')
 
   const handleSignOut = async () => {
     await authClient.signOut({
@@ -111,7 +113,7 @@ export function NavUser({
             </DropdownMenuGroup>
             <DropdownMenuSeparator /> */}
             <DropdownMenuGroup>
-              <Link href="/dashboard/preferences">
+              <Link href={`/dashboard/${parts[2]}/preferences`}>
                 <DropdownMenuItem>
                   <Settings2 />
                   Account

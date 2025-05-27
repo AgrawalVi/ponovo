@@ -11,7 +11,10 @@ export default async function ApplicationsPage({
 }) {
   const { applicationSeasonId } = await params
 
-  const guardResponse = await applicationSeasonGuard(applicationSeasonId)
+  const guardResponse = await applicationSeasonGuard(
+    applicationSeasonId,
+    '/dashboard/applications',
+  )
 
   if (guardResponse.redirect) {
     redirect(guardResponse.redirect)
