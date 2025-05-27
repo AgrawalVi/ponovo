@@ -13,14 +13,17 @@ import {
 
 export default function HeaderBreadcrumbs() {
   const pathname = usePathname()
-  const pages = pathname.split('/').slice(1)
+  const pages = pathname
+    .split('/')
+    .slice(1)
+    .filter((_, i) => i !== 1)
 
   return (
     <Breadcrumb>
       <BreadcrumbList>
         {pages.map((page, index) => (
           <React.Fragment key={index}>
-            <BreadcrumbItem className="hidden md:block">
+            <BreadcrumbItem className="hidden sm:block">
               <BreadcrumbLink
                 href={`${pathname
                   .split('/')
