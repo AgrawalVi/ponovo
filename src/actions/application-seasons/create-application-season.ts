@@ -3,13 +3,13 @@
 import { currentUserId } from '@/lib/auth'
 import { createApplicationSeasonSchema } from '@/schemas'
 import { dbApplicationSeason, ServerActionResponse } from '@/types'
-import {
-  activateApplicationSeason,
-  createApplicationSeason as createApplicationSeasonDb,
-} from '@/data/application-seasons/create-application-season'
+import { createApplicationSeason as createApplicationSeasonDb } from '@/data/application-seasons/create-application-season'
 import { z } from 'zod'
 import { db } from '@/lib/db'
-import { deactivateAllApplicationSeasons } from '@/data/application-seasons/edit-application-season'
+import {
+  deactivateAllApplicationSeasons,
+  activateApplicationSeason,
+} from '@/data/application-seasons/edit-application-season'
 import { replaceApplicationSeasonId } from '@/lib/utils'
 import { revalidatePath } from 'next/cache'
 
@@ -48,7 +48,10 @@ export const createApplicationSeason = async (
 
       if (active) {
         await deactivateAllApplicationSeasons(userId, tx)
-        await activateApplicationSeason(applicationSeason.id, userId, tx)
+        await activateApplicationSeason(
+          { id: applicationSeason.id, userId },
+          tx,
+        )
       }
     })
   } catch (error) {

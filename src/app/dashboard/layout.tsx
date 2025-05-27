@@ -24,10 +24,6 @@ export default async function DashboardLayout({
     redirect('/')
   }
 
-  const applicationSeasons = await getAllApplicationSeasonsByUserId(
-    user.user.id,
-  )
-
   return (
     <TRPCReactProvider>
       <SidebarProvider defaultOpen={false}>
@@ -47,9 +43,7 @@ export default async function DashboardLayout({
                 <HeaderBreadcrumbs />
               </div>
               <div className="flex items-center gap-2 px-4">
-                <ApplicationSeasonSelector
-                  applicationSeasons={applicationSeasons}
-                />
+                <ApplicationSeasonSelector />
               </div>
             </header>
             <div className="w-full flex-1 overflow-x-hidden p-4">

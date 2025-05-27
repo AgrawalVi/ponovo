@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
-import { ChevronsUpDown, Plus } from 'lucide-react'
+import { ChevronsUpDown, Plus, Settings } from 'lucide-react'
 
 import { replaceApplicationSeasonId } from '@/lib/utils'
 import {
@@ -20,18 +20,26 @@ import { dbApplicationSeason } from '@/types'
 import { Button } from '../ui/button'
 import CreateApplicationSeasonFormDialog from './create-application-season-form-dialog'
 import { Badge } from '../ui/badge'
+import ManageApplicationSeasons from './manage-application-seasons'
+import { api } from '@/trpc/react'
+import { Skeleton } from '../ui/skeleton'
 
-export function ApplicationSeasonSelector({
-  applicationSeasons,
-}: {
-  applicationSeasons: dbApplicationSeason[]
-}) {
+export function ApplicationSeasonSelector() {
   const [createApplicationSeasonOpen, setCreateApplicationSeasonOpen] =
+    useState(false)
+  const [manageApplicationSeasonsOpen, setManageApplicationSeasonsOpen] =
     useState(false)
   const router = useRouter()
   const pathname = usePathname()
 
-  const currentSeason = applicationSeasons.find(
+  const { data: applicationSeasons, isPending } =
+    api.applicationSeasons.getAllApplicationSeasons.useQuery()
+
+  if (isPending) {
+    return <Skeleton className="h-10 w-72" />
+  }
+
+  const currentSeason = applicationSeasons?.find(
     (season) => pathname.split('/')[2] === season.id,
   )
 
@@ -40,6 +48,11 @@ export function ApplicationSeasonSelector({
       <CreateApplicationSeasonFormDialog
         open={createApplicationSeasonOpen}
         setOpen={setCreateApplicationSeasonOpen}
+      />
+      <ManageApplicationSeasons
+        applicationSeasons={applicationSeasons ?? []}
+        open={manageApplicationSeasonsOpen}
+        setOpen={setManageApplicationSeasonsOpen}
       />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
@@ -66,21 +79,35 @@ export function ApplicationSeasonSelector({
           <DropdownMenuLabel className="text-xs text-muted-foreground">
             Application Seasons
           </DropdownMenuLabel>
-          {applicationSeasons
-            .filter((season) => season.id !== currentSeason?.id)
-            .map((season) => (
-              <DropdownMenuItem
-                key={season.name}
-                onClick={() =>
-                  router.push(replaceApplicationSeasonId(pathname, season.id))
-                }
-                className="gap-2 p-2"
-              >
-                {season.name}
-                {season.active && <Badge className="ml-2">Active</Badge>}
-              </DropdownMenuItem>
-            ))}
+          {applicationSeasons &&
+            applicationSeasons
+              .filter((season) => season.id !== currentSeason?.id)
+              .map((season) => (
+                <DropdownMenuItem
+                  key={season.name}
+                  onClick={() =>
+                    router.push(replaceApplicationSeasonId(pathname, season.id))
+                  }
+                  className="gap-2 p-2"
+                >
+                  {season.name}
+                  {season.active && <Badge className="ml-2">Active</Badge>}
+                </DropdownMenuItem>
+              ))}
           <DropdownMenuSeparator />
+          <DropdownMenuItem
+            className="gap-2 p-2"
+            onClick={() => {
+              setManageApplicationSeasonsOpen(true)
+            }}
+          >
+            <div className="flex size-6 items-center justify-center rounded-md border bg-background">
+              <Settings className="size-4" />
+            </div>
+            <div className="font-medium text-muted-foreground">
+              Manage Application Seasons
+            </div>
+          </DropdownMenuItem>
           <DropdownMenuItem
             className="gap-2 p-2"
             onClick={() => {

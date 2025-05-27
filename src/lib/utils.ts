@@ -1,4 +1,5 @@
 import { ServerActionResponse } from '@/types'
+import { QueryClient, QueryKey, useQueryClient } from '@tanstack/react-query'
 import { type ClassValue, clsx } from 'clsx'
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
 import { toast } from 'sonner'
@@ -28,6 +29,10 @@ export const handleServerActionResponseForm = (
   response: ServerActionResponse,
   setOpen?: (open: boolean) => void,
   router?: AppRouterInstance,
+  query?: {
+    queryKey: QueryKey
+    queryClient: QueryClient
+  },
 ) => {
   if ('success' in response) {
     if (setOpen) {
@@ -39,6 +44,9 @@ export const handleServerActionResponseForm = (
       } else {
         toast.error(`No router found. Please redirect to ${response.redirect}`)
       }
+    }
+    if (query) {
+      query.queryClient.invalidateQueries({ queryKey: query.queryKey })
     }
     toast.success(response.success)
   } else if ('warning' in response) {

@@ -39,3 +39,7 @@ export const createApplicationSeasonSchema = z.object({
   description: z.string().optional(),
   active: z.boolean(),
 })
+
+export const editApplicationSeasonSchema = createApplicationSeasonSchema.omit({
+  active: true,
+})

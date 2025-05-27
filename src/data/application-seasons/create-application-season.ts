@@ -26,16 +26,3 @@ export const createApplicationSeason = async (
 
   return applicationSeason[0] ?? null
 }
-
-export const activateApplicationSeason = async (
-  id: string,
-  userId: string,
-  tx: DbOrTx = db,
-) => {
-  await tx
-    .update(applicationSeasons)
-    .set({ active: true })
-    .where(
-      and(eq(applicationSeasons.id, id), eq(applicationSeasons.userId, userId)),
-    )
-}
