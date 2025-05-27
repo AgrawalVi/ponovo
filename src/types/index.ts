@@ -47,3 +47,8 @@ export type DataTableFacetedFilterOption = {
   value: string
   icon: React.ComponentType<{ className?: string }>
 }
+
+export type ServerActionResponse =
+  | { success: string; redirect?: string }
+  | { warning: string }
+  | { error: string }

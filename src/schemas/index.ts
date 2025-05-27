@@ -33,3 +33,9 @@ export const savedJobPostSchema = z.object({
   addedDate: z.date(),
   applicationSeasonId: z.string(),
 })
+
+export const createApplicationSeasonSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  description: z.string().optional(),
+  active: z.boolean(),
+})

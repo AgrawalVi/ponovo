@@ -1,4 +1,7 @@
+import { ServerActionResponse } from '@/types'
 import { type ClassValue, clsx } from 'clsx'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import { toast } from 'sonner'
 import { twMerge } from 'tailwind-merge'
 
 export function cn(...inputs: ClassValue[]) {
@@ -19,4 +22,28 @@ export const replaceApplicationSeasonId = (
   const pathParts = pathname.split('/')
   pathParts[2] = newApplicationSeasonId
   return pathParts.join('/')
+}
+
+export const handleServerActionResponseForm = (
+  response: ServerActionResponse,
+  setOpen?: (open: boolean) => void,
+  router?: AppRouterInstance,
+) => {
+  if ('success' in response) {
+    if (setOpen) {
+      setOpen(false)
+    }
+    if (response.redirect) {
+      if (router) {
+        router.push(response.redirect)
+      } else {
+        toast.error(`No router found. Please redirect to ${response.redirect}`)
+      }
+    }
+    toast.success(response.success)
+  } else if ('warning' in response) {
+    toast.warning(response.warning)
+  } else if ('error' in response) {
+    toast.error(response.error)
+  }
 }

@@ -31,5 +31,5 @@ export const applicationSeasonGuard = async (applicationSeasonId: string) => {
     return { redirect: '/dashboard' }
   }
 
-  return { redirect: null }
+  return { userId: userId }
 }

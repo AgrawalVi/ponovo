@@ -18,13 +18,15 @@ import {
 // import CreateOrganizationFormDialog from './auth/organizations/create-organization-form-dialog'
 import { dbApplicationSeason } from '@/types'
 import { Button } from '../ui/button'
+import CreateApplicationSeasonFormDialog from './create-application-season-form-dialog'
 
 export function ApplicationSeasonSelector({
   applicationSeasons,
 }: {
   applicationSeasons: dbApplicationSeason[]
 }) {
-  const [createOrganizationOpen, setCreateOrganizationOpen] = useState(false)
+  const [createApplicationSeasonOpen, setCreateApplicationSeasonOpen] =
+    useState(false)
   const router = useRouter()
   const pathname = usePathname()
 
@@ -34,10 +36,10 @@ export function ApplicationSeasonSelector({
 
   return (
     <>
-      {/* <CreateOrganizationFormDialog
-        open={createOrganizationOpen}
-        setOpen={setCreateOrganizationOpen}
-      /> */}
+      <CreateApplicationSeasonFormDialog
+        open={createApplicationSeasonOpen}
+        setOpen={setCreateApplicationSeasonOpen}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -79,7 +81,7 @@ export function ApplicationSeasonSelector({
           <DropdownMenuItem
             className="gap-2 p-2"
             onClick={() => {
-              setCreateOrganizationOpen(true)
+              setCreateApplicationSeasonOpen(true)
             }}
           >
             <div className="flex size-6 items-center justify-center rounded-md border bg-background">

@@ -1,10 +1,7 @@
 import { applicationTableColumns } from '@/components/applications/table/columns'
 import { ApplicationDataTable } from '@/components/applications/table/data-table'
 import { getAllJobApplicationsByUserIdAndApplicationSeasonId } from '@/data/job-applications/get-job-applications'
-import { users } from '@/drizzle/schema'
-import { currentUserId } from '@/lib/auth'
-import { db } from '@/lib/db'
-import { eq } from 'drizzle-orm'
+import { applicationSeasonGuard } from '@/lib/auth'
 import { redirect } from 'next/navigation'
 
 export default async function ApplicationsPage({
@@ -14,16 +11,20 @@ export default async function ApplicationsPage({
 }) {
   const { applicationSeasonId } = await params
 
-  const userId = await currentUserId()
+  const guardResponse = await applicationSeasonGuard(applicationSeasonId)
 
-  if (!userId) {
+  if (guardResponse.redirect) {
+    redirect(guardResponse.redirect)
+  }
+
+  if (!guardResponse.userId) {
     redirect('/')
   }
 
   let jobApplications
   try {
     jobApplications = await getAllJobApplicationsByUserIdAndApplicationSeasonId(
-      userId,
+      guardResponse.userId,
       applicationSeasonId,
     )
   } catch (e) {
