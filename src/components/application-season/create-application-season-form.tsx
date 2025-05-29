@@ -21,6 +21,9 @@ import { Input } from '../ui/input'
 import { Textarea } from '../ui/textarea'
 import { Button } from '../ui/button'
 import { Switch } from '../ui/switch'
+import { api } from '@/trpc/react'
+import { getQueryKey } from '@trpc/react-query'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface CreateApplicationSeasonFormProps {
   setIsChanged: (isChanged: boolean) => void
@@ -34,6 +37,8 @@ export default function CreateApplicationSeasonForm({
   const [loading, setLoading] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
+  const queryClient = useQueryClient()
+  const queryKey = getQueryKey(api.applicationSeasons.getAllApplicationSeasons)
 
   const defaultValues = useMemo(
     () => ({
@@ -63,7 +68,10 @@ export default function CreateApplicationSeasonForm({
   ) => {
     setLoading(true)
     const response = await createApplicationSeason(values, pathname)
-    handleServerActionResponseForm(response, setOpen, router)
+    handleServerActionResponseForm(response, setOpen, router, {
+      queryKey,
+      queryClient,
+    })
     setLoading(false)
   }
 
