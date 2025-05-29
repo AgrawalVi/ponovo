@@ -9,8 +9,6 @@ import {
 } from './constants/auth'
 
 export async function middleware(request: NextRequest) {
-  console.log('running middleware')
-
   const sessionCookie = getSessionCookie(request)
 
   const isAuthRoute = request.nextUrl.pathname.startsWith(AUTH_ROUTE_PREFIX)
