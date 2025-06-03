@@ -1,5 +1,4 @@
-import { applicationTableColumns } from '@/components/applications/table/columns'
-import { ApplicationDataTable } from '@/components/applications/table/data-table'
+import ApplicationsTable from '@/components/applications/applications-table'
 import { getAllJobApplicationsByUserIdAndApplicationSeasonId } from '@/data/job-applications/get-job-applications'
 import { applicationSeasonGuard } from '@/lib/auth'
 import { redirect } from 'next/navigation'
@@ -40,10 +39,9 @@ export default async function ApplicationsPage({
       <div className="mb-3 bg-gradient-to-b from-foreground from-50% to-neutral-600 bg-clip-text pt-2 text-center text-5xl font-semibold text-transparent dark:to-neutral-400">
         Your Job Applications
       </div>
-      <div className="w-full place-items-center overflow-x-auto">
-        <ApplicationDataTable
+      <div className="w-full place-items-center">
+        <ApplicationsTable
           data={jobApplications}
-          columns={applicationTableColumns}
           applicationSeasonId={applicationSeasonId}
         />
       </div>

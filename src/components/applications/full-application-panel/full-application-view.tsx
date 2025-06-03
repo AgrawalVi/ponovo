@@ -29,7 +29,7 @@ import EditApplicationButton from '@/components/forms/new-application/edit-appli
 export default function FullApplicationView({
   applicationId,
 }: {
-  applicationId: string
+  applicationId: string | null
 }) {
   const [hasCopied, setHasCopied] = useState(false)
 
@@ -40,7 +40,7 @@ export default function FullApplicationView({
   }, [hasCopied])
 
   const query = api.timeLineUpdates.getAllByApplicationId.useQuery({
-    id: applicationId,
+    id: applicationId ?? '',
   })
 
   if (!applicationId) {
