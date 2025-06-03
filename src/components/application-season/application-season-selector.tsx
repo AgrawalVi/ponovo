@@ -43,7 +43,8 @@ export function ApplicationSeasonSelector() {
     (season) => pathname.split('/')[2] === season.id,
   )
 
-  if (pathname.includes('preferences')) {
+  // dont want to render this for preferences page or contacts page as those are application season agnostic
+  if (pathname.includes('preferences') || pathname.includes('contacts')) {
     return null
   }
 
