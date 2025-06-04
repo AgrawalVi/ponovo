@@ -3,6 +3,7 @@ import {
   integer,
   pgEnum,
   pgTable,
+  primaryKey,
   text,
   timestamp,
   uuid,
@@ -32,6 +33,28 @@ export const timeLineUpdateEnum = pgEnum('time_line_update', [
   'offer-accepted',
   'interviewed',
   'online-assessment-completed',
+])
+
+export const contactStatusEnum = pgEnum('contact_status', [
+  'contacted',
+  'replied',
+  'referral-requested',
+  'referral-received',
+  'ghosted',
+  'connection-strengthened',
+])
+
+export const contactTimelineUpdateEnum = pgEnum('contact_timeline_update', [
+  'contacted',
+  'replied',
+  'meeting-scheduled',
+  'met',
+  'follow-up-sent',
+  'referral-requested',
+  'referral-received',
+  'thank-you-sent',
+  'ghosted',
+  'connection-strengthened',
 ])
 
 export const jobRoleTypeEnum = pgEnum('job_role_type', [
@@ -74,6 +97,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   savedJobApplications: many(savedJobPosts),
   sessions: many(sessions),
   accounts: many(accounts),
+  contacts: many(contacts),
 }))
 
 export const sessions = pgTable('sessions', {
@@ -286,4 +310,81 @@ export const savedJobApplicationsRelations = relations(
       references: [applicationSeasons.id],
     }),
   }),
+)
+
+export const contacts = pgTable('contacts', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+
+  userId: uuid('user_id')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+
+  company: text('company_name'),
+  jobTitle: text('job_title'),
+  contactStatus: contactStatusEnum('contact_status').notNull(),
+
+  name: text('name').notNull(),
+
+  phone: text('phone'),
+  email: text('email'),
+  linkedInUrl: text('linked_in_url'),
+  notes: text('notes'),
+
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+})
+
+export const contactsRelations = relations(contacts, ({ one, many }) => ({
+  user: one(users, {
+    fields: [contacts.userId],
+    references: [users.id],
+  }),
+  contactTimelineUpdates: many(contactTimelineUpdates),
+}))
+
+export const contactTimelineUpdates = pgTable('contact_timeline_updates', {
+  id: uuid('id')
+    .primaryKey()
+    .$defaultFn(() => uuidv4()),
+
+  contactId: uuid('contact_id')
+    .notNull()
+    .references(() => contacts.id, { onDelete: 'cascade' }),
+
+  createdAt: timestamp('created_at').notNull().defaultNow(),
+  updatedAt: timestamp('updated_at')
+    .notNull()
+    .$onUpdate(() => new Date()),
+})
+
+export const contactTimelineUpdatesRelations = relations(
+  contactTimelineUpdates,
+  ({ one }) => ({
+    contact: one(contacts, {
+      fields: [contactTimelineUpdates.contactId],
+      references: [contacts.id],
+    }),
+  }),
+)
+
+export const contactsToJobApplications = pgTable(
+  'contacts_to_job_applications',
+  {
+    contactId: uuid('contact_id')
+      .notNull()
+      .references(() => contacts.id, { onDelete: 'cascade' }),
+    jobApplicationId: uuid('job_application_id')
+      .notNull()
+      .references(() => jobApplications.id, { onDelete: 'cascade' }),
+
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at')
+      .notNull()
+      .$onUpdate(() => new Date()),
+  },
+  (t) => [primaryKey({ columns: [t.contactId, t.jobApplicationId] })],
 )
