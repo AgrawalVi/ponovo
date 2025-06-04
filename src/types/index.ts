@@ -1,5 +1,6 @@
 import {
   applicationSeasons,
+  contacts,
   jobApplications,
   jobApplicationTimelineUpdates,
   savedJobPosts,
@@ -28,6 +29,9 @@ export type dbSavedJobPost = typeof savedJobPosts.$inferSelect
 
 export type dbApplicationSeason = typeof applicationSeasons.$inferSelect
 
+export type dbContact = typeof contacts.$inferSelect
+export type dbCreateContactType = typeof contacts.$inferInsert
+
 export type statusEnum =
   | 'applied'
   | 'online-assessment-received'
@@ -40,6 +44,8 @@ export type statusEnum =
   | 'offer-accepted'
 
 export type roleTypeEnum = 'full-time' | 'co-op' | 'internship'
+
+// END DRIZZLE
 
 // DATA TABLE
 export type DataTableFacetedFilterOption = {

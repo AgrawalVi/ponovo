@@ -30,7 +30,7 @@ export const handleServerActionResponseForm = (
   setOpen?: (open: boolean) => void,
   router?: AppRouterInstance,
   query?: {
-    queryKey: QueryKey
+    queryKey: QueryKey | undefined
     queryClient: QueryClient
   },
 ) => {
@@ -45,7 +45,7 @@ export const handleServerActionResponseForm = (
         toast.error(`No router found. Please redirect to ${response.redirect}`)
       }
     }
-    if (query) {
+    if (query && query.queryKey) {
       query.queryClient.invalidateQueries({ queryKey: query.queryKey })
     }
     toast.success(response.success)

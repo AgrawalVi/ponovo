@@ -57,6 +57,30 @@ export const contactTimelineUpdateEnum = pgEnum('contact_timeline_update', [
   'connection-strengthened',
 ])
 
+// export const contactPositionEnum = pgEnum('contact_position', [
+//   'recruiter',
+//   'hiring-manager',
+//   'employee',
+//   'alumni',
+//   'other',
+// ])
+
+// export const contactRelationshipEnum = pgEnum('contact_relationship', [
+//   'recruiter',
+//   'referrer',
+//   'mentor',
+//   'peer',
+//   'other',
+// ])
+
+// export const contactSourceEnum = pgEnum('contact_source', [
+//   'linkedin',
+//   'referral',
+//   'career-fair',
+//   'email',
+//   'other',
+// ])
+
 export const jobRoleTypeEnum = pgEnum('job_role_type', [
   'full-time',
   'co-op',
@@ -321,11 +345,10 @@ export const contacts = pgTable('contacts', {
     .notNull()
     .references(() => users.id, { onDelete: 'cascade' }),
 
+  name: text('name').notNull(),
   company: text('company_name'),
   jobTitle: text('job_title'),
   contactStatus: contactStatusEnum('contact_status').notNull(),
-
-  name: text('name').notNull(),
 
   phone: text('phone'),
   email: text('email'),
@@ -354,6 +377,10 @@ export const contactTimelineUpdates = pgTable('contact_timeline_updates', {
   contactId: uuid('contact_id')
     .notNull()
     .references(() => contacts.id, { onDelete: 'cascade' }),
+
+  updateType: contactTimelineUpdateEnum('update_type').notNull(),
+  updateDate: timestamp('update_date').notNull().defaultNow(),
+  comments: text('comments'),
 
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at')

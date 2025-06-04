@@ -1,4 +1,9 @@
-import { applicationStatusEnum, jobRoleTypeEnum } from '@/drizzle/schema'
+import {
+  applicationStatusEnum,
+  contactStatusEnum,
+  contactTimelineUpdateEnum,
+  jobRoleTypeEnum,
+} from '@/drizzle/schema'
 import { z } from 'zod'
 
 export const applicationSchema = z.object({
@@ -42,4 +47,21 @@ export const createApplicationSeasonSchema = z.object({
 
 export const editApplicationSeasonSchema = createApplicationSeasonSchema.omit({
   active: true,
+})
+
+export const ContactSchema = z.object({
+  name: z.string().min(1, { message: 'Name is required' }),
+  companyName: z.string().optional(),
+  jobTitle: z.string().optional(),
+  contactStatus: z.enum(contactStatusEnum.enumValues).default('contacted'),
+  phone: z.string().optional(),
+  email: z.string().email({ message: 'Must be a valid email' }).optional(),
+  linkedInUrl: z.string().url({ message: 'Must be a valid URL' }).optional(),
+  notes: z.string().optional(),
+})
+
+export const ContactTimelineUpdateSchema = z.object({
+  updateType: z.enum(contactTimelineUpdateEnum.enumValues),
+  updateDate: z.date(),
+  comments: z.string().optional(),
 })
