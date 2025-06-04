@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { format } from 'date-fns'
 import { api } from '@/trpc/react'
-import FullApplicationSkeleton from '../../skeletons/full-application-skeleton'
+import FullApplicationSkeleton from '../../skeletons/full-application-view-skeleton'
 import {
   Card,
   CardContent,
@@ -29,7 +29,7 @@ import EditApplicationButton from '@/components/forms/new-application/edit-appli
 export default function FullApplicationView({
   applicationId,
 }: {
-  applicationId: string | null
+  applicationId: string
 }) {
   const [hasCopied, setHasCopied] = useState(false)
 
@@ -40,12 +40,8 @@ export default function FullApplicationView({
   }, [hasCopied])
 
   const query = api.timeLineUpdates.getAllByApplicationId.useQuery({
-    id: applicationId ?? '',
+    id: applicationId,
   })
-
-  if (!applicationId) {
-    return null
-  }
 
   if (query.isPending) {
     return <FullApplicationSkeleton />

@@ -3,13 +3,13 @@
 import { useState } from 'react'
 import { DataTableWrapper } from '../ui/custom/data-table/data-table-wrapper'
 import { dbJobApplication } from '@/types'
-import FullApplicationView from './full-application-panel/full-application-view'
 import { applicationTableColumns } from './columns'
 import { dataTableApplicationStatusOptions } from '@/data'
 import NewApplicationButton from '../forms/new-application/new-application-button'
 import { Button } from '../ui/button'
 import { PlusIcon } from 'lucide-react'
 import SavedJobPostsSheet from './saved-job-posts/saved-job-posts-sheet'
+import FullApplicationViewWrapper from './full-application-panel/full-application-view-wrapper'
 
 export default function ApplicationsTable({
   data,
@@ -42,7 +42,9 @@ export default function ApplicationsTable({
       activeRowInformation={{
         activeRow,
         setActiveRow,
-        activeRowCard: <FullApplicationView applicationId={activeRow?.id} />,
+        activeRowCard: (
+          <FullApplicationViewWrapper applicationId={activeRow?.id} />
+        ),
       }}
       actionButton={
         <div className="flex justify-end gap-2">
