@@ -6,6 +6,7 @@ import { dbContact } from '@/types'
 import { contactTableColumns } from './columns'
 import NewContactButton from './interactions/contact/new-contact-button'
 import FullContactView from './full-contact-panel/full-contact-view'
+import { dataTableContactStatusOptions } from '@/data'
 
 export default function ContactsTable({ data }: { data: dbContact[] }) {
   const [activeRow, setActiveRow] = useState<dbContact>(data[0])
@@ -24,11 +25,11 @@ export default function ContactsTable({ data }: { data: dbContact[] }) {
         },
       ]}
       showVisibilityControls={false}
-      // facetedFilterInformation={{
-      //   columnId: 'applicationStatus',
-      //   title: 'Application Status',
-      //   options: dataTableApplicationStatusOptions,
-      // }}
+      facetedFilterInformation={{
+        columnId: 'contactStatus',
+        title: 'Status',
+        options: dataTableContactStatusOptions,
+      }}
       activeRowInformation={{
         activeRow,
         setActiveRow,

@@ -2,9 +2,14 @@
 
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
-import { dbContact, dbJobApplication, statusEnum } from '@/types'
-import StatusBadge from './general/contact-status-badge'
+import {
+  ContactStatusEnum,
+  dbContact,
+  dbJobApplication,
+  statusEnum,
+} from '@/types'
 import { DataTableColumnHeader } from '../ui/custom/data-table/data-table-column-header'
+import ContactStatusBadge from './general/contact-status-badge'
 
 export const contactTableColumns: ColumnDef<dbContact>[] = [
   {
@@ -25,6 +30,19 @@ export const contactTableColumns: ColumnDef<dbContact>[] = [
     accessorKey: 'jobTitle',
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Job Title" />
+    },
+  },
+  {
+    accessorKey: 'contactStatus',
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title="Status" />
+    },
+    cell: ({ row }) => {
+      const status = row.getValue('contactStatus') as ContactStatusEnum
+      return <ContactStatusBadge status={status} />
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id))
     },
   },
   // {

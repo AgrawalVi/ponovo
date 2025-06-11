@@ -72,6 +72,12 @@ export const autoUpdateContactStatusByIdAndUserId = async (
       } else {
         return await changeContactStatusById(id, 'followed-up', tx)
       }
+    case 'ghosted':
+      if (contact.contactStatus === 'ghosted') {
+        return contactOnly
+      } else {
+        return await changeContactStatusById(id, 'ghosted', tx)
+      }
     default:
       if (contact.contactStatus === 'contacted') {
         return contactOnly
