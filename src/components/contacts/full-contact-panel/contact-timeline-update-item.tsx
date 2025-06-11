@@ -1,7 +1,5 @@
 import { dbContactTimelineUpdate } from '@/types'
 import { format } from 'date-fns'
-import DeleteTimelineUpdateButton from '@/components/forms/timeline-updates/delete-timeline-update-button'
-import EditTimelineUpdateButton from '@/components/forms/timeline-updates/edit-timeline-update-button'
 import {
   Popover,
   PopoverContent,
@@ -11,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { MessageSquare } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
 import ContactTimelineUpdateStatusBadge from '../general/contact-timeline-update-status-badge'
+import DeleteContactTimelineUpdateButton from '../interactions/contact-timeline-updates/delete-contact-timeline-update-button'
 
 export default function ContactTimelineUpdateItem({
   timelineUpdate,
@@ -45,13 +44,13 @@ export default function ContactTimelineUpdateItem({
           </div>
         )}
       </div>
-      {/* <div className="flex items-center space-x-2">
-        <EditTimelineUpdateButton timelineUpdate={timelineUpdate} />
-        <DeleteTimelineUpdateButton
-          applicationId={timelineUpdate.jobApplicationId}
+      <div className="flex items-center space-x-2">
+        {/* <EditTimelineUpdateButton timelineUpdate={timelineUpdate} /> */}
+        <DeleteContactTimelineUpdateButton
+          contactId={timelineUpdate.contactId}
           timelineUpdateId={timelineUpdate.id}
         />
-      </div> */}
+      </div>
     </li>
   )
 }
