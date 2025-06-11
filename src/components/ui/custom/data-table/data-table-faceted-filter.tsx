@@ -84,7 +84,7 @@ export function DataTableFacetedFilter<TData, TValue>({
       <PopoverContent className="w-[300px] p-0" align="start">
         <Command>
           <CommandInput placeholder={title} />
-          <CommandList>
+          <CommandList className="max-h-none">
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
