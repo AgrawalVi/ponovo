@@ -8,9 +8,9 @@ import {
 import { Button } from '@/components/ui/button'
 import { MessageSquare } from 'lucide-react'
 import { Textarea } from '@/components/ui/textarea'
-import ContactTimelineUpdateStatusBadge from '../general/contact-timeline-update-status-badge'
 import DeleteContactTimelineUpdateButton from '../interactions/contact-timeline-updates/delete-contact-timeline-update-button'
 import EditContactTimelineUpdateButton from '../interactions/contact-timeline-updates/edit-contact-timeline-update-button'
+import ContactStatusBadge from '../general/contact-status-badge'
 
 export default function ContactTimelineUpdateItem({
   timelineUpdate,
@@ -22,7 +22,7 @@ export default function ContactTimelineUpdateItem({
   return (
     <li className="flex items-center justify-between rounded-md bg-muted/50 p-2 transition-colors hover:bg-muted">
       <div className="flex min-w-0 flex-nowrap items-center gap-2">
-        <ContactTimelineUpdateStatusBadge status={updateType} />
+        <ContactStatusBadge status={updateType} />
         <span className="whitespace-nowrap text-sm text-muted-foreground">
           {format(new Date(updateDate), 'MMM d')}
         </span>
