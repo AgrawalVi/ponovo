@@ -24,6 +24,7 @@ import DatePickerFormElement from '@/components/forms/date-picker-form-element'
 import ContactStatusFormElement from '../contact-status-form-element'
 import { newContactTimelineUpdate } from '@/actions/contacts/contact-timeline-update/create-contact-timeline-update'
 import { handleServerActionResponseForm } from '@/lib/utils'
+import { editContactTimelineUpdate } from '@/actions/contacts/contact-timeline-update/edit-contact-timeline-update'
 
 interface ContactTimelineUpdateFormPropsEditing {
   timelineUpdate: dbContactTimelineUpdate
@@ -89,9 +90,11 @@ const ContactTimelineUpdateForm = ({
     setLoading(true)
     let response: ServerActionResponse
     if (editing) {
-      // TODO: implement this
-      setLoading(false)
-      return
+      response = await editContactTimelineUpdate(
+        data,
+        timelineUpdate.id,
+        contactId,
+      )
     } else {
       response = await newContactTimelineUpdate(data, contactId)
     }

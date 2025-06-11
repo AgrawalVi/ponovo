@@ -2,7 +2,6 @@ import {
   applicationSeasons,
   contacts,
   contactStatusEnum,
-  contactTimelineUpdateEnum,
   contactTimelineUpdates,
   jobApplications,
   jobApplicationTimelineUpdates,
@@ -51,8 +50,6 @@ export type statusEnum =
 export type roleTypeEnum = 'full-time' | 'co-op' | 'internship'
 
 export type ContactStatusEnum = (typeof contactStatusEnum.enumValues)[number]
-export type ContactTimelineUpdateEnum =
-  (typeof contactTimelineUpdateEnum.enumValues)[number]
 
 // END DRIZZLE
 

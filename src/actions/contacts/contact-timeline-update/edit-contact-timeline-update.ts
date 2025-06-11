@@ -5,12 +5,14 @@ import { ContactTimelineUpdateSchema } from '@/schemas'
 import { revalidatePath } from 'next/cache'
 import { currentUserId } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { insertContactTimelineUpdate } from '@/data/contacts/timeline-updates/insert-timeline-update'
 import { autoUpdateContactStatusByIdAndUserId } from '@/data/contacts/contacts/edit-contacts'
 import { ServerActionResponse } from '@/types'
+import { editContactTimelineUpdateById } from '@/data/contacts/timeline-updates/edit-contact-timeline-update'
+import { getContactTimelineUpdateWithContactByIdAndUserId } from '@/data/contacts/contacts/contact-timeline-update/get-contact-timeline-update'
 
-export async function newContactTimelineUpdate(
+export async function editContactTimelineUpdate(
   values: z.infer<typeof ContactTimelineUpdateSchema>,
+  contactTimelineUpdateId: string,
   contactId: string,
 ): Promise<ServerActionResponse> {
   const userId = await currentUserId()
@@ -28,14 +30,36 @@ export async function newContactTimelineUpdate(
   const { updateType, updateDate, comments } = validatedFields.data
 
   try {
-    await insertContactTimelineUpdate(contactId, {
-      updateType,
-      updateDate,
-      comments,
+    await db.transaction(async (tx) => {
+      const contactTimelineUpdate =
+        await getContactTimelineUpdateWithContactByIdAndUserId(
+          contactTimelineUpdateId,
+          userId,
+          tx,
+        )
+
+      if (
+        !contactTimelineUpdate ||
+        contactTimelineUpdate.contact.userId !== userId
+      ) {
+        throw new Error('Contact timeline update not found')
+      }
+
+      await editContactTimelineUpdateById(
+        contactTimelineUpdateId,
+        {
+          updateType,
+          updateDate,
+          comments,
+        },
+        tx,
+      )
     })
   } catch (e) {
-    console.error(e)
-    return { error: 'Database failed to insert timeline update' }
+    if (e instanceof Error) {
+      return { error: e.message }
+    }
+    return { error: 'Database failed to edit the timeline update' }
   }
 
   let contact
@@ -60,5 +84,5 @@ export async function newContactTimelineUpdate(
   }
 
   revalidatePath('/dashboard')
-  return { success: 'Contact timeline update created successfully' }
+  return { success: 'Contact timeline update edited successfully' }
 }

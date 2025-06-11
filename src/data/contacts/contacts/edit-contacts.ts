@@ -3,7 +3,32 @@ import { DbOrTx } from '@/types/drizzle'
 import { getContactWithTimelineUpdatesDescendingByIdAndUserId } from './get-contact'
 import { ContactStatusEnum, dbContact } from '@/types'
 import { contacts } from '@/drizzle/schema'
-import { eq } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
+import { z } from 'zod'
+import { ContactSchema } from '@/schemas'
+
+export const editContactByIdAndUserId = async (
+  contactId: string,
+  userId: string,
+  data: z.infer<typeof ContactSchema>,
+  tx: DbOrTx = db,
+) => {
+  const contact = await tx
+    .update(contacts)
+    .set({
+      name: data.name,
+      company: data.companyName,
+      jobTitle: data.jobTitle,
+      contactStatus: data.contactStatus,
+      phone: data.phone,
+      email: data.email,
+      linkedInUrl: data.linkedInUrl,
+      notes: data.notes,
+    })
+    .where(and(eq(contacts.id, contactId), eq(contacts.userId, userId)))
+    .returning()
+  return contact[0] ?? null
+}
 
 export const autoUpdateContactStatusByIdAndUserId = async (
   id: string,

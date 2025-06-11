@@ -14,7 +14,7 @@ import { handleServerActionResponseForm } from '@/lib/utils'
 import { ContactSchema } from '@/schemas'
 import { dbContact, dbCreateContactType, ServerActionResponse } from '@/types'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
+import { QueryKey, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
 import { useEffect, useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -22,6 +22,9 @@ import z from 'zod'
 import ContactStatusFormElement from '../contact-status-form-element'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { editContact } from '@/actions/contacts/contact/edit-contact'
+import { getQueryKey } from '@trpc/react-query'
+import { api } from '@/trpc/react'
 
 interface ContactFormPropsEditing {
   contact: dbContact // required when editing is true
@@ -49,18 +52,26 @@ const ContactForm = ({
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
 
-  const queryKey = undefined
+  let queryKey: QueryKey | undefined
+  if (editing) {
+    queryKey = getQueryKey(
+      api.contact.contactTimelineUpdates.getAllByContactId,
+      {
+        id: contact.id,
+      },
+    )
+  }
 
   const defaultValues = useMemo(
     () => ({
-      name: contact?.name ?? '',
-      companyName: contact?.company ?? '',
-      jobTitle: contact?.jobTitle ?? '',
+      name: contact?.name ?? undefined,
+      companyName: contact?.company ?? undefined,
+      jobTitle: contact?.jobTitle ?? undefined,
       contactStatus: contact?.contactStatus ?? 'contacted',
-      phone: contact?.phone ?? '',
-      email: contact?.email ?? '',
-      linkedInUrl: contact?.linkedInUrl ?? '',
-      notes: contact?.notes ?? '',
+      phone: contact?.phone ?? undefined,
+      email: contact?.email ?? undefined,
+      linkedInUrl: contact?.linkedInUrl ?? undefined,
+      notes: contact?.notes ?? undefined,
     }),
     [contact],
   )
@@ -83,9 +94,7 @@ const ContactForm = ({
     setIsLoading(true)
     let response: ServerActionResponse
     if (editing) {
-      // TODO: implement this
-      setIsLoading(false)
-      return
+      response = await editContact(data, contact.id)
     } else {
       response = await createContact(data)
     }

@@ -24,6 +24,7 @@ import { Separator } from '@/components/ui/separator'
 import TimelineUpdateItem from './contact-timeline-update-item'
 import NewContactTimelineUpdateButton from '../interactions/contact-timeline-updates/new-timeline-update-button'
 import DeleteContactButton from '../interactions/contact/delete-contact-button'
+import EditContactButton from '../interactions/contact/edit-contact-button'
 
 export default function FullContactView({ contactId }: { contactId: string }) {
   const [hasCopied, setHasCopied] = useState(false)
@@ -122,7 +123,7 @@ export default function FullContactView({ contactId }: { contactId: string }) {
             <NewContactTimelineUpdateButton contactId={contactId} />
           </div>
           <div className="flex space-x-2 justify-self-end">
-            {/* <EditApplicationButton application={rest} /> */}
+            <EditContactButton contact={rest} />
             <DeleteContactButton contactId={contactId} />
           </div>
         </div>
