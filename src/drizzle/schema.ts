@@ -38,23 +38,25 @@ export const timeLineUpdateEnum = pgEnum('time_line_update', [
 export const contactStatusEnum = pgEnum('contact_status', [
   'contacted',
   'replied',
+  'meeting-scheduled',
+  'meeting-completed',
+  'followed-up',
   'referral-requested',
+  'referral-promised',
   'referral-received',
   'ghosted',
-  'connection-strengthened',
 ])
 
 export const contactTimelineUpdateEnum = pgEnum('contact_timeline_update', [
   'contacted',
   'replied',
   'meeting-scheduled',
-  'met',
+  'meeting-completed',
   'follow-up-sent',
   'referral-requested',
+  'referral-promised',
   'referral-received',
-  'thank-you-sent',
   'ghosted',
-  'connection-strengthened',
 ])
 
 // export const contactPositionEnum = pgEnum('contact_position', [

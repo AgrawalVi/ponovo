@@ -3,6 +3,7 @@ import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc'
 import { savedJobPostsRouter } from '@/server/api/routers/saved-for-later'
 import { userPreferencesRouter } from '@/server/api/routers/user-preferences'
 import { applicationSeasonsRouter } from './routers/application-seasons'
+import { contactTimelineUpdatesRouter } from './routers/contacts/contact-timeline-updates'
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,9 @@ import { applicationSeasonsRouter } from './routers/application-seasons'
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
+  contact: {
+    contactTimelineUpdates: contactTimelineUpdatesRouter,
+  },
   timeLineUpdates: timeLineUpdatesRouter,
   savedForLater: savedJobPostsRouter,
   userPreferences: userPreferencesRouter,

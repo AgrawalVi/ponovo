@@ -3,7 +3,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { format } from 'date-fns'
 import { dbContact, dbJobApplication, statusEnum } from '@/types'
-import StatusBadge from './general/status-badge'
+import StatusBadge from './general/contact-status-badge'
 import { DataTableColumnHeader } from '../ui/custom/data-table/data-table-column-header'
 
 export const contactTableColumns: ColumnDef<dbContact>[] = [

@@ -1,6 +1,9 @@
 import {
   applicationSeasons,
   contacts,
+  contactStatusEnum,
+  contactTimelineUpdateEnum,
+  contactTimelineUpdates,
   jobApplications,
   jobApplicationTimelineUpdates,
   savedJobPosts,
@@ -32,6 +35,8 @@ export type dbApplicationSeason = typeof applicationSeasons.$inferSelect
 export type dbContact = typeof contacts.$inferSelect
 export type dbCreateContactType = typeof contacts.$inferInsert
 
+export type dbContactTimelineUpdate = typeof contactTimelineUpdates.$inferSelect
+
 export type statusEnum =
   | 'applied'
   | 'online-assessment-received'
@@ -44,6 +49,10 @@ export type statusEnum =
   | 'offer-accepted'
 
 export type roleTypeEnum = 'full-time' | 'co-op' | 'internship'
+
+export type ContactStatusEnum = (typeof contactStatusEnum.enumValues)[number]
+export type ContactTimelineUpdateEnum =
+  (typeof contactTimelineUpdateEnum.enumValues)[number]
 
 // END DRIZZLE
 

@@ -2,15 +2,10 @@
 
 import { useState } from 'react'
 import { DataTableWrapper } from '../ui/custom/data-table/data-table-wrapper'
-import { dbContact, dbJobApplication } from '@/types'
+import { dbContact } from '@/types'
 import { contactTableColumns } from './columns'
-import { dataTableApplicationStatusOptions } from '@/data'
-import NewApplicationButton from '../forms/new-application/new-application-button'
-import { Button } from '../ui/button'
-import { PlusIcon } from 'lucide-react'
-import SavedJobPostsSheet from './saved-contact/saved-contact-sheet'
-import FullApplicationViewWrapper from './full-contact-panel/full-contact-view-wrapper'
 import NewContactButton from './interactions/contact/new-contact-button'
+import FullContactView from './full-contact-panel/full-contact-view'
 
 export default function ContactsTable({ data }: { data: dbContact[] }) {
   const [activeRow, setActiveRow] = useState<dbContact>(data[0])
@@ -34,13 +29,11 @@ export default function ContactsTable({ data }: { data: dbContact[] }) {
       //   title: 'Application Status',
       //   options: dataTableApplicationStatusOptions,
       // }}
-      // activeRowInformation={{
-      //   activeRow,
-      //   setActiveRow,
-      //   activeRowCard: (
-      //     <FullApplicationViewWrapper applicationId={activeRow?.id} />
-      //   ),
-      // }}
+      activeRowInformation={{
+        activeRow,
+        setActiveRow,
+        activeRowCard: <FullContactView contactId={activeRow?.id} />,
+      }}
       actionButton={
         <div className="flex justify-end gap-2">
           {/* <NewApplicationButton applicationSeasonId={applicationSeasonId}>

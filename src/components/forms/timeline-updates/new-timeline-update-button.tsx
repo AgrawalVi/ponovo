@@ -18,7 +18,6 @@ import {
 import { PlusIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import TimelineUpdateForm from './timeline-update-form'
-import { statusEnum } from '@/types'
 import { useCurrentPreferences } from '@/components/hooks/use-current-preferences'
 
 export default function NewTimelineUpdateButton({
