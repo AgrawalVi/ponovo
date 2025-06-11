@@ -1,7 +1,6 @@
 import {
   applicationStatusEnum,
   contactStatusEnum,
-  contactTimelineUpdateEnum,
   jobRoleTypeEnum,
 } from '@/drizzle/schema'
 import { z } from 'zod'
@@ -61,7 +60,7 @@ export const ContactSchema = z.object({
 })
 
 export const ContactTimelineUpdateSchema = z.object({
-  updateType: z.enum(contactTimelineUpdateEnum.enumValues),
+  updateType: z.enum(contactStatusEnum.enumValues),
   updateDate: z.date(),
   comments: z.string().optional(),
 })

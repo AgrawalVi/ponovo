@@ -47,18 +47,6 @@ export const contactStatusEnum = pgEnum('contact_status', [
   'ghosted',
 ])
 
-export const contactTimelineUpdateEnum = pgEnum('contact_timeline_update', [
-  'contacted',
-  'replied',
-  'meeting-scheduled',
-  'meeting-completed',
-  'follow-up-sent',
-  'referral-requested',
-  'referral-promised',
-  'referral-received',
-  'ghosted',
-])
-
 // export const contactPositionEnum = pgEnum('contact_position', [
 //   'recruiter',
 //   'hiring-manager',
@@ -380,7 +368,7 @@ export const contactTimelineUpdates = pgTable('contact_timeline_updates', {
     .notNull()
     .references(() => contacts.id, { onDelete: 'cascade' }),
 
-  updateType: contactTimelineUpdateEnum('update_type').notNull(),
+  updateType: contactStatusEnum('update_type').notNull(),
   updateDate: timestamp('update_date').notNull().defaultNow(),
   comments: text('comments'),
 
