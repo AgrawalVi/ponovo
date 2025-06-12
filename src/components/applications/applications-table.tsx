@@ -29,6 +29,7 @@ export default function ApplicationsTable({
       defaultSortingState={[{ id: 'companyName', desc: true }]}
       filterInformation={[
         {
+          selectPlaceholder: 'Company',
           inputPlaceholder: 'Search Companies...',
           columnId: 'companyName',
         },
