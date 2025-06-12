@@ -336,11 +336,10 @@ export const contacts = pgTable('contacts', {
     .references(() => users.id, { onDelete: 'cascade' }),
 
   name: text('name').notNull(),
-  company: text('company_name'),
-  jobTitle: text('job_title'),
+  company: text('company_name').notNull(),
+  jobTitle: text('job_title').notNull(),
   contactStatus: contactStatusEnum('contact_status').notNull(),
 
-  phone: text('phone'),
   email: text('email'),
   linkedInUrl: text('linked_in_url'),
   notes: text('notes'),

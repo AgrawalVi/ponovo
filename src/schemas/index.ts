@@ -50,10 +50,9 @@ export const editApplicationSeasonSchema = createApplicationSeasonSchema.omit({
 
 export const ContactSchema = z.object({
   name: z.string().min(1, { message: 'Name is required' }),
-  companyName: z.string().optional(),
-  jobTitle: z.string().optional(),
+  company: z.string(),
+  jobTitle: z.string(),
   contactStatus: z.enum(contactStatusEnum.enumValues).default('contacted'),
-  phone: z.string().optional(),
   email: z.string().email({ message: 'Must be a valid email' }).optional(),
   linkedInUrl: z.string().url({ message: 'Must be a valid URL' }).optional(),
   notes: z.string().optional(),

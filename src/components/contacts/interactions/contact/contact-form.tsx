@@ -65,10 +65,9 @@ const ContactForm = ({
   const defaultValues = useMemo(
     () => ({
       name: contact?.name ?? undefined,
-      companyName: contact?.company ?? undefined,
+      company: contact?.company ?? undefined,
       jobTitle: contact?.jobTitle ?? undefined,
       contactStatus: contact?.contactStatus ?? 'contacted',
-      phone: contact?.phone ?? undefined,
       email: contact?.email ?? undefined,
       linkedInUrl: contact?.linkedInUrl ?? undefined,
       notes: contact?.notes ?? undefined,
@@ -128,7 +127,7 @@ const ContactForm = ({
           />
           <FormField
             control={form.control}
-            name="companyName"
+            name="company"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Company Name</FormLabel>
@@ -178,33 +177,12 @@ const ContactForm = ({
           />
           <FormField
             control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="123-456-7890"
-                    disabled={isLoading}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
             name="linkedInUrl"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>LinkedIn URL</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="in/vishrut-agrawal"
-                    disabled={isLoading}
-                  />
+                  <Input {...field} disabled={isLoading} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -214,7 +192,7 @@ const ContactForm = ({
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="col-span-2">
+              <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
                   <Input

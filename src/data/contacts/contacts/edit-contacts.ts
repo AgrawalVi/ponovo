@@ -16,14 +16,7 @@ export const editContactByIdAndUserId = async (
   const contact = await tx
     .update(contacts)
     .set({
-      name: data.name,
-      company: data.companyName,
-      jobTitle: data.jobTitle,
-      contactStatus: data.contactStatus,
-      phone: data.phone,
-      email: data.email,
-      linkedInUrl: data.linkedInUrl,
-      notes: data.notes,
+      ...data,
     })
     .where(and(eq(contacts.id, contactId), eq(contacts.userId, userId)))
     .returning()
