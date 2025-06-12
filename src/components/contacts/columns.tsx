@@ -20,7 +20,7 @@ export const contactTableColumns: ColumnDef<dbContact>[] = [
     },
   },
   {
-    accessorKey: 'companyName',
+    accessorKey: 'company',
     sortingFn: 'alphanumeric',
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title="Company Name" />

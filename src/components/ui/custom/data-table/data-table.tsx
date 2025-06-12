@@ -41,6 +41,7 @@ import {
 } from '@/components/ui/select'
 
 type DataTableFilterInformation = {
+  selectPlaceholder: string
   inputPlaceholder: string
   columnId: string
 }
@@ -145,12 +146,11 @@ export function DataTable<TData, TValue>({
                       )
                     }}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger className="w-40">
                       <SelectValue
-                        placeholder={currentFilterInformation?.inputPlaceholder
-                          .split(' ')
-                          .slice(1)
-                          .join(' ')}
+                        placeholder={
+                          currentFilterInformation?.selectPlaceholder
+                        }
                       />
                     </SelectTrigger>
                     <SelectContent>
@@ -159,10 +159,7 @@ export function DataTable<TData, TValue>({
                           key={filter.columnId}
                           value={filter.columnId}
                         >
-                          {filter.inputPlaceholder
-                            .split(' ')
-                            .slice(1)
-                            .join(' ')}
+                          {filter.selectPlaceholder}
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -17,11 +17,17 @@ export default function ContactsTable({ data }: { data: dbContact[] }) {
       columns={contactTableColumns}
       singular="contact"
       plural="contacts"
-      defaultSortingState={[{ id: 'name', desc: true }]}
+      defaultSortingState={[{ id: 'name', desc: false }]}
       filterInformation={[
+        {
+          inputPlaceholder: 'Search Companies...',
+          columnId: 'company',
+          selectPlaceholder: 'Companies',
+        },
         {
           inputPlaceholder: 'Search Contacts...',
           columnId: 'name',
+          selectPlaceholder: 'Contacts',
         },
       ]}
       showVisibilityControls={false}
