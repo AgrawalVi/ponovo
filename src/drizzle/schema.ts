@@ -96,6 +96,8 @@ export const users = pgTable('users', {
     'default-timeline-update-type',
   ).default('rejected'),
 
+  mercuryEnabled: boolean('mercury_enabled').default(false),
+
   createdAt: timestamp('created_at')
     .$defaultFn(() => new Date())
     .notNull(),

@@ -9,6 +9,7 @@ import {
 } from './server/email/account'
 import { createApplicationSeason } from './data/application-seasons/create-application-season'
 import { activateApplicationSeason } from './data/application-seasons/edit-application-season'
+import { openAPI } from 'better-auth/plugins'
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -36,6 +37,8 @@ export const auth = betterAuth({
     google: {
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      accessType: 'offline',
+      prompt: 'consent',
     },
     github: {
       clientId: process.env.GITHUB_CLIENT_ID as string,
@@ -43,7 +46,7 @@ export const auth = betterAuth({
     },
   },
   advanced: { database: { generateId: false } },
-  plugins: [nextCookies()],
+  plugins: [nextCookies(), openAPI()],
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       const urlWithCorrectCallback = url.replace(

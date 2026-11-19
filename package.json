@@ -13,6 +13,7 @@
     "email:dev": "email dev --dir src/emails --port 3001"
   },
   "dependencies": {
+    "@aws-sdk/client-sqs": "^3.817.0",
     "@hookform/resolvers": "^3.10.0",
     "@neondatabase/serverless": "^0.9.5",
     "@radix-ui/react-alert-dialog": "^1.1.14",
@@ -50,6 +51,7 @@
     "dotenv": "^16.5.0",
     "drizzle-orm": "^0.43.1",
     "framer-motion": "^11.18.2",
+    "googleapis": "^149.0.0",
     "ldrs": "^1.1.7",
     "lucide-react": "^0.407.0",
     "mini-svg-data-uri": "^1.4.4",
